@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magic Nails — Concept Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,1,500;9..144,0,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --plum:#4a2742; --plum-d:#371c31; --rose:#cf7b94; --rose-d:#b85f7a; --gold:#c79a4e; --blush:#fbf3f6; --blush2:#f4e6ec; --ink:#2a1824; --mut:#7d6571; --line:#ecdae2; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Poppins',system-ui,sans-serif;color:var(--ink);background:var(--blush);line-height:1.65;font-weight:300}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.1}
+  :focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+  .demo-tag{background:var(--plum);color:var(--blush);text-align:center;font-size:.78rem;letter-spacing:.1em;padding:9px}
+  nav{position:sticky;top:0;z-index:30;background:rgba(251,243,246,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:78px}
+  .logo{font-family:'Fraunces';font-size:1.7rem;color:var(--plum)} .logo span{color:var(--rose)}
+  .logo small{display:block;font-family:'Poppins';font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-top:-4px}
+  .nav-links{display:flex;gap:28px;font-size:.92rem;font-weight:400} .nav-links a{color:var(--mut)} .nav-links a:hover{color:var(--plum)}
+  .btn{display:inline-block;font-weight:500;border-radius:30px;padding:13px 28px;font-size:.92rem;transition:.18s}
+  .btn-rose{background:var(--rose);color:#fff} .btn-rose:hover{background:var(--rose-d)}
+  .btn-plum{background:var(--plum);color:#fff} .btn-plum:hover{background:var(--plum-d)}
+  .btn-line{border:1px solid var(--plum);color:var(--plum)} .btn-line:hover{background:var(--plum);color:#fff}
+  .hero{padding:84px 0}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+  .eyebrow{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;font-weight:500}
+  .hero h1{font-size:clamp(2.8rem,6vw,4.6rem);color:var(--plum)} .hero h1 em{font-style:italic;color:var(--rose)}
+  .hero p{color:var(--mut);font-size:1.13rem;margin:22px 0 32px;max-width:440px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .pane{aspect-ratio:4/5;border-radius:200px 200px 18px 18px;overflow:hidden;background:linear-gradient(to top,rgba(74,39,66,.25),transparent 50%),url("images/magic-nails.jpg") center/cover;border:1px solid var(--line);position:relative;display:flex;align-items:flex-end;justify-content:center;padding:26px}
+  .pane .chip{background:rgba(251,243,246,.95);border-radius:14px;padding:13px 20px;text-align:center;box-shadow:0 14px 34px rgba(74,39,66,.16)}
+  .pane .chip b{font-family:'Fraunces';color:var(--plum);font-size:1.05rem;display:block} .pane .chip small{color:var(--mut);font-size:.76rem}
+  .strip{background:var(--plum);color:#e9d8e2}
+  .strip .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:32px 26px;text-align:center}
+  .strip b{display:block;font-family:'Fraunces';font-size:1.6rem;color:#fff} .strip span{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:#c7a6b8}
+  section{padding:88px 0}
+  .sec-head{text-align:center;max-width:600px;margin:0 auto 48px}
+  .sec-head .eyebrow{margin-bottom:12px} .sec-head h2{font-size:clamp(2.1rem,5vw,3.2rem);color:var(--plum)} .sec-head p{color:var(--mut);margin-top:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px 26px;transition:.18s}
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(74,39,66,.1)}
+  .card .ic{width:52px;height:52px;border-radius:14px;background:var(--blush2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:14px}
+  .card h3{color:var(--plum);font-size:1.2rem;margin-bottom:7px} .card p{color:var(--mut);font-size:.92rem}
+  .book{background:linear-gradient(135deg,var(--rose),var(--plum));color:#fff;text-align:center;border-radius:24px;padding:62px 40px}
+  .book h2{color:#fff;font-size:clamp(2rem,5vw,3rem);margin-bottom:12px} .book p{color:#f3e0e9;max-width:480px;margin:0 auto 26px}
+  .info{display:flex;justify-content:center;gap:42px;flex-wrap:wrap;margin-top:22px;color:#f3e0e9;font-size:.92rem} .info b{display:block;color:#fff}
+  footer{padding:36px 0;text-align:center;color:var(--mut);font-size:.84rem}
+  .pitch{background:var(--gold);color:#2a1824;text-align:center;padding:44px 24px}
+  .pitch h3{font-family:'Fraunces';font-size:1.8rem} .pitch p{margin:8px 0 4px;font-weight:400} .pitch a{font-weight:600;color:#2a1824;border-bottom:1.5px solid #2a1824}
+  @media(max-width:820px){.nav-links{display:none}.hero-grid{grid-template-columns:1fr;gap:36px}.strip .wrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="demo-tag">Concept redesign for Magic Nails — prepared by Anderson Web Studio</div>
+<nav><div class="wrap nav-in">
+  <div class="logo">Magic <span>Nails</span><small>Nail &amp; Beauty Bar</small></div>
+  <div class="nav-links"><a href="#services">Services</a><a href="#book">Book</a></div>
+  <a href="#book" class="btn btn-rose">Book Online</a>
+</div></nav>
+<header class="hero"><div class="wrap"><div class="hero-grid">
+  <div>
+    <div class="eyebrow">Nails · Lashes · Brows · Perth</div>
+    <h1>Nails worth <em>showing off.</em></h1>
+    <p>Beautiful manicures, pedicures, gel and nail art — plus lashes, brows and cosmetic tattooing — by a team that loves the details.</p>
+    <div class="hero-cta"><a href="#book" class="btn btn-rose">Book Online</a><a href="#services" class="btn btn-line">Our Services</a></div>
+  </div>
+  <div class="pane"><div class="chip"><b>Walk-ins &amp; bookings</b><small>Pamper time, your time</small></div></div>
+</div></div></header>
+<div class="strip"><div class="wrap">
+  <div><b>Nails</b><span>Mani · Pedi · Gel · SNS</span></div>
+  <div><b>Lashes &amp; Brows</b><span>Lifts, tints, extensions</span></div>
+  <div><b>Cosmetic Tattoo</b><span>Brows &amp; lips</span></div>
+</div></div>
+<section id="services"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow">Our Services</div><h2>Treat yourself</h2><p>From a quick polish to a full pamper — book in for a little magic.</p></div>
+  <div class="grid">
+    <div class="card"><div class="ic">💅</div><h3>Manicures &amp; Pedicures</h3><p>Classic, gel and spa treatments for hands and feet.</p></div>
+    <div class="card"><div class="ic">✨</div><h3>Gel &amp; SNS</h3><p>Long-lasting colour and dipping powder that stays flawless.</p></div>
+    <div class="card"><div class="ic">🎨</div><h3>Nail Art</h3><p>Custom designs, from subtle to statement.</p></div>
+    <div class="card"><div class="ic">👁️</div><h3>Lashes &amp; Brows</h3><p>Lash lifts &amp; extensions, brow shaping and tinting.</p></div>
+    <div class="card"><div class="ic">🖌️</div><h3>Cosmetic Tattoo</h3><p>Feather-touch brows and lip blush, beautifully natural.</p></div>
+    <div class="card"><div class="ic">🌸</div><h3>Waxing</h3><p>Smooth, gentle waxing for face and body.</p></div>
+  </div>
+</div></section>
+<section id="book"><div class="wrap">
+  <div class="book">
+    <div class="eyebrow" style="color:#f3e0e9">Appointments</div>
+    <h2>Ready to be pampered?</h2>
+    <p>Book your treatment online in seconds, or give us a call — new clients always welcome.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="#" class="btn" style="background:#fff;color:var(--plum)">Book Online</a>
+      <a href="tel:0894726999" class="btn btn-line" style="border-color:rgba(255,255,255,.6);color:#fff">☎ Call Us</a>
+    </div>
+    <div class="info"><div><b>Call</b>(08) 9472 6999</div><div><b>Find Us</b>Perth, WA</div><div><b>Open</b>7 days</div></div>
+  </div>
+</div></section>
+<footer><div class="wrap">© 2026 Magic Nails · Nail &amp; Beauty Bar · Perth · Concept design</div></footer>
+<!--people-band-->
+<section style="position:relative;min-height:46vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(rgba(16,16,18,.5),rgba(16,16,18,.5)),url('images/magic-nails-people.jpg') center/cover no-repeat;color:#fff;padding:66px 26px">
+<div style="max-width:660px">
+<h2 style="color:#fff;font-size:clamp(1.9rem,4.5vw,2.8rem);margin:0 0 12px">Treat yourself</h2>
+<p style="color:#fff;opacity:.92;font-size:1.08rem;line-height:1.6;margin:0">Nails, lashes, brows & cosmetic tattoo.</p>
+</div>
+</section>
+<div class="pitch"><h3>Like this look for Magic Nails?</h3><p>$390 to build, then $39/mo for hosting, updates &amp; support — cancel anytime.</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+</body>
+</html>

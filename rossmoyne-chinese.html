@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rossmoyne Chinese Restaurant — Concept Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#1c0f0e;--bg2:#26110f;--red:#b21e22;--red-l:#d83a32;--gold:#e0b667;--gold-l:#f0cd84;--ink:#f6ece2;--mut:#bca799;--line:#3a201c; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Jost',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;font-weight:300}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Marcellus',Georgia,serif;font-weight:400;line-height:1.1}
+  .demo-tag{background:var(--red);color:var(--ink);text-align:center;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;padding:9px}
+  .topbar{background:#140a09;color:var(--mut);font-size:.82rem}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:40px;flex-wrap:wrap}
+  .topbar b{color:var(--gold)}
+  nav{position:sticky;top:0;z-index:30;background:rgba(28,15,14,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:80px}
+  .logo{font-family:'Marcellus';font-size:1.55rem;letter-spacing:.03em} .logo span{color:var(--gold)}
+  .logo small{display:block;font-family:'Jost';font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mut);margin-top:-2px}
+  .nav-links{display:flex;gap:28px;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase} .nav-links a{color:var(--mut)} .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-block;border-radius:3px;padding:14px 28px;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;transition:.2s}
+  .btn-gold{background:var(--gold);color:#1c0f0e} .btn-gold:hover{background:var(--gold-l)}
+  .btn-line{border:1px solid var(--gold);color:var(--gold)} .btn-line:hover{background:var(--gold);color:#1c0f0e}
+  .hero{padding:80px 0}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+  .eyebrow{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+  .hero h1{font-size:clamp(2.8rem,6vw,4.8rem)} .hero h1 span{color:var(--gold)}
+  .hero p{color:#e2d3c6;font-size:1.16rem;margin:22px 0 32px;max-width:440px}
+  .hero-cta{display:flex;gap:16px;flex-wrap:wrap}
+  .dishpane{aspect-ratio:1;border-radius:4px;background:linear-gradient(to top,rgba(28,15,14,.5),transparent 50%),url("images/rossmoyne-chinese.jpg") center/cover;border:1px solid var(--line);position:relative}
+  .dishpane .chip{position:absolute;left:22px;bottom:22px;background:rgba(28,15,14,.82);border:1px solid var(--gold);border-radius:3px;padding:11px 16px;font-family:'Marcellus';color:var(--ink)}
+  .dishpane .chip small{display:block;font-family:'Jost';font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  .strip{background:var(--red)}
+  .strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:24px;text-align:center;color:#fff}
+  .strip b{display:block;font-family:'Marcellus';font-size:1.2rem;color:#fff} .strip span{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:#f0c9b8}
+  section{padding:90px 0}
+  .sec-head{text-align:center;max-width:620px;margin:0 auto 50px}
+  .sec-head .eyebrow{margin-bottom:14px} .sec-head h2{font-size:clamp(2.2rem,5vw,3.4rem)} .sec-head p{color:var(--mut);margin-top:12px}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:8px 56px}
+  .mrow{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:17px 0;border-bottom:1px solid var(--line)}
+  .mrow .l h3{font-size:1.3rem} .mrow .l p{color:var(--mut);font-size:.85rem}
+  .mrow .pr{font-family:'Marcellus';font-size:1.2rem;color:var(--gold);white-space:nowrap}
+  .order{text-align:center;border:1px solid var(--gold);border-radius:4px;padding:62px 40px;background:radial-gradient(120% 120% at 50% 0,rgba(178,30,34,.32),transparent 60%)}
+  .order h2{font-size:clamp(2.2rem,5vw,3.2rem);color:#fff} .order p{color:var(--mut);max-width:480px;margin:14px auto 28px}
+  .info{display:flex;justify-content:center;gap:46px;flex-wrap:wrap;margin-top:28px;color:var(--mut);font-size:.92rem} .info b{display:block;color:var(--gold);font-family:'Marcellus';font-size:1.1rem}
+  footer{padding:38px 0;text-align:center;color:var(--mut);font-size:.84rem;border-top:1px solid var(--line)}
+  .pitch{background:linear-gradient(135deg,var(--red),var(--gold));color:#1c0f0e;text-align:center;padding:44px 24px}
+  .pitch h3{font-family:'Marcellus';font-size:1.9rem} .pitch p{margin:8px 0 4px;font-size:.95rem} .pitch a{font-weight:500;color:#1c0f0e;border-bottom:1px solid #1c0f0e}
+  @media(max-width:820px){.nav-links{display:none}.hero-grid,.menu{grid-template-columns:1fr;gap:30px}.strip .wrap{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="demo-tag">Concept redesign for Rossmoyne Chinese Restaurant — prepared by Anderson Web Studio</div>
+<div class="topbar"><div class="wrap"><span>🥢 Chinese · Rossmoyne</span><span><b>☎ (08) 9457 5707</b> · Dine-in · Takeaway · BYO</span></div></div>
+<nav><div class="wrap nav-in">
+  <div class="logo">Rossmoyne <span>Chinese</span><small>Restaurant</small></div>
+  <div class="nav-links"><a href="#menu">Menu</a><a href="#order">Order</a></div>
+  <a href="#order" class="btn btn-gold">Order Online</a>
+</div></nav>
+<header class="hero"><div class="wrap"><div class="hero-grid">
+  <div>
+    <div class="eyebrow">Authentic Chinese · Rossmoyne</div>
+    <h1>The local Chinese you'll <span>come back for.</span></h1>
+    <p>Generous, fresh and full of flavour — all your favourites, dine-in, takeaway or delivered. BYO welcome.</p>
+    <div class="hero-cta"><a href="#order" class="btn btn-gold">Order Online</a><a href="#menu" class="btn btn-line">View Menu</a></div>
+  </div>
+  <div class="dishpane"><div class="chip">Yum cha &amp; more<small>Fresh daily</small></div></div>
+</div></div></header>
+<div class="strip"><div class="wrap">
+  <div><b>Dine-In</b><span>Family-friendly</span></div>
+  <div><b>Takeaway</b><span>Ready fast</span></div>
+  <div><b>Delivery</b><span>To your door</span></div>
+  <div><b>BYO</b><span>Welcome</span></div>
+</div></div>
+<section id="menu"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow">Our Menu</div><h2>All your favourites</h2><p>Classic Cantonese cooking, made fresh to order.</p></div>
+  <div class="menu">
+    <div class="mrow"><div class="l"><h3>Yum Cha &amp; Dumplings</h3><p>Steamed &amp; fried dumplings, spring rolls, dim sum</p></div><div class="pr">from $9</div></div>
+    <div class="mrow"><div class="l"><h3>Honey Chicken</h3><p>Crispy and golden, a house favourite</p></div><div class="pr">$20</div></div>
+    <div class="mrow"><div class="l"><h3>Mongolian Beef</h3><p>Tender beef in a rich savoury sauce</p></div><div class="pr">$22</div></div>
+    <div class="mrow"><div class="l"><h3>Sweet &amp; Sour Pork</h3><p>The classic, done just right</p></div><div class="pr">$20</div></div>
+    <div class="mrow"><div class="l"><h3>Fried Rice &amp; Noodles</h3><p>Special fried rice, chow mein, singapore noodles</p></div><div class="pr">from $14</div></div>
+    <div class="mrow"><div class="l"><h3>Banquet for 4+</h3><p>A set feast of our best dishes — great value</p></div><div class="pr">from $35pp</div></div>
+  </div>
+</div></section>
+<section id="order"><div class="wrap">
+  <div class="order">
+    <div class="eyebrow">Order &amp; Visit</div>
+    <h2>Dinner sorted.</h2>
+    <p>Order online for pickup or delivery, or book a table for the family. BYO welcome.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="#" class="btn btn-gold">Order Online</a>
+      <a href="tel:0894575707" class="btn btn-line">☎ Call Us</a>
+    </div>
+    <div class="info"><div><b>Call</b>(08) 9457 5707</div><div><b>Find Us</b>Rossmoyne, WA</div><div><b>Open</b>Lunch &amp; Dinner</div></div>
+  </div>
+</div></section>
+<footer><div class="wrap">© 2026 Rossmoyne Chinese Restaurant · Rossmoyne, Perth · Concept design</div></footer>
+<!--people-band-->
+<section style="position:relative;min-height:46vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(rgba(16,16,18,.5),rgba(16,16,18,.5)),url('images/rossmoyne-chinese-people.jpg') center/cover no-repeat;color:#fff;padding:66px 26px">
+<div style="max-width:660px">
+<h2 style="color:#fff;font-size:clamp(1.9rem,4.5vw,2.8rem);margin:0 0 12px">Gather the family</h2>
+<p style="color:#fff;opacity:.92;font-size:1.08rem;line-height:1.6;margin:0">Dine in, takeaway or delivered — BYO welcome.</p>
+</div>
+</section>
+<div class="pitch"><h3>Like this look for Rossmoyne Chinese?</h3><p>A site like this with online ordering — $390 to build, then $39/mo for hosting, updates &amp; support — cancel anytime.</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+</body>
+</html>

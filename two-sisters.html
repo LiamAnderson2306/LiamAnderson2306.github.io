@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Sisters &amp; A Chef — Concept Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#15130f;--bg2:#1e1a14;--wine:#6b2330;--gold:#c9a24b;--gold-l:#e0bd6a;--ink:#f4ece0;--mut:#a99c89;--line:#2e2820; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Jost',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;font-weight:300}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1.08}
+  .demo-tag{background:var(--wine);color:var(--ink);text-align:center;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;padding:9px}
+  nav{position:sticky;top:0;z-index:30;background:rgba(21,19,15,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:82px}
+  .logo{font-family:'Cormorant Garamond';font-size:1.7rem;letter-spacing:.03em;text-align:center} .logo span{color:var(--gold)}
+  .logo small{display:block;font-family:'Jost';font-size:.56rem;letter-spacing:.34em;text-transform:uppercase;color:var(--mut);margin-top:-4px}
+  .nav-links{display:flex;gap:30px;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase} .nav-links a{color:var(--mut)} .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-block;border-radius:2px;padding:14px 30px;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;transition:.2s}
+  .btn-gold{background:var(--gold);color:#15130f} .btn-gold:hover{background:var(--gold-l)}
+  .btn-line{border:1px solid var(--gold);color:var(--gold)} .btn-line:hover{background:var(--gold);color:#15130f}
+  .hero{padding:84px 0}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .eyebrow{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+  .hero h1{font-size:clamp(2.8rem,6vw,4.6rem)} .hero h1 em{font-style:italic;color:var(--gold)}
+  .hero p{color:#d8cab6;font-size:1.16rem;margin:22px 0 32px;max-width:460px}
+  .hero-cta{display:flex;gap:16px;flex-wrap:wrap}
+  .dishpane{aspect-ratio:4/5;border-radius:3px;background:linear-gradient(to top,rgba(21,19,15,.45),transparent 45%),url("images/two-sisters.jpg") center/cover;border:1px solid var(--line);position:relative}
+  .dishpane .chip{position:absolute;left:24px;bottom:24px;background:rgba(21,19,15,.82);border:1px solid var(--gold);border-radius:3px;padding:12px 18px;font-family:'Cormorant Garamond';font-size:1.15rem;color:var(--ink)}
+  .dishpane .chip small{display:block;font-family:'Jost';font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  .strip{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .strip .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:34px 26px;text-align:center}
+  .strip b{display:block;font-family:'Cormorant Garamond';font-size:1.7rem;color:var(--gold)} .strip span{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+  section{padding:94px 0}
+  .sec-head{text-align:center;max-width:640px;margin:0 auto 50px}
+  .sec-head .eyebrow{margin-bottom:14px} .sec-head h2{font-size:clamp(2.2rem,5vw,3.4rem)} .sec-head p{color:var(--mut);margin-top:12px}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:8px 56px}
+  .mrow{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
+  .mrow .l h3{font-size:1.35rem} .mrow .l p{color:var(--mut);font-size:.85rem}
+  .mrow .pr{font-family:'Cormorant Garamond';font-size:1.3rem;color:var(--gold);white-space:nowrap}
+  .about{background:var(--bg2)}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .about h2{font-size:clamp(2rem,4.6vw,3rem);margin-bottom:18px}
+  .about p{color:var(--mut);margin-bottom:16px}
+  .roompane{aspect-ratio:5/4;border-radius:3px;background:linear-gradient(135deg,rgba(107,35,48,.4),rgba(21,19,15,.2)),url("images/two-sisters-2.jpg") center/cover;border:1px solid var(--line)}
+  .book{text-align:center;border:1px solid var(--gold);border-radius:3px;padding:64px 40px;background:radial-gradient(120% 120% at 50% 0,rgba(107,35,48,.3),transparent 60%)}
+  .book h2{font-size:clamp(2.2rem,5vw,3.4rem);color:#fff} .book p{color:var(--mut);max-width:480px;margin:14px auto 28px}
+  .info{display:flex;justify-content:center;gap:46px;flex-wrap:wrap;margin-top:30px;color:var(--mut);font-size:.92rem} .info b{display:block;color:var(--gold);font-family:'Cormorant Garamond';font-size:1.1rem}
+  footer{padding:38px 0;text-align:center;color:var(--mut);font-size:.84rem;border-top:1px solid var(--line)}
+  .pitch{background:linear-gradient(135deg,var(--wine),var(--gold));color:#15130f;text-align:center;padding:44px 24px}
+  .pitch h3{font-family:'Cormorant Garamond';font-size:1.9rem} .pitch p{margin:8px 0 4px;font-size:.95rem} .pitch a{font-weight:500;color:#15130f;border-bottom:1px solid #15130f}
+  @media(max-width:820px){.nav-links{display:none}.hero-grid,.menu,.about-grid{grid-template-columns:1fr;gap:30px}.strip .wrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="demo-tag">Concept redesign for Two Sisters &amp; A Chef — prepared by Anderson Web Studio</div>
+<nav><div class="wrap nav-in">
+  <div class="logo">Two Sisters <span>&amp;</span> A Chef<small>Mundaring · Perth Hills</small></div>
+  <div class="nav-links"><a href="#menu">Menu</a><a href="#about">The House</a><a href="#book">Book</a></div>
+  <a href="#book" class="btn btn-gold">Reserve a Table</a>
+</div></nav>
+<header class="hero"><div class="wrap"><div class="hero-grid">
+  <div>
+    <div class="eyebrow">Fine dining · Perth Hills</div>
+    <h1>An evening to <em>linger</em> over.</h1>
+    <p>Refined Australian &amp; European dining in a lovingly restored 110-year-old homestead — open fires, antiques, and a menu worth the drive into the hills.</p>
+    <div class="hero-cta"><a href="#book" class="btn btn-gold">Reserve a Table</a><a href="#menu" class="btn btn-line">View Menu</a></div>
+  </div>
+  <div class="dishpane"><div class="chip">House-made pasta<small>From our kitchen</small></div></div>
+</div></div></header>
+<div class="strip"><div class="wrap">
+  <div><b>Est. character</b><span>110-year-old homestead</span></div>
+  <div><b>Open fires</b><span>Five intimate dining rooms</span></div>
+  <div><b>Curated wines</b><span>To match every dish</span></div>
+</div></div>
+<section id="menu"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow">The Menu</div><h2>Seasonal &amp; considered</h2><p>Australian and European flavours, led by head chef Scott Jerkovich — house-made pasta, seafood and beautifully cooked steaks.</p></div>
+  <div class="menu">
+    <div class="mrow"><div class="l"><h3>House-Made Pasta</h3><p>Hand-made daily with seasonal accompaniments</p></div><div class="pr">$34</div></div>
+    <div class="mrow"><div class="l"><h3>Market Seafood</h3><p>The day's best catch, simply and beautifully done</p></div><div class="pr">$42</div></div>
+    <div class="mrow"><div class="l"><h3>Aged Steak</h3><p>Chargrilled, with classic sauces &amp; sides</p></div><div class="pr">$46</div></div>
+    <div class="mrow"><div class="l"><h3>Seasonal Entrées</h3><p>A rotating selection to begin the evening</p></div><div class="pr">from $19</div></div>
+    <div class="mrow"><div class="l"><h3>Chef's Dessert</h3><p>House desserts to finish in style</p></div><div class="pr">$18</div></div>
+    <div class="mrow"><div class="l"><h3>Wine Pairing</h3><p>Carefully selected to match your meal</p></div><div class="pr">ask staff</div></div>
+  </div>
+</div></section>
+<section id="about" class="about"><div class="wrap"><div class="about-grid">
+  <div class="roompane"></div>
+  <div>
+    <div class="eyebrow">The House</div>
+    <h2>A romantic hideaway in the hills</h2>
+    <p>Set in a sensitively restored 110-year-old home, Two Sisters &amp; A Chef is all open fireplaces, antiques and quiet corners — five dining rooms and an enclosed veranda made for special evenings.</p>
+    <p>Whether it's an anniversary, a celebration or simply a long dinner with someone you love, it's an evening to remember.</p>
+    <a href="#book" class="btn btn-line" style="margin-top:8px">Reserve a Table</a>
+  </div>
+</div></div></section>
+<section id="book"><div class="wrap">
+  <div class="book">
+    <div class="eyebrow">Reservations</div>
+    <h2>Book your evening</h2>
+    <p>Open for dinner Wednesday to Sunday from 6pm. Reserve your table — book online any time.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="#" class="btn btn-gold">Book a Table</a>
+      <a href="tel:0892951787" class="btn btn-line">☎ Call Us</a>
+    </div>
+    <div class="info"><div><b>Find Us</b>6825 Great Eastern Hwy, Mundaring WA 6073</div><div><b>Dinner</b>Wed–Sun from 6pm</div><div><b>Call</b>(08) 9295 1787</div></div>
+  </div>
+</div></section>
+<footer><div class="wrap">© 2026 Two Sisters &amp; A Chef · Mundaring, Perth Hills · Concept design</div></footer>
+<!--people-band-->
+<section style="position:relative;min-height:46vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(rgba(16,16,18,.5),rgba(16,16,18,.5)),url('images/two-sisters-people.jpg') center/cover no-repeat;color:#fff;padding:66px 26px">
+<div style="max-width:660px">
+<h2 style="color:#fff;font-size:clamp(1.9rem,4.5vw,2.8rem);margin:0 0 12px">An evening to remember</h2>
+<p style="color:#fff;opacity:.92;font-size:1.08rem;line-height:1.6;margin:0">Refined dining in a 110-year-old homestead.</p>
+</div>
+</section>
+<div class="pitch"><h3>Like this look for Two Sisters &amp; A Chef?</h3><p>A site like this with online bookings — $390 to build, then $39/mo for hosting, updates &amp; support — cancel anytime.</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+</body>
+</html>

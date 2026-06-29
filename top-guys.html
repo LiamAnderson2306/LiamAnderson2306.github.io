@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Guys Barber Shop — Concept Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#1b1916; --green:#1f463c; --green-d:#15302a; --cream:#f5edde; --cream2:#ece0cb; --brass:#c8973f; --brass-d:#a87a2c; --ox:#9c3a2b; --mut:#6c6358; --line:#e0d4bf; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Work Sans',system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.65}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Oswald',sans-serif;font-weight:700;line-height:1;text-transform:uppercase;letter-spacing:.005em}
+  :focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+  .mono{font-family:'Space Mono',monospace}
+  .demo-tag{background:var(--ink);color:var(--cream2);text-align:center;font-size:.78rem;letter-spacing:.08em;padding:9px}
+  /* barber-pole stripe motif */
+  .pole{height:12px;background:repeating-linear-gradient(135deg,var(--ox) 0 16px,#f7efe0 16px 32px,var(--green) 32px 48px)}
+  .topbar{background:var(--green-d);color:#bcd3c9;font-size:.82rem}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;flex-wrap:wrap}
+  .topbar b{color:var(--brass)}
+  nav{position:sticky;top:0;z-index:30;background:rgba(245,237,222,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:76px}
+  .logo{font-family:'Oswald';font-weight:700;font-size:1.7rem;color:var(--green);text-transform:uppercase;letter-spacing:.02em;line-height:.9}
+  .logo small{display:block;font-family:'Space Mono';font-size:.56rem;letter-spacing:.34em;color:var(--ox);margin-top:2px}
+  .nav-links{display:flex;gap:30px;font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em} .nav-links a{color:var(--mut)} .nav-links a:hover{color:var(--green)}
+  .btn{display:inline-block;font-family:'Oswald';font-weight:600;text-transform:uppercase;letter-spacing:.05em;border-radius:4px;padding:13px 24px;font-size:.92rem;transition:.15s}
+  .btn-brass{background:var(--brass);color:var(--ink)} .btn-brass:hover{background:var(--brass-d)}
+  .btn-green{background:var(--green);color:var(--cream)} .btn-green:hover{background:var(--green-d)}
+  .btn-line{border:1.5px solid rgba(245,237,222,.7);color:var(--cream)} .btn-line:hover{background:rgba(245,237,222,.12)}
+  /* hero */
+  .hero{position:relative;min-height:86vh;display:flex;align-items:flex-end;color:var(--cream);
+    background:linear-gradient(90deg,rgba(21,48,42,.95),rgba(21,48,42,.6) 55%,rgba(21,48,42,.25)),url('images/top-guys.jpg') center/cover no-repeat}
+  .hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:14px;background:repeating-linear-gradient(180deg,var(--ox) 0 16px,#f7efe0 16px 32px,var(--green) 32px 48px)}
+  .hero .wrap{position:relative;z-index:2;padding:0 26px 68px}
+  .eyebrow{font-family:'Space Mono';font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);margin-bottom:18px}
+  .hero h1{font-size:clamp(3rem,9vw,6.4rem);line-height:.9;max-width:13ch}
+  .hero h1 u{text-decoration:none;border-bottom:8px solid var(--brass);padding-bottom:2px}
+  .hero p{font-size:1.16rem;max-width:430px;margin:20px 0 28px;color:#e7ede9}
+  .hero-cta{display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+  .status{display:inline-flex;align-items:center;gap:9px;font-family:'Space Mono';font-size:.82rem;color:#dfe8e3;margin-top:22px}
+  .status .dot{width:10px;height:10px;border-radius:50%;background:var(--brass);box-shadow:0 0 0 4px rgba(200,151,63,.25)}
+  .status .dot.shut{background:var(--ox);box-shadow:0 0 0 4px rgba(156,58,43,.25)}
+  /* services */
+  section{padding:84px 0}
+  .sec-head{text-align:center;max-width:600px;margin:0 auto 46px}
+  .sec-head .kf{font-family:'Space Mono';font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ox);margin-bottom:12px}
+  .sec-head h2{font-size:clamp(2.1rem,5vw,3.2rem);color:var(--green)} .sec-head p{color:var(--mut);margin-top:10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:28px 24px;transition:.18s}
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(27,25,22,.1);border-color:var(--brass)}
+  .card .ic{width:50px;height:50px;border-radius:8px;background:var(--green);color:var(--cream);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:14px}
+  .card h3{color:var(--green);font-size:1.18rem;margin-bottom:6px} .card p{color:var(--mut);font-size:.92rem}
+  /* The Board (signature price list) */
+  .board-sec{background:var(--green);color:var(--cream)}
+  .board-sec .sec-head h2{color:#fff} .board-sec .sec-head .kf{color:var(--brass)} .board-sec .sec-head p{color:#bcd3c9}
+  .board{background:var(--cream);color:var(--ink);border:3px solid var(--brass);border-radius:6px;padding:36px 34px;max-width:880px;margin:0 auto;
+    box-shadow:inset 0 0 0 6px var(--cream),0 24px 50px rgba(0,0,0,.28);position:relative}
+  .board::before,.board::after{content:"";position:absolute;width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f3dca0,var(--brass-d));top:13px}
+  .board::before{left:13px} .board::after{right:13px}
+  .board-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 54px;margin-top:6px}
+  .prow{display:flex;align-items:baseline;gap:10px;padding:12px 2px;border-bottom:1px dashed #d8c9ad}
+  .prow .nm{font-weight:600;white-space:nowrap} .prow .nm small{display:block;font-weight:400;font-size:.74rem;color:var(--mut);text-transform:none}
+  .prow .lead{flex:1;border-bottom:2px dotted #cdbb97;transform:translateY(-4px)}
+  .prow .pr{font-family:'Space Mono';font-weight:700;color:var(--green);white-space:nowrap}
+  .board-note{text-align:center;font-family:'Space Mono';font-size:.8rem;color:var(--mut);margin-top:22px}
+  /* visit / hours */
+  .visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
+  .hours{list-style:none}
+  .hours li{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:1.02rem}
+  .hours li.today{font-weight:600;color:var(--green)} .hours li.today .d::after{content:" · today";color:var(--ox);font-family:'Space Mono';font-size:.72rem;letter-spacing:.05em}
+  .hours .t{font-family:'Space Mono'}
+  .hours li.shut .t{color:var(--ox)}
+  .visit-card{background:var(--ink);color:var(--cream);border-radius:10px;padding:34px 30px}
+  .visit-card h3{font-size:1.5rem;color:#fff;margin-bottom:6px} .visit-card .addr{color:#c9bda9;margin-bottom:18px}
+  .visit-card .row{display:flex;gap:12px;align-items:center;padding:9px 0;color:#e7ddca;font-size:.96rem}
+  .visit-card .row b{color:var(--brass);font-family:'Space Mono';font-size:.78rem;letter-spacing:.06em;min-width:74px;text-transform:uppercase}
+  .visit-card .btn{margin-top:20px}
+  /* people band */
+  .people{position:relative;min-height:48vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:70px 26px;
+    background:linear-gradient(rgba(21,25,22,.55),rgba(21,25,22,.55)),url('images/top-guys-people.jpg') center/cover no-repeat}
+  .people h2{color:#fff;font-size:clamp(2rem,5vw,3rem)} .people p{max-width:560px;margin:12px auto 0;color:#f1ece1;font-size:1.08rem;line-height:1.6}
+  footer{background:var(--green-d);color:#9fbcb0;padding:34px 0;font-size:.88rem}
+  .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  .pitch{background:var(--brass);color:var(--ink);text-align:center;padding:44px 24px}
+  .pitch h3{font-family:'Oswald';font-size:1.8rem;text-transform:uppercase} .pitch p{margin:8px 0 4px;font-weight:500} .pitch a{font-weight:700;color:var(--ink);border-bottom:2px solid var(--ink)}
+  @media(max-width:820px){.nav-links{display:none}.board-grid{grid-template-columns:1fr;gap:0}.visit-grid{grid-template-columns:1fr;gap:30px}}
+</style>
+</head>
+<body>
+<div class="demo-tag">Concept redesign for Top Guys Barber Shop — prepared by Anderson Web Studio</div>
+<div class="pole"></div>
+<div class="topbar"><div class="wrap"><span>💈 Traditional barbershop · Mount Hawthorn</span><span><b>☎ (08) 9444 2040</b> · Walk-ins welcome</span></div></div>
+<nav><div class="wrap nav-in">
+  <div class="logo">Top Guys<small>Barber Shop · Est. Mount Hawthorn</small></div>
+  <div class="nav-links"><a href="#services">Services</a><a href="#board">The Board</a><a href="#visit">Visit</a></div>
+  <a href="tel:0894442040" class="btn btn-green">☎ Call to Book</a>
+</div></nav>
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Oxford St · Mount Hawthorn · since the locals can remember</div>
+  <h1>Good honest <u>haircuts.</u></h1>
+  <p>Classic cuts, sharp skin fades, beard work and a proper hot-towel shave — no app, no fuss, just sit down and we'll sort you out.</p>
+  <div class="hero-cta">
+    <a href="tel:0894442040" class="btn btn-brass">☎ Call (08) 9444 2040</a>
+    <a href="https://maps.google.com/?q=Top+Guys+Barber+Shop+405+Oxford+St+Mount+Hawthorn" target="_blank" rel="noopener" class="btn btn-line">📍 Get Directions</a>
+  </div>
+  <div class="status" id="status"><span class="dot"></span><span id="status-txt">Walk-ins welcome · Mon–Sat</span></div>
+</div></header>
+<div class="pole"></div>
+<section id="services"><div class="wrap">
+  <div class="sec-head"><div class="kf">What we do</div><h2>The cut you actually asked for</h2><p>Old-school barbering done properly — for blokes, kids and the young-at-heart.</p></div>
+  <div class="grid">
+    <div class="card"><div class="ic">✂️</div><h3>Classic Cuts</h3><p>Scissor cuts, clipper work and tidy-ups — exactly how you like it.</p></div>
+    <div class="card"><div class="ic">💈</div><h3>Skin &amp; Fades</h3><p>Clean skin fades, tapers and blends with a razor-sharp finish.</p></div>
+    <div class="card"><div class="ic">🧔</div><h3>Beard Grooming</h3><p>Beard trims, shaping and crisp line-ups to match your cut.</p></div>
+    <div class="card"><div class="ic">🪒</div><h3>Hot Towel Shave</h3><p>The traditional straight-razor shave, hot towel and all.</p></div>
+    <div class="card"><div class="ic">🧒</div><h3>Kids &amp; Seniors</h3><p>Patient cuts for the little ones and looked-after rates for pensioners.</p></div>
+    <div class="card"><div class="ic">🚶</div><h3>Walk-ins Welcome</h3><p>Passing by? Pop in — we keep the chairs turning.</p></div>
+  </div>
+</div></section>
+<section id="board" class="board-sec"><div class="wrap">
+  <div class="sec-head"><div class="kf">Prices &amp; Services</div><h2>The Board</h2><p>Straight-up pricing, up on the wall where it should be.</p></div>
+  <div class="board">
+    <div class="board-grid">
+      <div class="prow"><span class="nm">Men's Cut</span><span class="lead"></span><span class="pr">$35</span></div>
+      <div class="prow"><span class="nm">Skin Fade</span><span class="lead"></span><span class="pr">$40</span></div>
+      <div class="prow"><span class="nm">Buzz Cut <small>one length, all over</small></span><span class="lead"></span><span class="pr">$25</span></div>
+      <div class="prow"><span class="nm">Kids <small>under 12</small></span><span class="lead"></span><span class="pr">$28</span></div>
+      <div class="prow"><span class="nm">Student / Pensioner</span><span class="lead"></span><span class="pr">$30</span></div>
+      <div class="prow"><span class="nm">Beard Trim &amp; Line-up</span><span class="lead"></span><span class="pr">$25</span></div>
+      <div class="prow"><span class="nm">Hot Towel Shave</span><span class="lead"></span><span class="pr">$40</span></div>
+      <div class="prow"><span class="nm">Cut &amp; Beard <small>the full sort-out</small></span><span class="lead"></span><span class="pr">$55</span></div>
+    </div>
+    <p class="board-note">Indicative pricing for this concept — final prices set by the shop · cash &amp; card welcome</p>
+  </div>
+</div></section>
+<section id="visit"><div class="wrap">
+  <div class="sec-head"><div class="kf">Find us</div><h2>Pull up a chair</h2></div>
+  <div class="visit-grid">
+    <ul class="hours" id="hours">
+      <li data-day="1"><span class="d">Monday</span><span class="t">8:30am – 5:15pm</span></li>
+      <li data-day="2"><span class="d">Tuesday</span><span class="t">8:30am – 5:15pm</span></li>
+      <li data-day="3"><span class="d">Wednesday</span><span class="t">8:30am – 5:15pm</span></li>
+      <li data-day="4"><span class="d">Thursday</span><span class="t">8:30am – 5:15pm</span></li>
+      <li data-day="5"><span class="d">Friday</span><span class="t">8:30am – 5:15pm</span></li>
+      <li data-day="6"><span class="d">Saturday</span><span class="t">8:00am – 1:00pm</span></li>
+      <li data-day="0" class="shut"><span class="d">Sunday</span><span class="t">Closed</span></li>
+    </ul>
+    <div class="visit-card">
+      <h3>Top Guys Barber Shop</h3>
+      <div class="addr">1/405 Oxford Street, Mount Hawthorn WA 6016</div>
+      <div class="row"><b>Phone</b> (08) 9444 2040</div>
+      <div class="row"><b>Booking</b> Call ahead or walk straight in</div>
+      <div class="row"><b>Parking</b> Street parking along Oxford St</div>
+      <a href="https://maps.google.com/?q=Top+Guys+Barber+Shop+405+Oxford+St+Mount+Hawthorn" target="_blank" rel="noopener" class="btn btn-green">📍 Open in Maps</a>
+    </div>
+  </div>
+</div></section>
+<section class="people"><div>
+  <h2>In the chair</h2>
+  <p>Twenty minutes, a good yarn, and you walk out looking like the top guy. That's the whole idea.</p>
+</div></section>
+<footer><div class="wrap foot-in">
+  <span>© 2026 Top Guys Barber Shop · Mount Hawthorn · Concept design</span>
+  <span>💈 Walk-ins welcome · ☎ (08) 9444 2040</span>
+</div></footer>
+<div class="pitch"><h3>Like this for Top Guys?</h3><p>$390 to build, then $39/mo for hosting, updates &amp; support — cancel anytime.</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+<script>
+(function(){
+  try{
+    var now=new Date(), day=now.getDay(), mins=now.getHours()*60+now.getMinutes();
+    // open windows in minutes: Mon-Fri 8:30-17:15, Sat 8:00-13:00, Sun closed
+    var win={1:[510,1035],2:[510,1035],3:[510,1035],4:[510,1035],5:[510,1035],6:[480,780]};
+    var rows=document.querySelectorAll('#hours li');
+    rows.forEach(function(li){ if(+li.dataset.day===day) li.classList.add('today'); });
+    var w=win[day], open=w && mins>=w[0] && mins<w[1];
+    var txt=document.getElementById('status-txt'), dot=document.querySelector('#status .dot');
+    function fmt(m){var h=Math.floor(m/60),mm=m%60,ap=h>=12?'pm':'am',h12=((h+11)%12)+1;return h12+(mm?':'+(mm<10?'0':'')+mm:'')+ap;}
+    if(open){ txt.textContent='Open now · till '+fmt(w[1])+' · walk-ins welcome'; }
+    else if(w && mins<w[0]){ txt.textContent='Opens '+fmt(w[0])+' today · walk-ins welcome'; dot.classList.add('shut'); }
+    else { txt.textContent='Closed now · walk-ins welcome when open'; dot.classList.add('shut'); }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

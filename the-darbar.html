@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Darbar — Concept Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#1a0f0c;--bg2:#231512;--maroon:#7a1f1a;--spice:#e0892f;--spice-l:#f0a850;--gold:#d4a24a;--ink:#f6ece2;--mut:#bda490;--line:#3a241e; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Jost',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;font-weight:300}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 26px}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Marcellus',Georgia,serif;font-weight:400;line-height:1.1}
+  .demo-tag{background:var(--maroon);color:var(--ink);text-align:center;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;padding:9px}
+  .topbar{background:#120a08;color:var(--mut);font-size:.82rem}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:40px;flex-wrap:wrap}
+  .topbar b{color:var(--gold)}
+  nav{position:sticky;top:0;z-index:30;background:rgba(26,15,12,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:78px}
+  .logo{font-family:'Marcellus';font-size:1.7rem;letter-spacing:.04em} .logo span{color:var(--spice)}
+  .logo small{display:block;font-family:'Jost';font-size:.58rem;letter-spacing:.34em;text-transform:uppercase;color:var(--mut);margin-top:-3px}
+  .nav-links{display:flex;gap:30px;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase} .nav-links a{color:var(--mut)} .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-block;border-radius:3px;padding:14px 28px;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:.2s;font-weight:500}
+  .btn-spice{background:var(--spice);color:#1a0f0c} .btn-spice:hover{background:var(--spice-l)}
+  .btn-line{border:1px solid var(--gold);color:var(--gold)} .btn-line:hover{background:var(--gold);color:#1a0f0c}
+  .hero{position:relative;min-height:88vh;display:flex;align-items:center;
+    background:linear-gradient(90deg,rgba(26,15,12,.95) 0%,rgba(26,15,12,.74) 50%,rgba(26,15,12,.42) 100%),url("images/the-darbar.jpg") center/cover no-repeat}
+  .hero .wrap{padding:70px 26px}
+  .eyebrow{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:var(--spice);margin-bottom:22px}
+  .hero h1{font-size:clamp(3rem,8vw,5.6rem);max-width:12ch;line-height:1.02}
+  .hero h1 span{color:var(--spice)}
+  .hero p{color:#e8d6c6;font-size:1.2rem;margin:22px 0 34px;max-width:460px}
+  .hero-cta{display:flex;gap:16px;flex-wrap:wrap}
+  .strip{background:var(--maroon);color:#f3e2d4}
+  .strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:26px;text-align:center}
+  .strip b{display:block;font-family:'Marcellus';font-size:1.25rem;color:#fff} .strip span{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:#e0b89f}
+  section{padding:92px 0}
+  .sec-head{text-align:center;max-width:640px;margin:0 auto 52px}
+  .sec-head .eyebrow{margin-bottom:14px} .sec-head h2{font-size:clamp(2.2rem,5vw,3.4rem)} .sec-head p{color:var(--mut);margin-top:12px}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:10px 56px}
+  .mrow{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
+  .mrow .l h3{font-size:1.35rem} .mrow .l p{color:var(--mut);font-size:.86rem}
+  .mrow .pr{font-family:'Marcellus';font-size:1.3rem;color:var(--spice);white-space:nowrap}
+  .tag{display:inline-block;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:20px;padding:1px 9px;margin-left:8px;vertical-align:middle}
+  .about{background:var(--bg2)}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .about h2{font-size:clamp(2rem,4.6vw,3rem);margin-bottom:18px}
+  .about p{color:var(--mut);margin-bottom:16px}
+  .foodpane{aspect-ratio:4/5;border-radius:4px;background:linear-gradient(to top,rgba(26,15,12,.5),transparent 50%),url("images/the-darbar-momo.jpg") center/cover;border:1px solid var(--line)}
+  .order{background:radial-gradient(120% 120% at 50% 0,rgba(122,31,26,.35),transparent 60%);text-align:center;border:1px solid var(--gold);border-radius:4px;padding:64px 40px}
+  .order h2{font-size:clamp(2.2rem,5vw,3.4rem);color:#fff} .order p{color:var(--mut);max-width:480px;margin:14px auto 28px}
+  .order-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .info{display:flex;justify-content:center;gap:46px;flex-wrap:wrap;margin-top:30px;color:var(--mut);font-size:.92rem} .info b{display:block;color:var(--gold);font-family:'Marcellus';font-size:1.1rem}
+  footer{padding:38px 0;text-align:center;color:var(--mut);font-size:.84rem;border-top:1px solid var(--line)}
+  .pitch{background:linear-gradient(135deg,var(--maroon),var(--spice));color:#1a0f0c;text-align:center;padding:44px 24px}
+  .pitch h3{font-family:'Marcellus';font-size:1.9rem} .pitch p{margin:8px 0 4px;font-size:.95rem} .pitch a{font-weight:600;color:#1a0f0c;border-bottom:1px solid #1a0f0c}
+  @media(max-width:820px){.nav-links{display:none}.menu,.about-grid{grid-template-columns:1fr;gap:30px}.strip .wrap{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="demo-tag">Concept redesign for The Darbar — prepared by Anderson Web Studio</div>
+<div class="topbar"><div class="wrap"><span>🍛 Indian &amp; Nepalese · South Fremantle</span><span><b>☎ (08) 6248 5559</b> · Dine-in · Takeaway · Delivery</span></div></div>
+<nav><div class="wrap nav-in">
+  <div class="logo">The Darbar<small>Indian &amp; Nepalese</small></div>
+  <div class="nav-links"><a href="#menu">Menu</a><a href="#about">About</a><a href="#order">Order &amp; Book</a></div>
+  <a href="#order" class="btn btn-spice">Order Online</a>
+</div></nav>
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">South Fremantle · Est. in flavour</div>
+  <h1>Authentic <span>Indian &amp; Nepalese</span>, cooked fresh daily.</h1>
+  <p>From rich goat curry and fish amritsar to handmade Nepalese momos — the taste of the Himalayas, right here in Freo.</p>
+  <div class="hero-cta"><a href="#order" class="btn btn-spice">Order Online</a><a href="#menu" class="btn btn-line">View Menu</a></div>
+</div></header>
+<div class="strip"><div class="wrap">
+  <div><b>Dine-In</b><span>Warm &amp; welcoming</span></div>
+  <div><b>Takeaway</b><span>Ready when you are</span></div>
+  <div><b>Buffet</b><span>Weekly all-you-can-eat</span></div>
+  <div><b>Delivery</b><span>To your door</span></div>
+</div></div>
+<section id="menu"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow">Our Menu</div><h2>Signature dishes</h2><p>Cooked fresh daily with the finest ingredients and authentic spice blends.</p></div>
+  <div class="menu">
+    <div class="mrow"><div class="l"><h3>Butter Chicken</h3><p>Tandoori chicken in a rich, creamy tomato gravy</p></div><div class="pr">$22</div></div>
+    <div class="mrow"><div class="l"><h3>Goat Curry <span class="tag">Signature</span></h3><p>Slow-cooked on the bone in fragrant spices</p></div><div class="pr">$24</div></div>
+    <div class="mrow"><div class="l"><h3>Fish Amritsar <span class="tag">Signature</span></h3><p>Battered fish, Punjabi-style with house spices</p></div><div class="pr">$25</div></div>
+    <div class="mrow"><div class="l"><h3>Nepalese Momo <span class="tag">Nepalese</span></h3><p>Handmade steamed dumplings with dipping sauce</p></div><div class="pr">$13</div></div>
+    <div class="mrow"><div class="l"><h3>Lamb Korma</h3><p>Mild, creamy cashew &amp; almond curry</p></div><div class="pr">$23</div></div>
+    <div class="mrow"><div class="l"><h3>Chicken Madras</h3><p>Bold, fiery South Indian classic</p></div><div class="pr">$21</div></div>
+    <div class="mrow"><div class="l"><h3>Vegetable Jalfrezi</h3><p>Garden vegetables in a tangy, spiced sauce</p></div><div class="pr">$19</div></div>
+    <div class="mrow"><div class="l"><h3>Garlic Naan &amp; Rice</h3><p>Freshly baked tandoor naan &amp; basmati</p></div><div class="pr">$6</div></div>
+  </div>
+  <p style="text-align:center;margin-top:40px;color:var(--mut)">Plus a weekly all-you-can-eat buffet &amp; sweet Nepalese desserts &mdash; <a href="#order" style="color:var(--spice);border-bottom:1px solid var(--spice)">see the full menu</a></p>
+</div></section>
+<section id="about" class="about"><div class="wrap"><div class="about-grid">
+  <div>
+    <div class="eyebrow">Our Story</div>
+    <h2>A taste of India &amp; Nepal in Freo</h2>
+    <p>At The Darbar we bring together the culinary traditions of India and Nepal — from the tandoor to the Himalayan kitchen — using the very best ingredients, cooked fresh every day.</p>
+    <p>Whether it's a quick takeaway momo fix, a family feast, or our famous weekly buffet, you're always welcome at our table.</p>
+    <a href="#order" class="btn btn-line" style="margin-top:8px">Order or Book</a>
+  </div>
+  <div class="foodpane"></div>
+</div></div></section>
+<section id="order"><div class="wrap">
+  <div class="order">
+    <div class="eyebrow">Order &amp; Book</div>
+    <h2>Hungry? Let's sort that.</h2>
+    <p>Order online for pickup or delivery, or book a table — in just a few taps, any time of day.</p>
+    <div class="order-cta">
+      <a href="#" class="btn btn-spice">Order Online</a>
+      <a href="#" class="btn btn-line">Book a Table</a>
+      <a href="tel:0862485559" class="btn btn-line">☎ Call Us</a>
+    </div>
+    <div class="info">
+      <div><b>Find Us</b>34 Douro Rd, South Fremantle WA 6162</div>
+      <div><b>Call</b>(08) 6248 5559</div>
+      <div><b>Open</b>7 days · Lunch &amp; Dinner</div>
+    </div>
+  </div>
+</div></section>
+<footer><div class="wrap">© 2026 The Darbar · Indian &amp; Nepalese Restaurant · South Fremantle · Concept design</div></footer>
+<!--people-band-->
+<section style="position:relative;min-height:46vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(rgba(16,16,18,.5),rgba(16,16,18,.5)),url('images/the-darbar-people.jpg') center/cover no-repeat;color:#fff;padding:66px 26px">
+<div style="max-width:660px">
+<h2 style="color:#fff;font-size:clamp(1.9rem,4.5vw,2.8rem);margin:0 0 12px">Made to be shared</h2>
+<p style="color:#fff;opacity:.92;font-size:1.08rem;line-height:1.6;margin:0">The taste of India & Nepal in South Fremantle.</p>
+</div>
+</section>
+<div class="pitch"><h3>Like this look for The Darbar?</h3><p>A site like this with online ordering &amp; bookings — $390 to build, then $39/mo for hosting, updates &amp; support — cancel anytime.</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Six Fortune — Concept Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#16201c; --paper:#f6f3ea; --paper2:#ece6d6; --jade:#16624c; --jade-d:#0f4d3b; --coral:#d65843; --coral-d:#bb4533; --mut:#5d6a62; --line:#e0dac8; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.65}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;line-height:1.08}
+  :focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+  .demo-tag{background:var(--jade);color:var(--paper);text-align:center;font-size:.78rem;letter-spacing:.06em;padding:9px}
+  .topbar{background:var(--ink);color:#cdd6cf;font-size:.82rem}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:40px;flex-wrap:wrap}
+  .topbar b{color:#e8b65a}
+  nav{position:sticky;top:0;z-index:30;background:rgba(246,243,234,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:78px}
+  .logo{font-family:'DM Serif Display';font-size:1.7rem;color:var(--jade);display:flex;align-items:baseline;gap:9px}
+  .logo small{font-family:'DM Sans';font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--coral)}
+  .nav-links{display:flex;gap:28px;font-size:.92rem;font-weight:500} .nav-links a{color:var(--mut)} .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-block;font-weight:600;border-radius:6px;padding:13px 26px;font-size:.94rem;transition:.15s}
+  .btn-coral{background:var(--coral);color:#fff} .btn-coral:hover{background:var(--coral-d)}
+  .btn-jade{background:var(--jade);color:#fff} .btn-jade:hover{background:var(--jade-d)}
+  .btn-line{border:1.5px solid rgba(255,255,255,.65);color:#fff}
+  .hero{position:relative;min-height:84vh;display:flex;align-items:flex-end;
+    background:linear-gradient(0deg,rgba(15,40,30,.92) 0%,rgba(15,40,30,.55) 45%,rgba(15,40,30,.25) 100%),url("images/six-fortune.jpg") center/cover no-repeat}
+  .hero .wrap{padding:0 26px 64px;color:var(--paper)}
+  .eyebrow{display:inline-block;font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:#e8b65a;margin-bottom:18px}
+  .hero h1{font-size:clamp(2.8rem,7vw,5.2rem);max-width:14ch}
+  .hero h1 em{font-style:italic;color:#f3c46b}
+  .hero p{font-size:1.18rem;margin:18px 0 30px;max-width:460px;color:#e9ede7}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .strip{background:var(--jade);color:#dff0e8}
+  .strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:24px;text-align:center}
+  .strip b{display:block;font-family:'DM Serif Display';font-size:1.3rem;color:#fff} .strip span{font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:#a9cdbb}
+  section{padding:88px 0}
+  .sec-head{text-align:center;max-width:600px;margin:0 auto 48px}
+  .sec-head .eyebrow{color:var(--coral);margin-bottom:12px} .sec-head h2{font-size:clamp(2.2rem,5vw,3.2rem)} .sec-head p{color:var(--mut);margin-top:12px}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:6px 56px}
+  .mrow{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)}
+  .mrow .l h3{font-size:1.3rem;font-weight:400} .mrow .l p{color:var(--mut);font-size:.86rem}
+  .mrow .pr{font-family:'DM Serif Display';font-size:1.2rem;color:var(--jade);white-space:nowrap}
+  .order{background:var(--ink);color:#fff;text-align:center;border-radius:20px;padding:62px 40px;position:relative;overflow:hidden}
+  .order::after{content:"";position:absolute;left:-50px;bottom:-70px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(214,88,67,.3),transparent 70%)}
+  .order h2{font-size:clamp(2.2rem,5vw,3.2rem)} .order p{color:#bcc7bf;max-width:480px;margin:14px auto 26px}
+  .info{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:28px;color:#bcc7bf;font-size:.92rem} .info b{display:block;color:#e8b65a;font-family:'DM Serif Display'}
+  footer{padding:36px 0;text-align:center;color:var(--mut);font-size:.84rem}
+  .pitch{background:linear-gradient(135deg,var(--coral),var(--jade));color:#fff;text-align:center;padding:44px 24px}
+  .pitch h3{font-family:'DM Serif Display';font-size:1.9rem} .pitch p{margin:8px 0 4px;font-size:.95rem} .pitch a{font-weight:600;color:#fff;border-bottom:1.5px solid #fff}
+  @media(max-width:820px){.nav-links{display:none}.menu{grid-template-columns:1fr;gap:30px}.strip .wrap{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="demo-tag">Concept redesign for Six Fortune — prepared by Anderson Web Studio</div>
+<div class="topbar"><div class="wrap"><span>🥟 Yum Cha &amp; Cantonese · Northbridge</span><span><b>☎ (08) 9328 9288</b> · Dine-in · Takeaway</span></div></div>
+<nav><div class="wrap nav-in">
+  <div class="logo">Six Fortune <small>六福</small></div>
+  <div class="nav-links"><a href="#menu">Menu</a><a href="#order">Order &amp; Book</a></div>
+  <a href="#order" class="btn btn-coral">Book Yum Cha</a>
+</div></nav>
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Northbridge · since the trolleys rolled</div>
+  <h1>Yum cha, the <em>proper</em> way.</h1>
+  <p>Hand-folded dumplings, sizzling Cantonese classics and bottomless tea — Northbridge's home of dim sum, freshly renovated and ready for you.</p>
+  <div class="hero-cta"><a href="#order" class="btn btn-coral">Book a Table</a><a href="#menu" class="btn btn-line">View Menu</a></div>
+</div></header>
+<div class="strip"><div class="wrap">
+  <div><b>Yum Cha</b><span>Daily, fresh</span></div>
+  <div><b>Cantonese</b><span>À la carte</span></div>
+  <div><b>Renovated</b><span>Spacious dining</span></div>
+  <div><b>Groups</b><span>Banquets welcome</span></div>
+</div></div>
+<section id="menu"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow">Our Menu</div><h2>From the steamer</h2><p>Classic yum cha and Cantonese favourites, made fresh to order.</p></div>
+  <div class="menu">
+    <div class="mrow"><div class="l"><h3>Har Gow</h3><p>Steamed prawn dumplings, the yum cha classic</p></div><div class="pr">$8</div></div>
+    <div class="mrow"><div class="l"><h3>Siu Mai</h3><p>Pork &amp; prawn dumplings, freshly steamed</p></div><div class="pr">$8</div></div>
+    <div class="mrow"><div class="l"><h3>Char Siu Bao</h3><p>Fluffy BBQ pork buns</p></div><div class="pr">$7</div></div>
+    <div class="mrow"><div class="l"><h3>Spring Rolls</h3><p>Crispy, golden, with dipping sauce</p></div><div class="pr">$7</div></div>
+    <div class="mrow"><div class="l"><h3>Sizzling Mongolian Lamb</h3><p>A house favourite, rich and tender</p></div><div class="pr">$26</div></div>
+    <div class="mrow"><div class="l"><h3>Szechuan Prawns</h3><p>Fragrant, spiced and full of flavour</p></div><div class="pr">$28</div></div>
+    <div class="mrow"><div class="l"><h3>Custard Buns</h3><p>Warm, sweet egg custard — save room</p></div><div class="pr">$7</div></div>
+    <div class="mrow"><div class="l"><h3>Banquet Menu</h3><p>A set Cantonese feast for the table</p></div><div class="pr">from $40pp</div></div>
+  </div>
+</div></section>
+<section id="order"><div class="wrap">
+  <div class="order">
+    <div class="eyebrow" style="color:#e8b65a">Order &amp; Book</div>
+    <h2>Gather the table</h2>
+    <p>Book in for yum cha, order takeaway, or plan a banquet for the whole family. Walk-ins welcome too.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="#" class="btn btn-coral">Book a Table</a>
+      <a href="tel:0893289288" class="btn btn-jade">☎ Call Us</a>
+    </div>
+    <div class="info"><div><b>Find Us</b>26 Roe St, Northbridge WA 6003</div><div><b>Call</b>(08) 9328 9288</div><div><b>Open</b>Lunch &amp; Dinner</div></div>
+  </div>
+</div></section>
+<footer><div class="wrap">© 2026 Six Fortune · Yum Cha &amp; Cantonese · Northbridge, Perth · Concept design</div></footer>
+<!--people-band-->
+<section style="position:relative;min-height:46vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(rgba(16,16,18,.5),rgba(16,16,18,.5)),url('images/six-fortune-people.jpg') center/cover no-repeat;color:#fff;padding:66px 26px">
+<div style="max-width:660px">
+<h2 style="color:#fff;font-size:clamp(1.9rem,4.5vw,2.8rem);margin:0 0 12px">Yum cha is better together</h2>
+<p style="color:#fff;opacity:.92;font-size:1.08rem;line-height:1.6;margin:0">Northbridge's home of dim sum.</p>
+</div>
+</section>
+<div class="pitch"><h3>Like this look for Six Fortune?</h3><p>$390 to build, then $39/mo for hosting, updates &amp; support — cancel anytime.</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+</body>
+</html>

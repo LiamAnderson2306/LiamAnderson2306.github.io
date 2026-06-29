@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perth City Glass — Concept Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --slate:#16242e; --slate2:#1e313d; --glass:#2f93b0; --glass-d:#247690; --amber:#f0a52e; --ink:#16242e; --paper:#f1f5f6; --mut:#5a6b74; --line:#dde7ea; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Manrope',system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.6}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 26px}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{line-height:1.08;letter-spacing:-.02em;font-weight:800}
+  :focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+  .demo-tag{background:var(--slate);color:#bcd8e2;text-align:center;font-size:.8rem;letter-spacing:.05em;padding:9px}
+  .topbar{background:var(--slate);color:#9fb8c2;font-size:.83rem}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:40px;flex-wrap:wrap}
+  .topbar b{color:var(--amber)}
+  nav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .logo{font-weight:800;font-size:1.3rem;color:var(--slate);display:flex;align-items:center;gap:10px}
+  .logo .sq{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--glass),var(--slate));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+  .nav-links{display:flex;gap:26px;font-size:.92rem;font-weight:500} .nav-links a{color:var(--mut)} .nav-links a:hover{color:var(--slate)}
+  .btn{display:inline-block;font-weight:700;border-radius:8px;padding:13px 24px;font-size:.94rem;transition:.15s}
+  .btn-amber{background:var(--amber);color:var(--slate)} .btn-amber:hover{filter:brightness(.96)}
+  .btn-glass{background:var(--glass);color:#fff} .btn-glass:hover{background:var(--glass-d)}
+  .btn-ghost{border:1.5px solid #c4d3d8;color:var(--slate)} .btn-ghost:hover{border-color:var(--glass);color:var(--glass)}
+  .hero{background:linear-gradient(180deg,#fff,var(--paper));padding:78px 0}
+  .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:50px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#dceef2;color:var(--glass-d);font-weight:700;font-size:.82rem;padding:7px 14px;border-radius:30px;margin-bottom:20px}
+  .hero h1{font-size:clamp(2.5rem,5.6vw,4rem);color:var(--slate)} .hero h1 span{color:var(--glass)}
+  .hero p{color:var(--mut);font-size:1.14rem;margin:18px 0 28px;max-width:480px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+  .mini{display:flex;gap:20px;flex-wrap:wrap}
+  .mini div{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.88rem;color:var(--slate)} .mini .tk{color:var(--glass)}
+  .pane{aspect-ratio:5/4;border-radius:16px;background:linear-gradient(135deg,rgba(47,147,176,.12),rgba(22,36,46,.06)),url("images/perth-city-glass.jpg") center/cover;border:1px solid var(--line);position:relative;box-shadow:0 24px 50px rgba(22,36,46,.14)}
+  .pane .badge{position:absolute;left:18px;bottom:18px;background:#fff;border-radius:10px;padding:11px 16px;box-shadow:0 14px 30px rgba(22,36,46,.16);font-weight:700;color:var(--slate);font-size:.86rem}
+  .pane .badge small{display:block;color:var(--glass-d);font-weight:600;font-size:.72rem}
+  .band{background:var(--slate)}
+  .band .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:28px 24px;text-align:center}
+  .band b{display:block;color:#fff;font-size:1.5rem;font-weight:800} .band span{font-size:.8rem;color:#9fb8c2}
+  section{padding:82px 0}
+  .sec-head{max-width:620px;margin:0 auto 46px;text-align:center}
+  .sec-head .eyebrow{margin-bottom:12px} .sec-head h2{font-size:clamp(2rem,4.4vw,2.9rem);color:var(--slate)} .sec-head p{color:var(--mut);margin-top:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px 24px;transition:.18s}
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(22,36,46,.1)}
+  .card .ic{width:52px;height:52px;border-radius:12px;background:#dceef2;color:var(--glass-d);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:14px}
+  .card h3{color:var(--slate);font-size:1.15rem;margin-bottom:6px} .card p{color:var(--mut);font-size:.92rem}
+  .cta{background:linear-gradient(135deg,var(--slate),var(--slate2));color:#fff;border-radius:22px;padding:56px;text-align:center}
+  .cta h2{font-size:clamp(2rem,5vw,2.9rem);margin-bottom:12px} .cta p{color:#bcd0d8;max-width:500px;margin:0 auto 26px}
+  .cta .info{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-top:22px;color:#bcd0d8;font-size:.92rem} .cta .info b{display:block;color:var(--amber)}
+  footer{background:var(--slate);color:#9fb8c2;padding:36px 0;font-size:.9rem}
+  .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .pitch{background:var(--glass);color:#fff;text-align:center;padding:42px 24px}
+  .pitch h3{font-size:1.5rem} .pitch p{margin:8px 0 4px;color:#e3f3f7} .pitch a{font-weight:700;color:#fff;border-bottom:2px solid var(--amber)}
+  @media(max-width:860px){.nav-links{display:none}.hero-grid{grid-template-columns:1fr;gap:34px}.band .wrap{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="demo-tag">Concept redesign for Perth City Glass — prepared by Anderson Web Studio</div>
+<div class="topbar"><div class="wrap"><span>🪟 Glass &amp; glazing · Jandakot &amp; all Perth</span><span><b>☎ (08) 9417 5582</b> · Emergency glass available</span></div></div>
+<nav><div class="wrap nav-in">
+  <div class="logo"><span class="sq">▢</span> Perth City Glass</div>
+  <div class="nav-links"><a href="#services">Services</a><a href="#why">Why Us</a><a href="#quote">Free Quote</a></div>
+  <a href="#quote" class="btn btn-amber">Free Quote</a>
+</div></nav>
+<header class="hero"><div class="wrap"><div class="hero-grid">
+  <div>
+    <div class="eyebrow">⚡ Repairs · replacements · new glazing</div>
+    <h1>Broken glass? <span>Sorted, fast.</span></h1>
+    <p>Perth's glass specialists — shower screens, splashbacks, mirrors, windows and emergency glass repair, for homes and businesses right across the metro.</p>
+    <div class="hero-cta"><a href="#quote" class="btn btn-glass">Get a Free Quote</a><a href="tel:0894175582" class="btn btn-ghost">☎ (08) 9417 5582</a></div>
+    <div class="mini"><div><span class="tk">✓</span> Emergency repairs</div><div><span class="tk">✓</span> Homes &amp; business</div><div><span class="tk">✓</span> Free measure &amp; quote</div></div>
+  </div>
+  <div class="pane"><div class="badge">Same-day emergency glass<small>7 days across Perth</small></div></div>
+</div></div></header>
+<div class="band"><div class="wrap">
+  <div><b>Fast</b><span>Emergency repairs</span></div>
+  <div><b>Custom</b><span>Cut &amp; fitted to size</span></div>
+  <div><b>Insured</b><span>Quality workmanship</span></div>
+  <div><b>All Perth</b><span>Homes &amp; business</span></div>
+</div></div>
+<section id="services"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow">What we do</div><h2>Glass for every job</h2><p>From a cracked window to a full shower screen — we cut, supply and fit it all.</p></div>
+  <div class="grid">
+    <div class="card"><div class="ic">🚿</div><h3>Shower Screens</h3><p>Frameless &amp; semi-frameless screens, made and fitted to suit your bathroom.</p></div>
+    <div class="card"><div class="ic">🍳</div><h3>Splashbacks</h3><p>Sleek glass splashbacks in any colour for kitchens &amp; laundries.</p></div>
+    <div class="card"><div class="ic">🪞</div><h3>Mirrors</h3><p>Custom-cut mirrors for bathrooms, wardrobes and feature walls.</p></div>
+    <div class="card"><div class="ic">🪟</div><h3>Window Glass</h3><p>Cracked or broken windows repaired and re-glazed quickly.</p></div>
+    <div class="card"><div class="ic">🚨</div><h3>Emergency Glass</h3><p>Broken shopfront or window? Fast same-day board-up &amp; repair.</p></div>
+    <div class="card"><div class="ic">🏠</div><h3>Balustrades &amp; More</h3><p>Glass balustrades, pool fencing and custom glazing.</p></div>
+  </div>
+</div></section>
+<section id="why" style="background:var(--paper)"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow">Why Perth City Glass</div><h2>Done right, done fast</h2></div>
+  <div class="grid">
+    <div class="card"><div class="ic">⚡</div><h3>Fast response</h3><p>Emergency glass sorted same day so your home or shop is secure.</p></div>
+    <div class="card"><div class="ic">📐</div><h3>Cut to fit</h3><p>Every job measured and made to size — no shortcuts.</p></div>
+    <div class="card"><div class="ic">🛡️</div><h3>Insured &amp; reliable</h3><p>Quality glass, tidy work, fully insured tradespeople.</p></div>
+    <div class="card"><div class="ic">💬</div><h3>Honest quotes</h3><p>Free measure &amp; quote with clear, upfront pricing.</p></div>
+  </div>
+</div></section>
+<section id="quote"><div class="wrap">
+  <div class="cta">
+    <div class="eyebrow" style="background:rgba(255,255,255,.14);color:#fff">Free quote</div>
+    <h2>Need glass sorted?</h2>
+    <p>Call us or request a free measure &amp; quote — homes and businesses, all across Perth.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="tel:0894175582" class="btn btn-amber">☎ (08) 9417 5582</a>
+      <a href="#" class="btn btn-ghost" style="border-color:rgba(255,255,255,.5);color:#fff">Request a Quote</a>
+    </div>
+    <div class="info"><div><b>Based in</b>Jandakot, WA</div><div><b>Servicing</b>All Perth metro</div><div><b>Emergency</b>7 days</div></div>
+  </div>
+</div></section>
+<footer><div class="wrap foot-in">
+  <div><strong style="color:#fff">Perth City Glass</strong> · Glass &amp; glazing · Jandakot, Perth WA</div>
+  <div>☎ (08) 9417 5582 · Emergency glass available</div>
+</div></footer>
+<!--people-band-->
+<section style="position:relative;min-height:46vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(rgba(16,16,18,.5),rgba(16,16,18,.5)),url('images/perth-city-glass-people.jpg') center/cover no-repeat;color:#fff;padding:66px 26px">
+<div style="max-width:660px">
+<h2 style="color:#fff;font-size:clamp(1.9rem,4.5vw,2.8rem);margin:0 0 12px">Sorted, fast</h2>
+<p style="color:#fff;opacity:.92;font-size:1.08rem;line-height:1.6;margin:0">Glass for homes & businesses across Perth.</p>
+</div>
+</section>
+<div class="pitch"><h3>Like this look for Perth City Glass?</h3><p>$390 to build, then $39/mo for hosting, updates &amp; support — cancel anytime.</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+</body>
+</html>
