@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belmont's Café — Concept Redesign</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --espresso:#1b150f; --espresso2:#251d15; --ink:#2a2014; --green:#2f5e44; --green-d:#21452f; --green-l:#5a8a6c;
+    --amber:#d2913f; --honey:#e7b367; --cream:#f7f0e3; --cream2:#efe4d1; --paper:#fbf7ee; --mut:#7c6f5b; --line:#e7dac3; --crema:#e9c89c;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{font-family:'Hanken Grotesk',system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.7;overflow-x:hidden}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 30px}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.04;letter-spacing:-.015em}
+  em{font-style:italic}
+  :focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+  ::selection{background:var(--green);color:var(--cream)}
+
+  /* film grain + vignette */
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* custom cursor */
+  .cursor{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--amber);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease),background .25s,opacity .3s;mix-blend-mode:multiply;opacity:0}
+  .cursor.big{width:54px;height:54px;background:rgba(210,145,63,.22)}
+  @media (hover:none),(pointer:coarse){.cursor{display:none}}
+
+  /* loader */
+  .loader{position:fixed;inset:0;z-index:10000;background:var(--espresso);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .7s var(--ease),visibility .7s}
+  .loader.done{opacity:0;visibility:hidden}
+  .loader .mk{font-family:'Fraunces';font-size:2rem;color:var(--cream);letter-spacing:.02em}
+  .loader .mk b{color:var(--honey)}
+  .loader .bar{width:160px;height:2px;background:rgba(247,240,227,.2);overflow:hidden;border-radius:2px}
+  .loader .bar i{display:block;height:100%;width:40%;background:var(--honey);animation:load 1s var(--ease) infinite}
+  @keyframes load{0%{transform:translateX(-120%)}100%{transform:translateX(360%)}}
+
+  /* reveals (native IntersectionObserver) */
+  .js [data-reveal]{opacity:0;transform:translateY(36px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+  .js [data-reveal].in{opacity:1;transform:none}
+  [data-delay="1"]{transition-delay:.08s}[data-delay="2"]{transition-delay:.16s}[data-delay="3"]{transition-delay:.24s}
+  [data-delay="4"]{transition-delay:.32s}[data-delay="5"]{transition-delay:.4s}[data-delay="6"]{transition-delay:.48s}
+
+  /* nav */
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .4s var(--ease),box-shadow .4s,padding .4s}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:84px;transition:height .4s var(--ease)}
+  nav.scrolled{background:rgba(247,240,227,.88);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+  nav.scrolled .nav-in{height:66px}
+  .logo{font-family:'Fraunces';font-size:1.55rem;color:var(--cream);display:flex;align-items:center;gap:11px;transition:color .4s}
+  nav.scrolled .logo{color:var(--ink)}
+  .logo .ic{width:38px;height:38px;border-radius:50%;background:var(--amber);color:var(--espresso);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex:0 0 auto}
+  .logo small{display:block;font-family:'Hanken Grotesk';font-size:.56rem;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--honey);margin-top:-2px}
+  nav.scrolled .logo small{color:var(--amber)}
+  .nav-links{display:flex;gap:32px;font-size:.88rem;font-weight:500;color:rgba(247,240,227,.92);transition:color .4s}
+  nav.scrolled .nav-links{color:var(--mut)}
+  .nav-links a{position:relative} .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:var(--amber);transition:width .3s var(--ease)} .nav-links a:hover::after{width:100%}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:40px;padding:14px 28px;font-size:.86rem;font-weight:600;font-family:'Hanken Grotesk';transition:transform .25s var(--ease),background .25s,color .25s,box-shadow .25s;will-change:transform}
+  .btn-amber{background:var(--amber);color:var(--espresso)} .btn-amber:hover{background:var(--honey);box-shadow:0 12px 30px rgba(210,145,63,.4)}
+  .btn-cream{background:var(--cream);color:var(--ink)} .btn-cream:hover{background:#fff}
+  .btn-ghost{border:1.5px solid rgba(247,240,227,.55);color:var(--cream)} .btn-ghost:hover{border-color:var(--honey);color:var(--honey)}
+  .btn-green{background:var(--green);color:#fff} .btn-green:hover{background:var(--green-d);box-shadow:0 12px 30px rgba(47,94,68,.35)}
+
+  /* hero */
+  .hero{position:relative;height:100vh;min-height:660px;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-bg{position:absolute;inset:-8% 0;z-index:0;background:url("images/belmonts-pro-hero.jpg") center/cover no-repeat;animation:kenburns 22s ease-in-out infinite alternate;will-change:transform}
+  @keyframes kenburns{0%{transform:scale(1.06) translate(0,0)}100%{transform:scale(1.16) translate(-1.5%,-2%)}}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(85deg,rgba(20,15,10,.9) 0%,rgba(20,15,10,.55) 45%,rgba(20,15,10,.2) 100%)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(120% 80% at 50% 30%,transparent 40%,rgba(20,15,10,.55) 100%)}
+  .hero .wrap{position:relative;z-index:2;padding-bottom:9vh;color:var(--cream);width:100%}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--honey);margin-bottom:24px}
+  .eyebrow::before{content:"";width:30px;height:1px;background:var(--honey)}
+  .hero-title{font-size:clamp(3rem,8.5vw,6.6rem);font-weight:600;max-width:15ch}
+  .hero-title .line{display:block;overflow:hidden;padding-bottom:.04em}
+  .hero-title .w{display:inline-block;transition:transform 1.1s var(--ease)}
+  .js .hero-title .w{transform:translateY(110%)}
+  .js body.ready .hero-title .w,.js .hero.go .w{transform:translateY(0)}
+  .hero-title em{color:var(--honey)}
+  .hero-sub{font-size:clamp(1.05rem,1.6vw,1.25rem);max-width:430px;margin:26px 0 34px;color:#efe6d5}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .scroll-cue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:2;color:rgba(247,240,227,.7);font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .scroll-cue .ln{width:1px;height:42px;background:linear-gradient(var(--honey),transparent);animation:cue 1.8s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+  /* marquee */
+  .marquee{background:var(--green);color:var(--cream);padding:20px 0;overflow:hidden;white-space:nowrap;border-top:1px solid var(--green-d);border-bottom:1px solid var(--green-d)}
+  .marquee .track{display:inline-flex;gap:46px;animation:scroll 26s linear infinite;will-change:transform}
+  .marquee span{font-family:'Fraunces';font-size:1.5rem;display:inline-flex;align-items:center;gap:46px}
+  .marquee b{color:var(--honey);font-weight:500}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  section{position:relative}
+  .pad{padding:120px 0}
+  .sec-head{max-width:680px;margin:0 auto 60px;text-align:center}
+  .kf{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:16px}
+  .kf::before,.kf::after{content:"";width:22px;height:1px;background:var(--amber);opacity:.5}
+  h2.big{font-size:clamp(2.3rem,5.2vw,3.8rem);color:var(--ink)}
+  .sec-head p{color:var(--mut);margin-top:14px;font-size:1.08rem}
+
+  /* story (dark) */
+  .story{background:var(--espresso);color:var(--cream)}
+  .story-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+  .story h2{font-size:clamp(2.2rem,4.6vw,3.4rem);color:var(--cream);margin-bottom:22px}
+  .story h2 em{color:var(--honey)}
+  .story p{color:#cdbfa9;font-size:1.1rem;margin-bottom:18px;max-width:46ch}
+  .story .img-reveal{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/5}
+  .img-reveal img{width:100%;height:100%;object-fit:cover;transform:scale(1.18);transition:transform 1.5s var(--ease),clip-path 1.3s var(--ease)}
+  .js .img-reveal{clip-path:inset(0 0 100% 0)} .js .img-reveal.in{clip-path:inset(0 0 0 0);transition:clip-path 1.3s var(--ease)} .img-reveal.in img{transform:scale(1)}
+  .stats{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap}
+  .stat{flex:1;min-width:120px;border-top:1px solid rgba(247,240,227,.18);padding-top:16px}
+  .stat b{display:block;font-family:'Fraunces';font-size:2.6rem;color:var(--honey);line-height:1}
+  .stat span{font-size:.82rem;color:#b6a890;letter-spacing:.04em}
+
+  /* featured menu cards */
+  .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .fcard{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/4;background:var(--espresso)}
+  .fcard img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+  .fcard:hover img{transform:scale(1.08)}
+  .fcard::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,10,.86) 0%,rgba(20,15,10,.15) 55%,transparent 80%)}
+  .fcard .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px;color:var(--cream)}
+  .fcard .cap h3{font-size:1.3rem;color:#fff} .fcard .cap p{font-size:.84rem;color:#e6d8c0;margin-top:2px}
+  .fcard .price{position:absolute;top:14px;right:14px;z-index:2;background:var(--amber);color:var(--espresso);font-weight:700;font-size:.8rem;padding:5px 11px;border-radius:30px}
+
+  /* typeset menu list */
+  .menu-list{display:grid;grid-template-columns:1fr 1fr;gap:6px 64px;max-width:920px;margin:64px auto 0}
+  .mrow{display:flex;align-items:baseline;gap:12px;padding:16px 2px;border-bottom:1px solid var(--line)}
+  .mrow .nm{font-family:'Fraunces';font-size:1.22rem;color:var(--ink);white-space:nowrap}
+  .mrow .nm small{display:block;font-family:'Hanken Grotesk';font-size:.8rem;color:var(--mut);font-weight:400}
+  .mrow .led{flex:1;border-bottom:1.5px dotted var(--line);transform:translateY(-4px)}
+  .mrow .pr{font-weight:600;color:var(--green)}
+
+  /* signature horizontal gallery */
+  .gallery{background:var(--cream2)}
+  .gallery .sec-head{margin-bottom:40px}
+  .g-wrap{position:relative}
+  .g-track{display:flex;gap:20px;padding:0 30px;width:max-content}
+  .gallery:not(.gsap-on) .g-wrap{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:14px}
+  .gallery:not(.gsap-on) .gslide{scroll-snap-align:center}
+  .gallery.gsap-on .g-wrap{height:100vh;display:flex;align-items:center;overflow:hidden}
+  .gslide{position:relative;flex:0 0 auto;width:min(78vw,430px);aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:var(--espresso)}
+  .gslide img{width:100%;height:100%;object-fit:cover}
+  .gslide .gc{position:absolute;left:0;bottom:0;right:0;padding:20px;z-index:2;color:var(--cream);background:linear-gradient(to top,rgba(20,15,10,.8),transparent)}
+  .gslide .gc b{font-family:'Fraunces';font-size:1.25rem;display:block}
+  .gslide .gc span{font-size:.8rem;color:#e6d8c0}
+  .g-hint{text-align:center;color:var(--mut);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;margin-top:26px}
+
+  /* parallax quote */
+  .quote{position:relative;height:84vh;min-height:520px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+  .quote .qbg{position:absolute;inset:-15% 0;z-index:0;background:url("images/belmonts-pro-people.jpg") center/cover no-repeat;will-change:transform}
+  .quote::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(20,15,10,.62),rgba(20,15,10,.62))}
+  .quote .wrap{position:relative;z-index:2;color:var(--cream)}
+  .quote h2{font-size:clamp(2.2rem,5.5vw,4rem);color:#fff;max-width:18ch;margin:0 auto}
+  .quote h2 em{color:var(--honey)}
+  .quote p{margin-top:18px;color:#e6d8c0;font-size:1.1rem}
+
+  /* visit */
+  .visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:20px;overflow:hidden;box-shadow:0 30px 70px rgba(42,32,20,.16)}
+  .visit-l{background:var(--green);color:var(--cream);padding:60px 52px}
+  .visit-l h2{color:#fff;font-size:clamp(2rem,4vw,2.9rem);margin-bottom:10px}
+  .visit-l p{color:#d6e4da;margin-bottom:26px;max-width:38ch}
+  .vrow{display:flex;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid rgba(247,240,227,.18)}
+  .vrow b{font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--honey);min-width:74px}
+  .vrow span{font-size:1.02rem}
+  .visit-l .btn{margin-top:28px}
+  .visit-r{position:relative;min-height:340px;background:url("images/belmonts-pro-interior.jpg") center/cover}
+  .visit-r .glass{position:absolute;left:24px;bottom:24px;right:24px;background:rgba(247,240,227,.86);backdrop-filter:blur(8px);border-radius:12px;padding:18px 22px}
+  .visit-r .glass b{font-family:'Fraunces';color:var(--ink);font-size:1.1rem} .visit-r .glass span{color:var(--mut);font-size:.86rem}
+
+  footer{background:var(--espresso);color:#b6a890;padding:60px 0 40px}
+  .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:flex-start}
+  .foot-in .logo{color:var(--cream)} .foot-in .logo small{color:var(--amber)}
+  .foot-cols{display:flex;gap:60px;flex-wrap:wrap;font-size:.9rem}
+  .foot-cols b{display:block;color:var(--cream);font-family:'Fraunces';font-weight:500;margin-bottom:10px}
+  .foot-cols a{display:block;color:#b6a890;padding:3px 0} .foot-cols a:hover{color:var(--honey)}
+  .foot-base{border-top:1px solid rgba(247,240,227,.12);margin-top:40px;padding-top:24px;font-size:.82rem;color:#8c7f6a;text-align:center}
+
+  .pitch{background:linear-gradient(120deg,var(--amber),#b8702a);color:var(--espresso);text-align:center;padding:54px 24px}
+  .pitch h3{font-family:'Fraunces';font-size:2rem;margin-bottom:6px} .pitch p{margin:6px 0;font-weight:500;color:#3a2a14} .pitch a{font-weight:700;color:var(--espresso);border-bottom:2px solid var(--espresso)}
+
+  @media(max-width:900px){
+    .nav-links{display:none}
+    .story-grid{grid-template-columns:1fr;gap:40px}
+    .feat{grid-template-columns:1fr 1fr}
+    .menu-list{grid-template-columns:1fr;margin-top:44px}
+    .visit-grid{grid-template-columns:1fr}
+    .pad{padding:84px 0}
+  }
+  @media(max-width:560px){.feat{grid-template-columns:1fr 1fr;gap:12px}.marquee span{font-size:1.2rem}}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition-duration:.001ms!important}
+    .js [data-reveal]{opacity:1!important;transform:none!important}
+    .js .hero-title .w{transform:none!important}
+    .js .img-reveal{clip-path:none!important} .img-reveal img{transform:none!important}
+    .hero-bg{animation:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div class="mk">Belmont<b>'s</b></div><div class="bar"><i></i></div></div>
+<div class="cursor" id="cursor"></div>
+
+<nav id="nav"><div class="wrap nav-in">
+  <a href="#" class="logo"><span class="ic">☕</span><span>Belmont's<small>Café · Perth</small></span></a>
+  <div class="nav-links"><a href="#story">Our Story</a><a href="#menu">Menu</a><a href="#gallery">The Café</a><a href="#visit">Visit</a></div>
+  <a href="#visit" class="btn btn-amber magnetic" data-cursor>Order / Visit</a>
+</div></nav>
+
+<header class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="wrap">
+    <div class="eyebrow" data-reveal>All-day brunch &amp; proper coffee</div>
+    <h1 class="hero-title">
+      <span class="line"><span class="w">Good</span> <span class="w">coffee.</span></span>
+      <span class="line"><span class="w">Proper</span> <span class="w"><em>brekkie.</em></span></span>
+      <span class="line"><span class="w">Your</span> <span class="w">local.</span></span>
+    </h1>
+    <p class="hero-sub" data-reveal data-delay="3">A neighbourhood café in Perth for slow mornings, hearty plates and a coffee made exactly how you like it — every single day.</p>
+    <div class="hero-cta" data-reveal data-delay="4">
+      <a href="#menu" class="btn btn-amber magnetic" data-cursor>See the Menu</a>
+      <a href="#visit" class="btn btn-ghost magnetic" data-cursor>Find Us</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="ln"></span></div>
+</header>
+
+<div class="marquee" aria-hidden="true"><div class="track">
+  <span>Freshly roasted <b>☕</b> All-day breakfast <b>✺</b> Locally roasted beans <b>☕</b> Open 7 days <b>✺</b> Smashed avo &amp; big brekkies <b>☕</b> Your neighbourhood local <b>✺</b></span>
+  <span>Freshly roasted <b>☕</b> All-day breakfast <b>✺</b> Locally roasted beans <b>☕</b> Open 7 days <b>✺</b> Smashed avo &amp; big brekkies <b>☕</b> Your neighbourhood local <b>✺</b></span>
+</div></div>
+
+<section class="story pad" id="story"><div class="wrap"><div class="story-grid">
+  <div>
+    <div class="kf" data-reveal>Our story</div>
+    <h2 data-reveal data-delay="1">More than a café — it's where the <em>street starts its day.</em></h2>
+    <p data-reveal data-delay="2">For years Belmont's has been the corner you come back to: the first coffee before work, the long weekend brunch, the catch-up that runs three cups deep. Real food, made fresh, served by people who know your order.</p>
+    <p data-reveal data-delay="3">We roast local, cook from scratch, and keep the welcome warm — seven days a week.</p>
+    <div class="stats">
+      <div class="stat" data-reveal data-delay="2"><b data-count="7">7</b><span>Days a week</span></div>
+      <div class="stat" data-reveal data-delay="3"><b data-count="100" data-suffix="%">100%</b><span>Locally roasted</span></div>
+      <div class="stat" data-reveal data-delay="4"><b>All day</b><span>Breakfast served</span></div>
+    </div>
+  </div>
+  <div class="img-reveal" data-reveal><img src="images/belmonts-pro-interior.jpg" alt="Inside Belmont's Café"></div>
+</div></div></section>
+
+<section class="pad" id="menu"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>The menu</div><h2 class="big" data-reveal data-delay="1">Made fresh, all day</h2><p data-reveal data-delay="2">Hearty breakfasts, fresh lunches, sweet things from the cabinet and coffee done properly.</p></div>
+  <div class="feat">
+    <div class="fcard" data-reveal><span class="price">from $24</span><img src="images/belmonts-pro-brekkie.jpg" alt="Big Breakfast"><div class="cap"><h3>Big Breakfast</h3><p>The works — eggs, bacon &amp; all the trimmings</p></div></div>
+    <div class="fcard" data-reveal data-delay="1"><span class="price">from $18</span><img src="images/belmonts-pro-avo.jpg" alt="Smashed Avo"><div class="cap"><h3>Smashed Avo</h3><p>On toasted sourdough, done well</p></div></div>
+    <div class="fcard" data-reveal data-delay="2"><span class="price">from $6</span><img src="images/belmonts-pro-pastry.jpg" alt="Cabinet Treats"><div class="cap"><h3>Cabinet Treats</h3><p>Cakes &amp; slices baked fresh</p></div></div>
+    <div class="fcard" data-reveal data-delay="3"><span class="price">from $4.50</span><img src="images/belmonts-pro-coffee.jpg" alt="Coffee"><div class="cap"><h3>Coffee</h3><p>Locally roasted, made your way</p></div></div>
+  </div>
+  <div class="menu-list">
+    <div class="mrow" data-reveal><span class="nm">Eggs Your Way <small>poached, fried or scrambled on sourdough</small></span><span class="led"></span><span class="pr">$14</span></div>
+    <div class="mrow" data-reveal data-delay="1"><span class="nm">Bacon &amp; Egg Roll <small>with house relish</small></span><span class="led"></span><span class="pr">$12</span></div>
+    <div class="mrow" data-reveal><span class="nm">Toasties &amp; Melts <small>classic ham, cheese &amp; tomato</small></span><span class="led"></span><span class="pr">$13</span></div>
+    <div class="mrow" data-reveal data-delay="1"><span class="nm">Burgers &amp; Wraps <small>with chips &amp; salad</small></span><span class="led"></span><span class="pr">from $19</span></div>
+    <div class="mrow" data-reveal><span class="nm">Fresh Salads <small>made daily</small></span><span class="led"></span><span class="pr">from $16</span></div>
+    <div class="mrow" data-reveal data-delay="1"><span class="nm">Iced Coffee &amp; Smoothies <small>thickshakes too</small></span><span class="led"></span><span class="pr">from $7</span></div>
+  </div>
+</div></section>
+
+<section class="gallery pad" id="gallery"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Inside Belmont's</div><h2 class="big" data-reveal data-delay="1">A morning at the café</h2></div>
+</div>
+  <div class="g-wrap" id="gWrap"><div class="g-track" id="gTrack">
+    <div class="gslide"><img src="images/belmonts-pro-coffee.jpg" alt=""><div class="gc"><b>The first cup</b><span>Locally roasted, every morning</span></div></div>
+    <div class="gslide"><img src="images/belmonts-pro-brekkie.jpg" alt=""><div class="gc"><b>The big brekkie</b><span>Cooked to order</span></div></div>
+    <div class="gslide"><img src="images/belmonts-pro-avo.jpg" alt=""><div class="gc"><b>Smashed avo</b><span>The brunch classic</span></div></div>
+    <div class="gslide"><img src="images/belmonts-pro-pastry.jpg" alt=""><div class="gc"><b>From the cabinet</b><span>Baked fresh daily</span></div></div>
+    <div class="gslide"><img src="images/belmonts-pro-interior.jpg" alt=""><div class="gc"><b>The counter</b><span>Where it all happens</span></div></div>
+    <div class="gslide"><img src="images/belmonts-pro-people.jpg" alt=""><div class="gc"><b>Good company</b><span>Your neighbourhood local</span></div></div>
+  </div></div>
+  <div class="wrap"><div class="g-hint">⟵ drag / scroll to explore ⟶</div></div>
+</section>
+
+<section class="quote"><div class="qbg" id="quoteBg"></div><div class="wrap">
+  <h2 data-reveal>Good coffee. Good food. <em>Good company.</em></h2>
+  <p data-reveal data-delay="2">The kind of place you end up staying longer than you planned.</p>
+</div></section>
+
+<section class="pad" id="visit"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Visit us</div><h2 class="big" data-reveal data-delay="1">Pop in for a cuppa</h2></div>
+  <div class="visit-grid" data-reveal>
+    <div class="visit-l">
+      <h2>We'd love to see you</h2>
+      <p>Order ahead for takeaway, grab a table, or just swing by — we're open every day and always happy to see a familiar face.</p>
+      <div class="vrow"><b>Hours</b><span>Open 7 days · breakfast &amp; lunch</span></div>
+      <div class="vrow"><b>Phone</b><span>(08) 9277 9545</span></div>
+      <div class="vrow"><b>Find us</b><span>Belmont, Perth WA</span></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="#" class="btn btn-amber magnetic" data-cursor>Order Online</a>
+        <a href="tel:0892779545" class="btn btn-ghost magnetic" data-cursor style="border-color:rgba(247,240,227,.5)">☎ Call Us</a>
+      </div>
+    </div>
+    <div class="visit-r"><div class="glass"><b>Belmont's Café</b><br><span>Your neighbourhood local · Perth, WA</span></div></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="foot-in">
+    <a href="#" class="logo"><span class="ic">☕</span><span>Belmont's<small>Café · Perth</small></span></a>
+    <div class="foot-cols">
+      <div><b>Menu</b><a href="#menu">Breakfast</a><a href="#menu">Lunch</a><a href="#menu">Coffee &amp; Drinks</a></div>
+      <div><b>Visit</b><a href="#visit">Find us</a><a href="tel:0892779545">(08) 9277 9545</a><a href="#visit">Order online</a></div>
+      <div><b>Hours</b><a href="#">Open 7 days</a><a href="#">All-day breakfast</a></div>
+    </div>
+  </div>
+  <div class="foot-base">© 2026 Belmont's Café · Perth · Concept design by Anderson Web Studio</div>
+</div></footer>
+
+<div class="pitch"><h3>Like this for Belmont's?</h3><p>A premium site like this — with online ordering &amp; bookings — $390 to build, then $39/mo for hosting, updates &amp; support (cancel anytime).</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var doc = document;
+
+  // ---- loader + hero intro ----
+  function ready(){
+    var l = doc.getElementById('loader'); if(l) l.classList.add('done');
+    doc.body.classList.add('ready');
+    var hero = doc.getElementById('hero'); if(hero) hero.classList.add('go');
+  }
+  if(doc.readyState === 'complete') ready();
+  else window.addEventListener('load', ready);
+  setTimeout(ready, 1600); // safety: never stay on loader / hidden hero
+
+  // ---- reveals (native IntersectionObserver) ----
+  var revs = doc.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.16, rootMargin:'0px 0px -8% 0px'});
+    revs.forEach(function(el){ io.observe(el); });
+  } else { revs.forEach(function(el){ el.classList.add('in'); }); }
+
+  // ---- counters ----
+  function runCount(el){
+    var target = parseFloat(el.getAttribute('data-count')), suf = el.getAttribute('data-suffix')||'';
+    if(reduce){ el.textContent = target + suf; return; }
+    var t0=null, dur=1400;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); var e=1-Math.pow(1-p,3);
+      el.textContent = Math.round(target*e) + suf; if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var counters = doc.querySelectorAll('[data-count]');
+  if('IntersectionObserver' in window){
+    var cio = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ runCount(e.target); cio.unobserve(e.target); } }); }, {threshold:.6});
+    counters.forEach(function(el){ cio.observe(el); });
+  } else counters.forEach(runCount);
+
+  // ---- nav scrolled state ----
+  var nav = doc.getElementById('nav');
+  function onScroll(){ if(window.scrollY > 40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // ---- custom cursor + magnetic (fine pointer only) ----
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+    var cur = doc.getElementById('cursor'), cx=0, cy=0, tx=0, ty=0, shown=false;
+    window.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; if(!shown){shown=true;cur.style.opacity=1;} });
+    (function loop(){ cx+=(tx-cx)*.2; cy+=(ty-cy)*.2; cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; requestAnimationFrame(loop); })();
+    doc.querySelectorAll('a,button,[data-cursor]').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cur.classList.add('big'); });
+      el.addEventListener('mouseleave', function(){ cur.classList.remove('big'); });
+    });
+    doc.querySelectorAll('.magnetic').forEach(function(el){
+      el.addEventListener('mousemove', function(e){ var r=el.getBoundingClientRect(); var mx=e.clientX-(r.left+r.width/2), my=e.clientY-(r.top+r.height/2); el.style.transform='translate('+mx*.28+'px,'+my*.4+'px)'; });
+      el.addEventListener('mouseleave', function(){ el.style.transform=''; });
+    });
+  }
+
+  // ---- enhancements: Lenis smooth scroll + GSAP ----
+  if(reduce) return;
+  var lenis = null;
+  try{
+    if(window.Lenis){
+      lenis = new Lenis({ duration:1.1, smoothWheel:true });
+      function raf(t){ lenis.raf(t); requestAnimationFrame(raf); } requestAnimationFrame(raf);
+    }
+  }catch(e){}
+
+  if(window.gsap && window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    if(lenis){ lenis.on('scroll', ScrollTrigger.update); }
+
+    // hero + quote parallax
+    gsap.to('#heroBg', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
+    gsap.to('#quoteBg', { yPercent:16, ease:'none', scrollTrigger:{ trigger:'.quote', start:'top bottom', end:'bottom top', scrub:true } });
+
+    // pinned horizontal gallery (responsive + self-cleaning)
+    var track = doc.getElementById('gTrack'), gal = doc.getElementById('gallery');
+    if(track){
+      gsap.matchMedia().add('(min-width:761px)', function(){
+        gal.classList.add('gsap-on');
+        var tw = gsap.to(track, { x:function(){ return -(track.scrollWidth - window.innerWidth + 30); }, ease:'none',
+          scrollTrigger:{ trigger:gal, start:'top top', end:function(){ return '+=' + (track.scrollWidth - window.innerWidth + 200); }, pin:true, scrub:1, invalidateOnRefresh:true, anticipatePin:1 } });
+        return function(){ gal.classList.remove('gsap-on'); if(tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); gsap.set(track,{clearProps:'x'}); };
+      });
+    }
+    window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+    setTimeout(function(){ ScrollTrigger.refresh(); }, 800);
+  }
+})();
+</script>
+</body>
+</html>
