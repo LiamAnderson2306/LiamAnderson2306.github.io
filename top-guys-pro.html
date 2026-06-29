@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Guys Barber Shop — Concept Redesign</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#171512; --ink2:#211d18; --green:#1f463c; --green-d:#143028; --green-l:#3f6e5d;
+    --cream:#f5edde; --cream2:#e9dcc4; --brass:#c8973f; --brass-l:#e0b765; --brass-d:#a87a2c; --ox:#9c3a2b; --mut:#6c6358; --line:#e2d6c0;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{font-family:'Work Sans',system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.7;overflow-x:hidden}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 30px}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  h1,h2,h3{font-family:'Oswald',sans-serif;font-weight:700;line-height:1;text-transform:uppercase;letter-spacing:.005em}
+  .mono{font-family:'Space Mono',monospace}
+  :focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+  ::selection{background:var(--brass);color:var(--ink)}
+
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .cursor{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--brass);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease),opacity .3s;mix-blend-mode:difference;opacity:0}
+  .cursor.big{width:52px;height:52px;background:var(--brass-l)}
+  @media (hover:none),(pointer:coarse){.cursor{display:none}}
+
+  /* barber-pole loader */
+  .loader{position:fixed;inset:0;z-index:10000;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .7s var(--ease),visibility .7s}
+  .loader.done{opacity:0;visibility:hidden}
+  .pole-load{width:16px;height:96px;border-radius:9px;overflow:hidden;box-shadow:0 0 0 3px rgba(245,237,222,.15)}
+  .pole-load i{display:block;width:100%;height:200%;background:repeating-linear-gradient(135deg,var(--ox) 0 12px,#f7efe0 12px 24px,var(--green) 24px 36px);animation:barber .9s linear infinite}
+  @keyframes barber{to{transform:translateY(-36px)}}
+  .loader .mk{font-family:'Oswald';font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:1.2rem;color:var(--cream)}
+  .loader .mk b{color:var(--brass)}
+
+  .js [data-reveal]{opacity:0;transform:translateY(36px);transition:opacity 1.05s var(--ease),transform 1.05s var(--ease)}
+  .js [data-reveal].in{opacity:1;transform:none}
+  [data-delay="1"]{transition-delay:.08s}[data-delay="2"]{transition-delay:.16s}[data-delay="3"]{transition-delay:.24s}
+  [data-delay="4"]{transition-delay:.32s}[data-delay="5"]{transition-delay:.4s}[data-delay="6"]{transition-delay:.48s}
+
+  /* nav */
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .4s var(--ease),box-shadow .4s}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:84px;transition:height .4s var(--ease)}
+  nav.scrolled{background:rgba(23,21,18,.92);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(245,237,222,.08)}
+  nav.scrolled .nav-in{height:66px}
+  .logo{font-family:'Oswald';font-weight:700;font-size:1.5rem;text-transform:uppercase;letter-spacing:.02em;color:var(--cream);line-height:.9;display:flex;flex-direction:column}
+  .logo small{font-family:'Space Mono';font-size:.54rem;letter-spacing:.26em;color:var(--brass);margin-top:3px;text-transform:none}
+  .nav-links{display:flex;gap:30px;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(245,237,222,.82)}
+  .nav-links a{position:relative}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:var(--brass);transition:width .3s var(--ease)} .nav-links a:hover::after{width:100%}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Oswald';font-weight:600;text-transform:uppercase;letter-spacing:.05em;border-radius:5px;padding:13px 26px;font-size:.9rem;transition:transform .25s var(--ease),background .25s,color .25s,box-shadow .25s;will-change:transform;cursor:pointer}
+  .btn-brass{background:var(--brass);color:var(--ink)} .btn-brass:hover{background:var(--brass-l);box-shadow:0 12px 30px rgba(200,151,63,.4)}
+  .btn-green{background:var(--green);color:var(--cream)} .btn-green:hover{background:var(--green-d)}
+  .btn-ghost{border:1.6px solid rgba(245,237,222,.55);color:var(--cream)} .btn-ghost:hover{border-color:var(--brass);color:var(--brass-l)}
+
+  /* hero */
+  .hero{position:relative;height:100vh;min-height:660px;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-bg{position:absolute;inset:-8% 0;z-index:0;background:url("images/top-guys.jpg") center/cover no-repeat;animation:kb 22s ease-in-out infinite alternate;will-change:transform}
+  @keyframes kb{0%{transform:scale(1.05)}100%{transform:scale(1.16) translate(-1.5%,-2%)}}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(88deg,rgba(15,30,26,.95) 0%,rgba(15,30,26,.6) 48%,rgba(15,30,26,.25) 100%)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(120% 80% at 50% 35%,transparent 42%,rgba(10,20,16,.6) 100%)}
+  .hero-pole{position:absolute;left:0;top:0;bottom:0;width:14px;z-index:2;background:repeating-linear-gradient(180deg,var(--ox) 0 16px,#f7efe0 16px 32px,var(--green) 32px 48px)}
+  .hero .wrap{position:relative;z-index:3;padding-bottom:9vh;color:var(--cream);width:100%}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono';font-size:.76rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brass-l);margin-bottom:22px}
+  .eyebrow::before{content:"";width:28px;height:1px;background:var(--brass)}
+  .hero-title{font-size:clamp(3.2rem,10vw,7rem);font-weight:700;max-width:11ch}
+  .hero-title .line{display:block;overflow:hidden;padding-bottom:.03em}
+  .hero-title .w{display:inline-block;transition:transform 1.05s var(--ease)}
+  .js .hero-title .w{transform:translateY(110%)}
+  .js body.ready .hero-title .w,.js .hero.go .w{transform:translateY(0)}
+  .hero-title em{font-style:normal;color:var(--brass-l)}
+  .hero-sub{font-size:clamp(1.05rem,1.5vw,1.22rem);max-width:440px;margin:24px 0 32px;color:#e6ddca}
+  .hero-cta{display:flex;gap:13px;flex-wrap:wrap}
+  .status{display:inline-flex;align-items:center;gap:9px;font-family:'Space Mono';font-size:.82rem;color:#d8cdb6;margin-top:24px}
+  .status .dot{width:10px;height:10px;border-radius:50%;background:var(--brass-l);box-shadow:0 0 0 4px rgba(224,183,101,.22)}
+  .status .dot.shut{background:var(--ox);box-shadow:0 0 0 4px rgba(156,58,43,.22)}
+  .scroll-cue{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:3;color:rgba(245,237,222,.7);font-size:.66rem;letter-spacing:.25em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:9px;font-family:'Space Mono'}
+  .scroll-cue .ln{width:1px;height:40px;background:linear-gradient(var(--brass-l),transparent);animation:cue 1.8s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+  /* marquee */
+  .marquee{background:var(--green);color:var(--cream);padding:18px 0;overflow:hidden;white-space:nowrap;border-top:3px solid var(--brass);border-bottom:3px solid var(--brass)}
+  .marquee .track{display:inline-flex;animation:scroll 24s linear infinite;will-change:transform}
+  .marquee span{font-family:'Oswald';font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:1.4rem;display:inline-flex;align-items:center;gap:30px;padding-right:30px}
+  .marquee b{color:var(--brass-l)}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  section{position:relative}
+  .pad{padding:118px 0}
+  .sec-head{max-width:660px;margin:0 auto 56px;text-align:center}
+  .kf{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono';font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ox);margin-bottom:14px}
+  .kf::before,.kf::after{content:"";width:22px;height:1px;background:var(--ox);opacity:.5}
+  h2.big{font-size:clamp(2.4rem,5.5vw,4rem);color:var(--green)}
+  .sec-head p{color:var(--mut);margin-top:12px;font-size:1.06rem}
+
+  /* story (dark) */
+  .story{background:var(--ink);color:var(--cream)}
+  .story-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:62px;align-items:center}
+  .story .kf{color:var(--brass-l)}
+  .story h2{font-size:clamp(2.3rem,4.8vw,3.6rem);color:var(--cream);margin-bottom:22px}
+  .story h2 em{font-style:normal;color:var(--brass-l)}
+  .story p{color:#c9bda6;font-size:1.08rem;margin-bottom:18px;max-width:46ch}
+  .img-reveal{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/5}
+  .img-reveal img{width:100%;height:100%;object-fit:cover;transform:scale(1.16);transition:transform 1.5s var(--ease)}
+  .js .img-reveal{clip-path:inset(0 0 100% 0)} .js .img-reveal.in{clip-path:inset(0 0 0 0);transition:clip-path 1.3s var(--ease)} .img-reveal.in img{transform:scale(1)}
+  .stats{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap}
+  .stat{flex:1;min-width:120px;border-top:2px solid rgba(245,237,222,.16);padding-top:16px}
+  .stat b{display:block;font-family:'Oswald';font-weight:700;font-size:2.6rem;color:var(--brass-l);line-height:1}
+  .stat span{font-size:.8rem;color:#b3a78f;letter-spacing:.04em;text-transform:uppercase}
+
+  /* service photo cards */
+  .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .fcard{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;background:var(--ink)}
+  .fcard img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+  .fcard:hover img{transform:scale(1.08)}
+  .fcard::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(15,25,21,.9) 0%,rgba(15,25,21,.15) 55%,transparent 80%)}
+  .fcard .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px;color:var(--cream)}
+  .fcard .cap h3{font-size:1.35rem;color:#fff} .fcard .cap p{font-size:.84rem;color:#e3d8c0;margin-top:2px;font-family:'Work Sans'}
+
+  /* The Board (signature) */
+  .board-sec{background:var(--green)}
+  .board-sec .kf{color:var(--brass-l)} .board-sec h2.big{color:#fff} .board-sec .sec-head p{color:#bcd3c9}
+  .board{background:var(--cream);color:var(--ink);border:3px solid var(--brass);border-radius:6px;padding:40px 38px;max-width:900px;margin:0 auto;
+    box-shadow:inset 0 0 0 6px var(--cream),0 30px 60px rgba(0,0,0,.32);position:relative}
+  .board::before,.board::after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f3dca0,var(--brass-d));top:14px}
+  .board::before{left:14px}.board::after{right:14px}
+  .board-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 56px;margin-top:8px}
+  .prow{display:flex;align-items:baseline;gap:10px;padding:13px 2px;border-bottom:1px dashed #d6c7a9}
+  .prow .nm{font-family:'Oswald';font-weight:500;text-transform:uppercase;letter-spacing:.02em;font-size:1.06rem;white-space:nowrap}
+  .prow .nm small{display:block;font-family:'Work Sans';font-weight:400;text-transform:none;letter-spacing:0;font-size:.74rem;color:var(--mut)}
+  .prow .led{flex:1;border-bottom:2px dotted #cbb996;transform:translateY(-4px)}
+  .prow .pr{font-family:'Space Mono';font-weight:700;color:var(--green);white-space:nowrap}
+  .board-note{text-align:center;font-family:'Space Mono';font-size:.78rem;color:var(--mut);margin-top:24px}
+
+  /* signature horizontal gallery */
+  .gallery{background:var(--cream2)}
+  .gallery .sec-head{margin-bottom:38px}
+  .g-wrap{position:relative}
+  .g-track{display:flex;gap:18px;padding:0 30px;width:max-content}
+  .gallery:not(.gsap-on) .g-wrap{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:14px}
+  .gallery:not(.gsap-on) .gslide{scroll-snap-align:center}
+  .gallery.gsap-on .g-wrap{height:100vh;display:flex;align-items:center;overflow:hidden}
+  .gslide{position:relative;flex:0 0 auto;width:min(78vw,420px);aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:var(--ink)}
+  .gslide img{width:100%;height:100%;object-fit:cover}
+  .gslide .gc{position:absolute;left:0;bottom:0;right:0;padding:20px;z-index:2;color:var(--cream);background:linear-gradient(to top,rgba(15,25,21,.82),transparent)}
+  .gslide .gc b{font-family:'Oswald';font-weight:600;text-transform:uppercase;letter-spacing:.03em;font-size:1.2rem;display:block} .gslide .gc span{font-size:.8rem;color:#e3d8c0}
+  .g-hint{text-align:center;color:var(--mut);font-family:'Space Mono';font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;margin-top:24px}
+
+  /* parallax quote */
+  .quote{position:relative;height:82vh;min-height:520px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+  .quote .qbg{position:absolute;inset:-15% 0;z-index:0;background:url("images/top-guys-people.jpg") center/cover no-repeat;will-change:transform}
+  .quote::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(15,25,21,.72),rgba(15,25,21,.72))}
+  .quote .wrap{position:relative;z-index:2;color:var(--cream)}
+  .quote h2{font-size:clamp(2.2rem,5.5vw,4rem);color:#fff;max-width:16ch;margin:0 auto} .quote h2 em{font-style:normal;color:var(--brass-l)}
+  .quote p{margin-top:16px;color:#e3d8c0;font-size:1.08rem;font-family:'Space Mono'}
+
+  /* visit */
+  .visit-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:0;border-radius:16px;overflow:hidden;box-shadow:0 30px 70px rgba(23,21,18,.2)}
+  .visit-l{background:var(--ink);color:var(--cream);padding:58px 50px}
+  .visit-l h2{color:#fff;font-size:clamp(2rem,4vw,2.9rem);margin-bottom:8px}
+  .visit-l>p{color:#c9bda6;margin-bottom:24px;max-width:40ch}
+  .hours{list-style:none;margin-bottom:8px}
+  .hours li{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(245,237,222,.13);font-size:1rem}
+  .hours li.today{color:var(--brass-l);font-weight:600} .hours li.today .d::after{content:" · today";font-family:'Space Mono';font-size:.68rem;color:var(--ox)}
+  .hours .t{font-family:'Space Mono'} .hours li.shut .t{color:var(--ox)}
+  .visit-l .row{display:flex;gap:13px;align-items:baseline;padding:13px 0;border-bottom:1px solid rgba(245,237,222,.13)}
+  .visit-l .row b{font-family:'Space Mono';font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--brass-l);min-width:78px}
+  .visit-l .btn{margin-top:26px}
+  .visit-r{position:relative;min-height:360px;background:url("images/top-guys-interior.jpg") center/cover}
+  .visit-r .glass{position:absolute;left:22px;right:22px;bottom:22px;background:rgba(245,237,222,.9);backdrop-filter:blur(8px);border-radius:10px;padding:16px 20px}
+  .visit-r .glass b{font-family:'Oswald';text-transform:uppercase;color:var(--ink);font-size:1.05rem} .visit-r .glass span{color:var(--mut);font-size:.84rem}
+
+  footer{background:var(--ink);color:#b3a78f;padding:58px 0 38px}
+  .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:flex-start}
+  .foot-in .logo{color:var(--cream)}
+  .foot-cols{display:flex;gap:56px;flex-wrap:wrap;font-size:.9rem}
+  .foot-cols b{display:block;color:var(--cream);font-family:'Oswald';text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;font-weight:600}
+  .foot-cols a{display:block;color:#b3a78f;padding:3px 0} .foot-cols a:hover{color:var(--brass-l)}
+  .foot-base{border-top:1px solid rgba(245,237,222,.1);margin-top:38px;padding-top:22px;font-size:.8rem;color:#897e69;text-align:center;font-family:'Space Mono'}
+
+  .pitch{background:var(--brass);color:var(--ink);text-align:center;padding:52px 24px}
+  .pitch h3{font-family:'Oswald';text-transform:uppercase;font-size:2rem;margin-bottom:6px} .pitch p{margin:6px 0;font-weight:500} .pitch a{font-weight:700;color:var(--ink);border-bottom:2px solid var(--ink)}
+
+  @media(max-width:900px){
+    .nav-links{display:none}
+    .story-grid{grid-template-columns:1fr;gap:40px}
+    .feat{grid-template-columns:1fr 1fr}
+    .board-grid{grid-template-columns:1fr;gap:0}
+    .visit-grid{grid-template-columns:1fr}
+    .pad{padding:80px 0}
+  }
+  @media(max-width:560px){.marquee span{font-size:1.15rem}}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition-duration:.001ms!important}
+    .js [data-reveal]{opacity:1!important;transform:none!important}
+    .js .hero-title .w{transform:none!important}
+    .js .img-reveal{clip-path:none!important}.img-reveal img{transform:none!important}
+    .hero-bg{animation:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div class="pole-load"><i></i></div><div class="mk">Top <b>Guys</b></div></div>
+<div class="cursor" id="cursor"></div>
+
+<nav id="nav"><div class="wrap nav-in">
+  <a href="#" class="logo">Top Guys<small>Barber Shop · Mount Hawthorn</small></a>
+  <div class="nav-links"><a href="#story">The Shop</a><a href="#services">Services</a><a href="#board">The Board</a><a href="#visit">Visit</a></div>
+  <a href="tel:0894442040" class="btn btn-brass magnetic" data-cursor>☎ Call to Book</a>
+</div></nav>
+
+<header class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-pole"></div>
+  <div class="wrap">
+    <div class="eyebrow">Oxford St · Mount Hawthorn · Est.</div>
+    <h1 class="hero-title">
+      <span class="line"><span class="w">Good</span> <span class="w">honest</span></span>
+      <span class="line"><span class="w"><em>haircuts.</em></span></span>
+    </h1>
+    <p class="hero-sub" data-reveal data-delay="2">Classic cuts, sharp skin fades, beard work and a proper hot-towel shave. No app, no fuss — sit down and we'll sort you out.</p>
+    <div class="hero-cta" data-reveal data-delay="3">
+      <a href="tel:0894442040" class="btn btn-brass magnetic" data-cursor>☎ Call (08) 9444 2040</a>
+      <a href="https://maps.google.com/?q=Top+Guys+Barber+Shop+405+Oxford+St+Mount+Hawthorn" target="_blank" rel="noopener" class="btn btn-ghost magnetic" data-cursor>📍 Directions</a>
+    </div>
+    <div class="status" id="status"><span class="dot"></span><span id="status-txt">Walk-ins welcome · Mon–Sat</span></div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="ln"></span></div>
+</header>
+
+<div class="marquee" aria-hidden="true"><div class="track">
+  <span>Walk-ins welcome <b>✶</b> Skin fades <b>✶</b> Hot towel shaves <b>✶</b> Beard work <b>✶</b> Kids &amp; seniors <b>✶</b> Classic cuts <b>✶</b></span>
+  <span>Walk-ins welcome <b>✶</b> Skin fades <b>✶</b> Hot towel shaves <b>✶</b> Beard work <b>✶</b> Kids &amp; seniors <b>✶</b> Classic cuts <b>✶</b></span>
+</div></div>
+
+<section class="story pad" id="story"><div class="wrap"><div class="story-grid">
+  <div>
+    <div class="kf" data-reveal>The shop</div>
+    <h2 data-reveal data-delay="1">A proper neighbourhood <em>barbershop.</em></h2>
+    <p data-reveal data-delay="2">Top Guys has been keeping Mount Hawthorn sharp for years — the spot where blokes, kids and the young-at-heart drop in for a tidy-up and a good yarn. No booking app, no fuss. Just good barbers who get your cut right.</p>
+    <p data-reveal data-delay="3">Walk in, take a seat, and walk out looking like the top guy.</p>
+    <div class="stats">
+      <div class="stat" data-reveal data-delay="2"><b data-count="35" data-prefix="$">$35</b><span>Men's cut from</span></div>
+      <div class="stat" data-reveal data-delay="3"><b data-count="6">6</b><span>Days · Mon–Sat</span></div>
+      <div class="stat" data-reveal data-delay="4"><b>Walk-ins</b><span>Always welcome</span></div>
+    </div>
+  </div>
+  <div class="img-reveal" data-reveal><img src="images/top-guys-interior.jpg" alt="Inside Top Guys Barber Shop"></div>
+</div></div></section>
+
+<section class="pad" id="services"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>What we do</div><h2 class="big" data-reveal data-delay="1">The cut you asked for</h2><p data-reveal data-delay="2">Old-school barbering, done properly.</p></div>
+  <div class="feat">
+    <div class="fcard" data-reveal><img src="images/top-guys-fade.jpg" alt="Skin fades"><div class="cap"><h3>Skin &amp; Fades</h3><p>Clean fades, tapers &amp; blends</p></div></div>
+    <div class="fcard" data-reveal data-delay="1"><img src="images/top-guys-beard.jpg" alt="Beard grooming"><div class="cap"><h3>Beard Work</h3><p>Trims, shaping &amp; line-ups</p></div></div>
+    <div class="fcard" data-reveal data-delay="2"><img src="images/top-guys-shave.jpg" alt="Hot towel shave"><div class="cap"><h3>Hot Towel Shave</h3><p>The traditional straight-razor</p></div></div>
+    <div class="fcard" data-reveal data-delay="3"><img src="images/top-guys-style.jpg" alt="Styling"><div class="cap"><h3>Classic Cuts</h3><p>Scissor &amp; clipper, your way</p></div></div>
+  </div>
+</div></section>
+
+<section class="board-sec pad" id="board"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Prices &amp; services</div><h2 class="big" data-reveal data-delay="1">The Board</h2><p data-reveal data-delay="2">Straight-up pricing, up on the wall where it belongs.</p></div>
+  <div class="board" data-reveal>
+    <div class="board-grid">
+      <div class="prow"><span class="nm">Men's Cut</span><span class="led"></span><span class="pr">$35</span></div>
+      <div class="prow"><span class="nm">Skin Fade</span><span class="led"></span><span class="pr">$40</span></div>
+      <div class="prow"><span class="nm">Buzz Cut <small>one length all over</small></span><span class="led"></span><span class="pr">$25</span></div>
+      <div class="prow"><span class="nm">Kids <small>under 12</small></span><span class="led"></span><span class="pr">$28</span></div>
+      <div class="prow"><span class="nm">Student / Pensioner</span><span class="led"></span><span class="pr">$30</span></div>
+      <div class="prow"><span class="nm">Beard Trim &amp; Line-up</span><span class="led"></span><span class="pr">$25</span></div>
+      <div class="prow"><span class="nm">Hot Towel Shave</span><span class="led"></span><span class="pr">$40</span></div>
+      <div class="prow"><span class="nm">Cut &amp; Beard <small>the full sort-out</small></span><span class="led"></span><span class="pr">$55</span></div>
+    </div>
+    <p class="board-note">Indicative pricing for this concept — final prices set by the shop · cash &amp; card welcome</p>
+  </div>
+</div></section>
+
+<section class="gallery pad" id="gallery"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Inside the shop</div><h2 class="big" data-reveal data-delay="1">Step into Top Guys</h2></div>
+</div>
+  <div class="g-wrap" id="gWrap"><div class="g-track" id="gTrack">
+    <div class="gslide"><img src="images/top-guys-fade.jpg" alt=""><div class="gc"><b>The fade</b><span>Sharp &amp; clean</span></div></div>
+    <div class="gslide"><img src="images/top-guys-shave.jpg" alt=""><div class="gc"><b>The shave</b><span>Hot towel &amp; straight razor</span></div></div>
+    <div class="gslide"><img src="images/top-guys-beard.jpg" alt=""><div class="gc"><b>The beard</b><span>Shaped &amp; lined up</span></div></div>
+    <div class="gslide"><img src="images/top-guys-style.jpg" alt=""><div class="gc"><b>The finish</b><span>Styled &amp; sorted</span></div></div>
+    <div class="gslide"><img src="images/top-guys.jpg" alt=""><div class="gc"><b>The chair</b><span>Pull up a seat</span></div></div>
+    <div class="gslide"><img src="images/top-guys-people.jpg" alt=""><div class="gc"><b>The top guys</b><span>Looking sharp</span></div></div>
+  </div></div>
+  <div class="wrap"><div class="g-hint">⟵ drag / scroll to explore ⟶</div></div>
+</section>
+
+<section class="quote"><div class="qbg" id="quoteBg"></div><div class="wrap">
+  <h2 data-reveal>Twenty minutes. A good yarn. <em>Out looking sharp.</em></h2>
+  <p data-reveal data-delay="2">That's the whole idea.</p>
+</div></section>
+
+<section class="pad" id="visit"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Find us</div><h2 class="big" data-reveal data-delay="1">Pull up a chair</h2></div>
+  <div class="visit-grid" data-reveal>
+    <div class="visit-l">
+      <h2>Drop in &amp; take a seat</h2>
+      <p>Phone bookings &amp; walk-ins both welcome — give us a call or just swing by.</p>
+      <ul class="hours" id="hours">
+        <li data-day="1"><span class="d">Monday</span><span class="t">8:30am – 5:15pm</span></li>
+        <li data-day="2"><span class="d">Tuesday</span><span class="t">8:30am – 5:15pm</span></li>
+        <li data-day="3"><span class="d">Wednesday</span><span class="t">8:30am – 5:15pm</span></li>
+        <li data-day="4"><span class="d">Thursday</span><span class="t">8:30am – 5:15pm</span></li>
+        <li data-day="5"><span class="d">Friday</span><span class="t">8:30am – 5:15pm</span></li>
+        <li data-day="6"><span class="d">Saturday</span><span class="t">8:00am – 1:00pm</span></li>
+        <li data-day="0" class="shut"><span class="d">Sunday</span><span class="t">Closed</span></li>
+      </ul>
+      <div class="row"><b>Address</b><span>1/405 Oxford St, Mount Hawthorn WA 6016</span></div>
+      <div class="row"><b>Phone</b><span>(08) 9444 2040</span></div>
+      <a href="tel:0894442040" class="btn btn-brass magnetic" data-cursor>☎ Call to Book</a>
+    </div>
+    <div class="visit-r"><div class="glass"><b>Top Guys Barber Shop</b><br><span>1/405 Oxford St · Mount Hawthorn</span></div></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="foot-in">
+    <a href="#" class="logo">Top Guys<small>Barber Shop · Mount Hawthorn</small></a>
+    <div class="foot-cols">
+      <div><b>Services</b><a href="#services">Cuts &amp; fades</a><a href="#services">Beard work</a><a href="#board">The Board</a></div>
+      <div><b>Visit</b><a href="#visit">Find us</a><a href="tel:0894442040">(08) 9444 2040</a><a href="#visit">Hours</a></div>
+      <div><b>Open</b><a href="#visit">Mon–Fri 8:30–5:15</a><a href="#visit">Sat 8–1</a></div>
+    </div>
+  </div>
+  <div class="foot-base">© 2026 Top Guys Barber Shop · Mount Hawthorn · Concept design by Anderson Web Studio</div>
+</div></footer>
+
+<div class="pitch"><h3>Like this for Top Guys?</h3><p>A premium site like this — with online booking so the phone stops ringing mid-cut — $390 to build, then $39/mo for hosting, updates &amp; support (cancel anytime).</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var doc = document;
+
+  function ready(){
+    var l=doc.getElementById('loader'); if(l) l.classList.add('done');
+    doc.body.classList.add('ready');
+    var h=doc.getElementById('hero'); if(h) h.classList.add('go');
+  }
+  if(doc.readyState==='complete') ready(); else window.addEventListener('load', ready);
+  setTimeout(ready, 1600);
+
+  // open / closed status + today highlight
+  try{
+    var now=new Date(), day=now.getDay(), mins=now.getHours()*60+now.getMinutes();
+    var win={1:[510,1035],2:[510,1035],3:[510,1035],4:[510,1035],5:[510,1035],6:[480,780]};
+    doc.querySelectorAll('#hours li').forEach(function(li){ if(+li.dataset.day===day) li.classList.add('today'); });
+    var w=win[day], open=w&&mins>=w[0]&&mins<w[1];
+    var txt=doc.getElementById('status-txt'), dot=doc.querySelector('#status .dot');
+    function fmt(m){var h=Math.floor(m/60),mm=m%60,ap=h>=12?'pm':'am',h12=((h+11)%12)+1;return h12+(mm?':'+(mm<10?'0':'')+mm:'')+ap;}
+    if(txt){ if(open){ txt.textContent='Open now · till '+fmt(w[1])+' · walk-ins welcome'; }
+      else if(w&&mins<w[0]){ txt.textContent='Opens '+fmt(w[0])+' today · walk-ins welcome'; dot.classList.add('shut'); }
+      else { txt.textContent='Closed now · walk-ins welcome when open'; dot.classList.add('shut'); } }
+  }catch(e){}
+
+  // reveals
+  var revs=doc.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+    revs.forEach(function(el){ io.observe(el); });
+  } else revs.forEach(function(el){ el.classList.add('in'); });
+
+  // counters
+  function runCount(el){
+    var target=parseFloat(el.getAttribute('data-count')), pre=el.getAttribute('data-prefix')||'', suf=el.getAttribute('data-suffix')||'';
+    if(reduce){ el.textContent=pre+target+suf; return; }
+    var t0=null,dur=1300;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1), e=1-Math.pow(1-p,3); el.textContent=pre+Math.round(target*e)+suf; if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var counters=doc.querySelectorAll('[data-count]');
+  if('IntersectionObserver' in window){
+    var cio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ runCount(e.target); cio.unobserve(e.target);} }); },{threshold:.6});
+    counters.forEach(function(el){ cio.observe(el); });
+  } else counters.forEach(runCount);
+
+  // nav scrolled
+  var nav=doc.getElementById('nav');
+  function onScroll(){ if(window.scrollY>40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // cursor + magnetic
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+    var cur=doc.getElementById('cursor'), cx=0,cy=0,tx=0,ty=0,shown=false;
+    window.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; if(!shown){shown=true;cur.style.opacity=1;} });
+    (function loop(){ cx+=(tx-cx)*.2; cy+=(ty-cy)*.2; cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; requestAnimationFrame(loop); })();
+    doc.querySelectorAll('a,button,[data-cursor]').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cur.classList.add('big'); });
+      el.addEventListener('mouseleave', function(){ cur.classList.remove('big'); });
+    });
+    doc.querySelectorAll('.magnetic').forEach(function(el){
+      el.addEventListener('mousemove', function(e){ var r=el.getBoundingClientRect(), mx=e.clientX-(r.left+r.width/2), my=e.clientY-(r.top+r.height/2); el.style.transform='translate('+mx*.28+'px,'+my*.4+'px)'; });
+      el.addEventListener('mouseleave', function(){ el.style.transform=''; });
+    });
+  }
+
+  if(reduce) return;
+  var lenis=null;
+  try{ if(window.Lenis){ lenis=new Lenis({duration:1.1,smoothWheel:true}); (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(); } }catch(e){}
+
+  if(window.gsap && window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    if(lenis){ lenis.on('scroll', ScrollTrigger.update); }
+    gsap.to('#heroBg', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
+    gsap.to('#quoteBg', { yPercent:16, ease:'none', scrollTrigger:{ trigger:'.quote', start:'top bottom', end:'bottom top', scrub:true } });
+    var track=doc.getElementById('gTrack'), gal=doc.getElementById('gallery');
+    if(track){
+      gsap.matchMedia().add('(min-width:761px)', function(){
+        gal.classList.add('gsap-on');
+        var tw=gsap.to(track, { x:function(){ return -(track.scrollWidth - window.innerWidth + 30); }, ease:'none',
+          scrollTrigger:{ trigger:gal, start:'top top', end:function(){ return '+=' + (track.scrollWidth - window.innerWidth + 200); }, pin:true, scrub:1, invalidateOnRefresh:true, anticipatePin:1 } });
+        return function(){ gal.classList.remove('gsap-on'); if(tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); gsap.set(track,{clearProps:'x'}); };
+      });
+    }
+    window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+    setTimeout(function(){ ScrollTrigger.refresh(); }, 800);
+  }
+})();
+</script>
+</body>
+</html>
