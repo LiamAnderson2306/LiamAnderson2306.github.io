@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safi Barber Shop — Concept Redesign</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#131d31; --bg2:#1a2742; --bg3:#243557; --brass:#c8973f; --brass-l:#e6c074; --brass-d:#a87a2c; --cream:#f3ede0; --cream2:#e6dcc7;
+    --ox:#9c3a2b; --mut:#9aa5ba; --line:#2a3957; --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{font-family:'Work Sans',system-ui,sans-serif;color:var(--cream);background:var(--bg);line-height:1.7;overflow-x:hidden}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 30px}
+  a{color:inherit;text-decoration:none} img{display:block;max-width:100%}
+  h1,h2,h3{font-family:'Oswald',sans-serif;font-weight:700;line-height:1;text-transform:uppercase;letter-spacing:.005em}
+  .mono{font-family:'Space Mono',monospace}
+  :focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+  ::selection{background:var(--brass);color:var(--bg)}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .cursor{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:var(--brass);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease),opacity .3s;mix-blend-mode:difference;opacity:0}
+  .cursor.big{width:50px;height:50px;background:var(--brass-l)}
+  @media (hover:none),(pointer:coarse){.cursor{display:none}}
+  .loader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .7s var(--ease),visibility .7s}
+  .loader.done{opacity:0;visibility:hidden}
+  .pole-load{width:15px;height:92px;border-radius:9px;overflow:hidden;box-shadow:0 0 0 3px rgba(243,237,224,.14)}
+  .pole-load i{display:block;width:100%;height:200%;background:repeating-linear-gradient(135deg,var(--ox) 0 12px,#f3ede0 12px 24px,var(--brass) 24px 36px);animation:barber .9s linear infinite}
+  @keyframes barber{to{transform:translateY(-36px)}}
+  .loader .mk{font-family:'Oswald';font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:1.2rem;color:var(--cream)} .loader .mk b{color:var(--brass)}
+  .js [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity 1.05s var(--ease),transform 1.05s var(--ease)}
+  .js [data-reveal].in{opacity:1;transform:none}
+  [data-delay="1"]{transition-delay:.08s}[data-delay="2"]{transition-delay:.16s}[data-delay="3"]{transition-delay:.24s}[data-delay="4"]{transition-delay:.32s}
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .4s var(--ease),box-shadow .4s}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:80px;transition:height .4s var(--ease)}
+  nav.scrolled{background:rgba(19,29,49,.94);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+  nav.scrolled .nav-in{height:62px}
+  .logo{font-family:'Oswald';font-weight:700;font-size:1.5rem;text-transform:uppercase;letter-spacing:.04em;color:var(--cream);line-height:.9}
+  .logo small{display:block;font-family:'Space Mono';font-size:.54rem;letter-spacing:.26em;color:var(--brass);margin-top:3px;text-transform:none}
+  .nav-links{display:flex;gap:30px;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+  .nav-links a{position:relative;transition:color .3s} .nav-links a:hover{color:var(--cream)}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:var(--brass);transition:width .3s var(--ease)} .nav-links a:hover::after{width:100%}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Oswald';font-weight:600;text-transform:uppercase;letter-spacing:.05em;border-radius:5px;padding:13px 26px;font-size:.9rem;transition:transform .25s var(--ease),background .25s,color .25s,box-shadow .25s;will-change:transform;cursor:pointer}
+  .btn-brass{background:var(--brass);color:var(--bg)} .btn-brass:hover{background:var(--brass-l);box-shadow:0 12px 30px rgba(200,151,63,.4)}
+  .btn-line{border:1.6px solid rgba(243,237,224,.4);color:var(--cream)} .btn-line:hover{border-color:var(--brass);color:var(--brass-l)}
+  .hero{position:relative;height:100vh;min-height:660px;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-bg{position:absolute;inset:-8% 0;z-index:0;background:url("images/safi-hero.jpg") center/cover no-repeat;animation:kb 22s ease-in-out infinite alternate;will-change:transform}
+  @keyframes kb{0%{transform:scale(1.05)}100%{transform:scale(1.16) translate(-1.5%,-2%)}}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(88deg,rgba(15,23,40,.96) 0%,rgba(15,23,40,.62) 48%,rgba(15,23,40,.3) 100%)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(15,23,40,.85),transparent 32%)}
+  .hero-pole{position:absolute;left:0;top:0;bottom:0;width:14px;z-index:2;background:repeating-linear-gradient(180deg,var(--ox) 0 16px,#f3ede0 16px 32px,var(--brass) 32px 48px)}
+  .hero .wrap{position:relative;z-index:3;padding-bottom:8vh;width:100%}
+  .eyebrow{display:inline-block;font-family:'Space Mono';font-size:.76rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brass-l);margin-bottom:20px}
+  .hero-title{font-size:clamp(3rem,9vw,6.4rem);line-height:.92;max-width:13ch}
+  .hero-title .line{display:block;overflow:hidden;padding-bottom:.03em}
+  .hero-title .w{display:inline-block;transition:transform 1.05s var(--ease)}
+  .js .hero-title .w{transform:translateY(110%)}
+  .js body.ready .hero-title .w,.js .hero.go .w{transform:translateY(0)}
+  .hero-title em{font-style:normal;color:var(--brass-l)}
+  .hero-sub{font-size:1.16rem;max-width:440px;margin:22px 0 30px;color:#d4dae6}
+  .hero-cta{display:flex;gap:13px;flex-wrap:wrap}
+  .status{display:inline-flex;align-items:center;gap:9px;font-family:'Space Mono';font-size:.82rem;color:#c7cedd;margin-top:22px}
+  .status .dot{width:10px;height:10px;border-radius:50%;background:var(--brass-l);box-shadow:0 0 0 4px rgba(230,192,116,.22)}
+  .status .dot.shut{background:var(--ox);box-shadow:0 0 0 4px rgba(156,58,43,.22)}
+  .scroll-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:3;color:var(--mut);font-size:.64rem;letter-spacing:.28em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:9px;font-family:'Space Mono'}
+  .scroll-cue .ln{width:1px;height:38px;background:linear-gradient(var(--brass-l),transparent);animation:cue 1.8s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+  .marquee{background:var(--bg2);color:var(--cream);padding:16px 0;overflow:hidden;white-space:nowrap;border-top:3px solid var(--brass);border-bottom:3px solid var(--brass)}
+  .marquee .track{display:inline-flex;animation:scroll 26s linear infinite;will-change:transform}
+  .marquee span{font-family:'Oswald';font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:1.3rem;display:inline-flex;align-items:center;gap:28px;padding-right:28px} .marquee b{color:var(--brass-l)}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  section{position:relative}
+  .pad{padding:112px 0}
+  .sec-head{max-width:640px;margin:0 auto 50px;text-align:center}
+  .kf{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono';font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-l);margin-bottom:14px}
+  .kf::before,.kf::after{content:"";width:22px;height:1px;background:var(--brass);opacity:.5}
+  h2.big{font-size:clamp(2.3rem,5vw,3.7rem);color:var(--cream)}
+  .sec-head p{color:var(--mut);margin-top:12px;font-size:1.04rem}
+  .story-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:62px;align-items:center}
+  .story h2{font-size:clamp(2.2rem,4.6vw,3.4rem);color:var(--cream);margin-bottom:22px} .story h2 em{font-style:normal;color:var(--brass-l)}
+  .story p{color:var(--mut);font-size:1.06rem;margin-bottom:18px;max-width:48ch}
+  .img-reveal{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:4/5;border:1px solid var(--line)}
+  .img-reveal img{width:100%;height:100%;object-fit:cover;transform:scale(1.16);transition:transform 1.5s var(--ease)}
+  .js .img-reveal{clip-path:inset(0 0 100% 0)} .js .img-reveal.in{clip-path:inset(0 0 0 0);transition:clip-path 1.3s var(--ease)} .img-reveal.in img{transform:scale(1)}
+  .stats{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap}
+  .stat{flex:1;min-width:120px;border-top:2px solid var(--line);padding-top:16px}
+  .stat b{display:block;font-family:'Oswald';font-weight:700;font-size:2.5rem;color:var(--brass-l);line-height:1}
+  .stat span{font-size:.78rem;color:var(--mut);letter-spacing:.04em;text-transform:uppercase}
+  .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .fcard{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:3/4;background:var(--bg2)}
+  .fcard img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)} .fcard:hover img{transform:scale(1.08)}
+  .fcard::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(11,17,30,.9) 0%,rgba(11,17,30,.15) 55%,transparent 80%)}
+  .fcard .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px;color:var(--cream)}
+  .fcard .cap h3{font-size:1.3rem;color:#fff} .fcard .cap p{font-size:.84rem;color:#cfd6e3;margin-top:2px;font-family:'Work Sans'}
+  .board-sec{background:var(--bg2)}
+  .board-sec .kf{color:var(--brass-l)} .board-sec h2.big{color:#fff}
+  .board{background:var(--cream);color:var(--bg);border:3px solid var(--brass);border-radius:6px;padding:40px 38px;max-width:900px;margin:0 auto;
+    box-shadow:inset 0 0 0 6px var(--cream),0 30px 60px rgba(0,0,0,.4);position:relative}
+  .board::before,.board::after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f3dca0,var(--brass-d));top:14px}
+  .board::before{left:14px}.board::after{right:14px}
+  .board-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 56px;margin-top:8px}
+  .prow{display:flex;align-items:baseline;gap:10px;padding:13px 2px;border-bottom:1px dashed #cdbf9f}
+  .prow .nm{font-family:'Oswald';font-weight:500;text-transform:uppercase;letter-spacing:.02em;font-size:1.06rem;white-space:nowrap;color:var(--bg)} .prow .nm small{display:block;font-family:'Work Sans';font-weight:400;text-transform:none;letter-spacing:0;font-size:.74rem;color:#7a715c}
+  .prow .led{flex:1;border-bottom:2px dotted #c3b48f;transform:translateY(-4px)}
+  .prow .pr{font-family:'Space Mono';font-weight:700;color:var(--bg2);white-space:nowrap}
+  .board-note{text-align:center;font-family:'Space Mono';font-size:.78rem;color:#7a715c;margin-top:24px}
+  .gallery .sec-head{margin-bottom:42px}
+  .g-wrap{position:relative}
+  .g-track{display:flex;gap:18px;padding:0 30px;width:max-content}
+  .gallery:not(.gsap-on) .g-wrap{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:14px}
+  .gallery:not(.gsap-on) .gslide{scroll-snap-align:center}
+  .gallery.gsap-on .g-wrap{height:100vh;display:flex;align-items:center;overflow:hidden}
+  .gslide{position:relative;flex:0 0 auto;width:min(76vw,390px);aspect-ratio:3/4;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--bg2)}
+  .gslide img{width:100%;height:100%;object-fit:cover}
+  .gslide .gc{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px;background:linear-gradient(to top,rgba(11,17,30,.92),transparent)}
+  .gslide .gc b{font-family:'Oswald';font-weight:600;text-transform:uppercase;font-size:1.2rem;color:var(--cream);display:block} .gslide .gc span{font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--brass-l)}
+  .g-hint{text-align:center;color:var(--mut);font-family:'Space Mono';font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;margin-top:24px}
+  .quote{position:relative;height:80vh;min-height:500px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+  .quote .qbg{position:absolute;inset:-15% 0;z-index:0;background:url("images/safi-people.jpg") center/cover no-repeat;will-change:transform}
+  .quote::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(15,23,40,.74),rgba(15,23,40,.8))}
+  .quote .wrap{position:relative;z-index:2}
+  .quote h2{font-size:clamp(2.2rem,5vw,3.8rem);color:var(--cream);max-width:16ch;margin:0 auto} .quote h2 em{font-style:normal;color:var(--brass-l)}
+  .quote p{margin-top:16px;color:var(--mut);font-size:1.04rem;font-family:'Space Mono'}
+  .visit-sec{background:var(--bg2)}
+  .visit-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:46px;align-items:center}
+  .visit-l h2{color:#fff;font-size:clamp(2rem,4vw,2.9rem);margin-bottom:8px}
+  .visit-l>p{color:var(--mut);margin-bottom:22px;max-width:40ch}
+  .hours{list-style:none;margin-bottom:8px}
+  .hours li{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:1rem}
+  .hours li.today{color:var(--brass-l);font-weight:600} .hours li.today .d::after{content:" · today";font-family:'Space Mono';font-size:.68rem;color:var(--ox)}
+  .hours .t{font-family:'Space Mono'} .hours li.shut .t{color:var(--ox)}
+  .visit-l .row{display:flex;gap:13px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+  .visit-l .row b{font-family:'Space Mono';font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--brass-l);min-width:78px}
+  .visit-l .btn{margin-top:24px}
+  .visit-r{position:relative;min-height:340px;border-radius:10px;overflow:hidden;background:url("images/safi-cut.jpg") center/cover}
+  .visit-r .glass{position:absolute;left:22px;right:22px;bottom:22px;background:rgba(243,237,224,.92);backdrop-filter:blur(8px);border-radius:10px;padding:16px 20px}
+  .visit-r .glass b{font-family:'Oswald';text-transform:uppercase;color:var(--bg);font-size:1.05rem} .visit-r .glass span{color:#7a715c;font-size:.84rem}
+  footer{background:var(--bg);padding:50px 0 36px;border-top:1px solid var(--line)}
+  .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:22px;align-items:flex-start}
+  .foot-cols{display:flex;gap:50px;flex-wrap:wrap;font-size:.88rem}
+  .foot-cols b{display:block;font-family:'Oswald';color:var(--cream);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+  .foot-cols a{display:block;color:var(--mut);padding:3px 0} .foot-cols a:hover{color:var(--brass-l)}
+  .foot-base{border-top:1px solid var(--line);margin-top:34px;padding-top:20px;font-size:.8rem;color:var(--mut);text-align:center;font-family:'Space Mono'}
+  .pitch{background:var(--brass);color:var(--bg);text-align:center;padding:50px 24px}
+  .pitch h3{font-family:'Oswald';text-transform:uppercase;font-size:1.9rem} .pitch p{margin:6px 0;font-weight:500} .pitch a{font-weight:700;color:var(--bg);border-bottom:2px solid var(--bg)}
+  @media(max-width:900px){.nav-links{display:none}.story-grid,.visit-grid{grid-template-columns:1fr;gap:38px}.feat{grid-template-columns:1fr 1fr}.board-grid{grid-template-columns:1fr;gap:0}.pad{padding:80px 0}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition-duration:.001ms!important}.js [data-reveal]{opacity:1!important;transform:none!important}.js .hero-title .w{transform:none!important}.js .img-reveal{clip-path:none!important}.img-reveal img{transform:none!important}.hero-bg{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div class="pole-load"><i></i></div><div class="mk">Safi <b>Barber</b></div></div>
+<div class="cursor" id="cursor"></div>
+<nav id="nav"><div class="wrap nav-in">
+  <a href="#" class="logo">Safi Barber<small>Shop · Girrawheen</small></a>
+  <div class="nav-links"><a href="#story">The Shop</a><a href="#services">Services</a><a href="#board">The Board</a><a href="#visit">Visit</a></div>
+  <a href="#visit" class="btn btn-brass magnetic" data-cursor>Book Here</a>
+</div></nav>
+<header class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-pole"></div>
+  <div class="wrap">
+    <div class="eyebrow">Balgonie Ave · Girrawheen · est.</div>
+    <h1 class="hero-title">
+      <span class="line"><span class="w">A</span> <span class="w">proper</span> <span class="w">cut,</span></span>
+      <span class="line"><span class="w"><em>every</em></span> <span class="w">time.</span></span>
+    </h1>
+    <p class="hero-sub" data-reveal data-delay="2">Sharp skin fades, classic cuts, beard work and a proper hot-towel shave — your friendly local barber in the heart of Girrawheen.</p>
+    <div class="hero-cta" data-reveal data-delay="3">
+      <a href="#visit" class="btn btn-brass magnetic" data-cursor>Book Here</a>
+      <a href="https://maps.google.com/?q=Safi+Barber+Shop+32+Balgonie+Ave+Girrawheen" target="_blank" rel="noopener" class="btn btn-line magnetic" data-cursor>📍 Directions</a>
+    </div>
+    <div class="status" id="status"><span class="dot"></span><span id="status-txt">Walk-ins welcome · Mon–Sat</span></div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="ln"></span></div>
+</header>
+<div class="marquee" aria-hidden="true"><div class="track">
+  <span>Skin fades <b>✶</b> Classic cuts <b>✶</b> Beard work <b>✶</b> Hot towel shave <b>✶</b> Kids' cuts <b>✶</b> Walk-ins welcome <b>✶</b></span>
+  <span>Skin fades <b>✶</b> Classic cuts <b>✶</b> Beard work <b>✶</b> Hot towel shave <b>✶</b> Kids' cuts <b>✶</b> Walk-ins welcome <b>✶</b></span>
+</div></div>
+<section class="story pad" id="story"><div class="wrap"><div class="story-grid">
+  <div>
+    <div class="kf" data-reveal>The shop</div>
+    <h2 data-reveal data-delay="1">Your local <em>Girrawheen</em> barber.</h2>
+    <p data-reveal data-delay="2">Safi Barber Shop is the spot the neighbourhood trusts for a sharp, honest cut — fades, classic styles, beard work and the traditional hot-towel shave, done right by barbers who take pride in the detail.</p>
+    <p data-reveal data-delay="3">Walk in, take a seat, and walk out looking your best. Everyone welcome.</p>
+    <div class="stats">
+      <div class="stat" data-reveal data-delay="2"><b data-count="30" data-prefix="$">$30</b><span>Men's cut from</span></div>
+      <div class="stat" data-reveal data-delay="3"><b data-count="6">6</b><span>Days · Mon–Sat</span></div>
+      <div class="stat" data-reveal data-delay="4"><b>Walk-ins</b><span>Always welcome</span></div>
+    </div>
+  </div>
+  <div class="img-reveal" data-reveal><img src="images/safi-cut.jpg" alt="A cut at Safi Barber Shop"></div>
+</div></div></section>
+<section class="pad" id="services"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>What we do</div><h2 class="big" data-reveal data-delay="1">The cut you asked for</h2><p data-reveal data-delay="2">Old-school barbering, done properly.</p></div>
+  <div class="feat">
+    <div class="fcard" data-reveal><img src="images/safi-fade.jpg" alt="Skin fades"><div class="cap"><h3>Skin &amp; Fades</h3><p>Clean fades, tapers &amp; blends</p></div></div>
+    <div class="fcard" data-reveal data-delay="1"><img src="images/safi-beard.jpg" alt="Beard work"><div class="cap"><h3>Beard Work</h3><p>Trims, shaping &amp; line-ups</p></div></div>
+    <div class="fcard" data-reveal data-delay="2"><img src="images/safi-shave.jpg" alt="Hot towel shave"><div class="cap"><h3>Hot Towel Shave</h3><p>The traditional straight-razor</p></div></div>
+    <div class="fcard" data-reveal data-delay="3"><img src="images/safi-cut.jpg" alt="Classic cuts"><div class="cap"><h3>Classic Cuts</h3><p>Scissor &amp; clipper, your way</p></div></div>
+  </div>
+</div></section>
+<section class="board-sec pad" id="board"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Prices &amp; services</div><h2 class="big" data-reveal data-delay="1">The Board</h2><p data-reveal data-delay="2">Straight-up pricing, up on the wall where it belongs.</p></div>
+  <div class="board" data-reveal>
+    <div class="board-grid">
+      <div class="prow"><span class="nm">Men's Cut</span><span class="led"></span><span class="pr">$30</span></div>
+      <div class="prow"><span class="nm">Skin Fade</span><span class="led"></span><span class="pr">$35</span></div>
+      <div class="prow"><span class="nm">Buzz Cut <small>one length all over</small></span><span class="led"></span><span class="pr">$20</span></div>
+      <div class="prow"><span class="nm">Kids <small>under 12</small></span><span class="led"></span><span class="pr">$22</span></div>
+      <div class="prow"><span class="nm">Student / Pensioner</span><span class="led"></span><span class="pr">$25</span></div>
+      <div class="prow"><span class="nm">Beard Trim &amp; Line-up</span><span class="led"></span><span class="pr">$20</span></div>
+      <div class="prow"><span class="nm">Hot Towel Shave</span><span class="led"></span><span class="pr">$35</span></div>
+      <div class="prow"><span class="nm">Cut &amp; Beard <small>the full sort-out</small></span><span class="led"></span><span class="pr">$45</span></div>
+    </div>
+    <p class="board-note">Indicative pricing for this concept — final prices set by the shop · cash &amp; card welcome</p>
+  </div>
+</div></section>
+<section class="gallery pad" id="gallery"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Inside the shop</div><h2 class="big" data-reveal data-delay="1">Step into Safi</h2></div>
+</div>
+  <div class="g-wrap" id="gWrap"><div class="g-track" id="gTrack">
+    <div class="gslide"><img src="images/safi-fade.jpg" alt=""><div class="gc"><b>The fade</b><span>Sharp &amp; clean</span></div></div>
+    <div class="gslide"><img src="images/safi-shave.jpg" alt=""><div class="gc"><b>The shave</b><span>Hot towel &amp; razor</span></div></div>
+    <div class="gslide"><img src="images/safi-beard.jpg" alt=""><div class="gc"><b>The beard</b><span>Shaped &amp; lined</span></div></div>
+    <div class="gslide"><img src="images/safi-cut.jpg" alt=""><div class="gc"><b>The cut</b><span>Done with care</span></div></div>
+    <div class="gslide"><img src="images/safi-hero.jpg" alt=""><div class="gc"><b>The chair</b><span>Pull up a seat</span></div></div>
+    <div class="gslide"><img src="images/safi-people.jpg" alt=""><div class="gc"><b>Looking sharp</b><span>Walk out the best</span></div></div>
+  </div></div>
+  <div class="wrap"><div class="g-hint">⟵ drag / scroll to explore ⟶</div></div>
+</section>
+<section class="quote"><div class="qbg" id="quoteBg"></div><div class="wrap">
+  <h2 data-reveal>Walk in. <em>Walk out sharp.</em></h2>
+  <p data-reveal data-delay="2">That's the whole idea.</p>
+</div></section>
+<section class="visit-sec pad" id="visit"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Find us</div><h2 class="big" data-reveal data-delay="1">Pull up a chair</h2></div>
+  <div class="visit-grid" data-reveal>
+    <div class="visit-l">
+      <h2>Drop in &amp; take a seat</h2>
+      <p>Give us a call or just walk in — everyone welcome at Safi.</p>
+      <ul class="hours" id="hours">
+        <li data-day="1"><span class="d">Monday</span><span class="t">9:00am – 6:00pm</span></li>
+        <li data-day="2"><span class="d">Tuesday</span><span class="t">9:00am – 6:00pm</span></li>
+        <li data-day="3"><span class="d">Wednesday</span><span class="t">9:00am – 6:00pm</span></li>
+        <li data-day="4"><span class="d">Thursday</span><span class="t">9:00am – 6:00pm</span></li>
+        <li data-day="5"><span class="d">Friday</span><span class="t">9:00am – 6:00pm</span></li>
+        <li data-day="6"><span class="d">Saturday</span><span class="t">9:00am – 4:00pm</span></li>
+        <li data-day="0" class="shut"><span class="d">Sunday</span><span class="t">Closed</span></li>
+      </ul>
+      <div class="row"><b>Address</b><span>32 Balgonie Ave, Girrawheen WA 6064</span></div>
+      <div class="row"><b>Phone</b><span>(08) 6248 0457</span></div>
+      <a href="tel:0862480457" class="btn btn-brass magnetic" data-cursor>☎ Call (08) 6248 0457</a>
+    </div>
+    <div class="visit-r"><div class="glass"><b>Safi Barber Shop</b><br><span>32 Balgonie Ave · Girrawheen</span></div></div>
+  </div>
+</div></section>
+<footer><div class="wrap">
+  <div class="foot-in">
+    <a href="#" class="logo">Safi Barber<small>Shop · Girrawheen</small></a>
+    <div class="foot-cols">
+      <div><b>Services</b><a href="#services">Cuts &amp; fades</a><a href="#services">Beard work</a><a href="#board">The Board</a></div>
+      <div><b>Visit</b><a href="#visit">32 Balgonie Ave</a><a href="tel:0862480457">(08) 6248 0457</a><a href="#visit">Mon–Sat</a></div>
+    </div>
+  </div>
+  <div class="foot-base">© 2026 Safi Barber Shop · Girrawheen, Perth · Concept design by Anderson Web Studio</div>
+</div></footer>
+<div class="pitch"><h3>Like this for Safi?</h3><p>A site like this — with online booking so the phone stops ringing mid-cut — $390 to build, then $39/mo for hosting, updates &amp; support (cancel anytime).</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, doc=document;
+  function ready(){ var l=doc.getElementById('loader'); if(l) l.classList.add('done'); doc.body.classList.add('ready'); var h=doc.getElementById('hero'); if(h) h.classList.add('go'); }
+  if(doc.readyState==='complete') ready(); else window.addEventListener('load', ready);
+  setTimeout(ready, 1600);
+  try{
+    var now=new Date(), day=now.getDay(), mins=now.getHours()*60+now.getMinutes();
+    var win={1:[540,1080],2:[540,1080],3:[540,1080],4:[540,1080],5:[540,1080],6:[540,960]};
+    doc.querySelectorAll('#hours li').forEach(function(li){ if(+li.dataset.day===day) li.classList.add('today'); });
+    var w=win[day], open=w&&mins>=w[0]&&mins<w[1];
+    var txt=doc.getElementById('status-txt'), dot=doc.querySelector('#status .dot');
+    function fmt(m){var h=Math.floor(m/60),mm=m%60,ap=h>=12?'pm':'am',h12=((h+11)%12)+1;return h12+(mm?':'+(mm<10?'0':'')+mm:'')+ap;}
+    if(txt){ if(open){ txt.textContent='Open now · till '+fmt(w[1])+' · walk-ins welcome'; }
+      else if(w&&mins<w[0]){ txt.textContent='Opens '+fmt(w[0])+' today · walk-ins welcome'; dot.classList.add('shut'); }
+      else { txt.textContent='Closed now · walk-ins welcome when open'; dot.classList.add('shut'); } }
+  }catch(e){}
+  var revs=doc.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+    revs.forEach(function(el){ io.observe(el); });
+  } else revs.forEach(function(el){ el.classList.add('in'); });
+  function runCount(el){
+    var target=parseFloat(el.getAttribute('data-count')), pre=el.getAttribute('data-prefix')||''; if(reduce){ el.textContent=pre+target; return; }
+    var t0=null,dur=1300;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1), e=1-Math.pow(1-p,3); el.textContent=pre+Math.round(target*e); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var counters=doc.querySelectorAll('[data-count]');
+  if('IntersectionObserver' in window){
+    var cio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ runCount(e.target); cio.unobserve(e.target);} }); },{threshold:.6});
+    counters.forEach(function(el){ cio.observe(el); });
+  } else counters.forEach(runCount);
+  var nav=doc.getElementById('nav');
+  function onScroll(){ if(window.scrollY>40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+    var cur=doc.getElementById('cursor'), cx=0,cy=0,tx=0,ty=0,shown=false;
+    window.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; if(!shown){shown=true;cur.style.opacity=1;} });
+    (function loop(){ cx+=(tx-cx)*.2; cy+=(ty-cy)*.2; cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; requestAnimationFrame(loop); })();
+    doc.querySelectorAll('a,button,[data-cursor]').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cur.classList.add('big'); });
+      el.addEventListener('mouseleave', function(){ cur.classList.remove('big'); });
+    });
+    doc.querySelectorAll('.magnetic').forEach(function(el){
+      el.addEventListener('mousemove', function(e){ var r=el.getBoundingClientRect(), mx=e.clientX-(r.left+r.width/2), my=e.clientY-(r.top+r.height/2); el.style.transform='translate('+mx*.28+'px,'+my*.4+'px)'; });
+      el.addEventListener('mouseleave', function(){ el.style.transform=''; });
+    });
+  }
+  if(reduce) return;
+  var lenis=null;
+  try{ if(window.Lenis){ lenis=new Lenis({duration:1.1,smoothWheel:true}); (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(); } }catch(e){}
+  if(window.gsap && window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    if(lenis){ lenis.on('scroll', ScrollTrigger.update); }
+    gsap.to('#heroBg', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
+    gsap.to('#quoteBg', { yPercent:16, ease:'none', scrollTrigger:{ trigger:'.quote', start:'top bottom', end:'bottom top', scrub:true } });
+    var track=doc.getElementById('gTrack'), gal=doc.getElementById('gallery');
+    if(track){
+      gsap.matchMedia().add('(min-width:761px)', function(){
+        gal.classList.add('gsap-on');
+        var tw=gsap.to(track, { x:function(){ return -(track.scrollWidth - window.innerWidth + 30); }, ease:'none',
+          scrollTrigger:{ trigger:gal, start:'top top', end:function(){ return '+=' + (track.scrollWidth - window.innerWidth + 200); }, pin:true, scrub:1, invalidateOnRefresh:true, anticipatePin:1 } });
+        return function(){ gal.classList.remove('gsap-on'); if(tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); gsap.set(track,{clearProps:'x'}); };
+      });
+    }
+    window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+    setTimeout(function(){ ScrollTrigger.refresh(); }, 800);
+  }
+})();
+</script>
+</body>
+</html>
