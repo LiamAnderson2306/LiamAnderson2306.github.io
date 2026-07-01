@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfect Nails Morley — Concept Redesign</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --coral:#e8735f; --coral-d:#cf5942; --coral-l:#f4977f; --cream:#fdf6f1; --cream2:#f8e8df; --ink:#3a2822; --gold:#d9a45c; --mut:#8a7268; --line:#f0ddd3; --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{font-family:'Poppins',system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.7;font-weight:300;overflow-x:hidden}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 30px}
+  a{color:inherit;text-decoration:none} img{display:block;max-width:100%}
+  h1,h2,h3{font-family:'Poppins';font-weight:700;line-height:1.05;letter-spacing:-.01em}
+  em{font-style:italic;font-weight:600}
+  :focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+  ::selection{background:var(--coral);color:#fff}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.03;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .cursor{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--coral);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease),opacity .3s;mix-blend-mode:multiply;opacity:0}
+  .cursor.big{width:52px;height:52px;background:rgba(232,115,95,.28)}
+  @media (hover:none),(pointer:coarse){.cursor{display:none}}
+  .loader{position:fixed;inset:0;z-index:10000;background:var(--coral);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .8s var(--ease),visibility .8s}
+  .loader.done{opacity:0;visibility:hidden}
+  .loader .mk{font-family:'Poppins';font-weight:700;font-size:1.7rem;color:#fff}
+  .loader .ln{width:0;height:2px;background:#fff;border-radius:2px;animation:draw 1.1s var(--ease) forwards}
+  @keyframes draw{to{width:150px}}
+  .js [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+  .js [data-reveal].in{opacity:1;transform:none}
+  [data-delay="1"]{transition-delay:.09s}[data-delay="2"]{transition-delay:.18s}[data-delay="3"]{transition-delay:.27s}[data-delay="4"]{transition-delay:.36s}
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .5s var(--ease),box-shadow .5s}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:82px;transition:height .5s var(--ease)}
+  nav.scrolled{background:rgba(253,246,241,.94);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+  nav.scrolled .nav-in{height:62px}
+  .logo{font-family:'Poppins';font-weight:700;font-size:1.35rem;color:#fff;transition:color .4s} .logo span{color:#fff;opacity:.85;font-weight:400}
+  .logo small{display:block;font-size:.55rem;font-weight:500;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-top:-2px}
+  nav.scrolled .logo{color:var(--coral)} nav.scrolled .logo span{color:var(--ink);opacity:.6} nav.scrolled .logo small{color:var(--gold)}
+  .nav-links{display:flex;gap:32px;font-size:.86rem;font-weight:500;color:rgba(255,255,255,.92);transition:color .4s}
+  nav.scrolled .nav-links{color:var(--mut)}
+  .nav-links a{position:relative} .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--coral);transition:width .3s var(--ease)} .nav-links a:hover::after{width:100%}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Poppins';font-weight:600;border-radius:40px;padding:14px 28px;font-size:.9rem;transition:transform .25s var(--ease),background .25s,color .25s,box-shadow .25s;will-change:transform;cursor:pointer}
+  .btn-coral{background:var(--coral);color:#fff} .btn-coral:hover{background:var(--coral-d);box-shadow:0 12px 30px rgba(232,115,95,.4)}
+  .btn-white{background:#fff;color:var(--coral-d)} .btn-white:hover{background:#fff;box-shadow:0 10px 26px rgba(0,0,0,.12)}
+  .btn-ghost{border:1.5px solid rgba(255,255,255,.65);color:#fff} .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.12)}
+  .btn-line{border:1.5px solid var(--coral);color:var(--coral-d)} .btn-line:hover{background:var(--coral);color:#fff}
+  .hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-bg{position:absolute;inset:-8% 0;z-index:0;background:url("images/perfectnails-hero.jpg") center/cover no-repeat;animation:kb 24s ease-in-out infinite alternate;will-change:transform}
+  @keyframes kb{0%{transform:scale(1.05)}100%{transform:scale(1.16) translate(-1%,-2%)}}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(90,36,28,.9) 0%,rgba(90,36,28,.45) 50%,rgba(90,36,28,.2) 100%)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(70,28,22,.78),transparent 34%)}
+  .hero .wrap{position:relative;z-index:2;padding-bottom:9vh;color:#fff;width:100%}
+  .eyebrow{display:inline-block;font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:#ffd9cf;margin-bottom:20px;font-weight:600}
+  .hero-title{font-size:clamp(2.9rem,7.5vw,5.6rem);max-width:12ch}
+  .hero-title .line{display:block;overflow:hidden;padding-bottom:.06em}
+  .hero-title .w{display:inline-block;transition:transform 1.15s var(--ease)}
+  .js .hero-title .w{transform:translateY(110%)}
+  .js body.ready .hero-title .w,.js .hero.go .w{transform:translateY(0)}
+  .hero-title em{color:#ffd9cf}
+  .hero-sub{font-size:1.14rem;max-width:440px;margin:22px 0 32px;color:#f6e4dd;font-weight:400}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .scroll-cue{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:2;color:rgba(255,255,255,.7);font-size:.66rem;letter-spacing:.25em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:9px}
+  .scroll-cue .ln{width:1px;height:42px;background:linear-gradient(#ffd9cf,transparent);animation:cue 2s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+  .marquee{background:var(--coral);color:#fff;padding:16px 0;overflow:hidden;white-space:nowrap;border-top:3px solid #fff;border-bottom:3px solid #fff}
+  .marquee .track{display:inline-flex;animation:scroll 28s linear infinite;will-change:transform}
+  .marquee span{font-family:'Poppins';font-weight:600;font-size:1.2rem;display:inline-flex;align-items:center;gap:24px;padding-right:24px} .marquee b{opacity:.6}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  section{position:relative}
+  .pad{padding:114px 0}
+  .sec-head{max-width:640px;margin:0 auto 52px;text-align:center}
+  .kf{display:inline-block;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--coral-d);margin-bottom:14px;font-weight:600}
+  h2.big{font-size:clamp(2.2rem,5vw,3.4rem);color:var(--ink)} h2.big em{color:var(--coral-d)}
+  .sec-head p{color:var(--mut);margin-top:12px;font-size:1.06rem}
+  .story-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center}
+  .story h2{font-size:clamp(2.1rem,4.6vw,3.1rem);color:var(--ink);margin-bottom:20px} .story h2 em{color:var(--coral-d)}
+  .story p{color:var(--mut);font-size:1.05rem;margin-bottom:18px;max-width:48ch}
+  .img-reveal{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/5;border:1px solid var(--line)}
+  .img-reveal img{width:100%;height:100%;object-fit:cover;transform:scale(1.16);transition:transform 1.6s var(--ease)}
+  .js .img-reveal{clip-path:inset(0 0 100% 0)} .js .img-reveal.in{clip-path:inset(0 0 0 0);transition:clip-path 1.4s var(--ease)} .img-reveal.in img{transform:scale(1)}
+  .stats{display:flex;gap:18px;margin-top:42px;flex-wrap:wrap}
+  .stat{flex:1;min-width:120px;border-top:2px solid var(--line);padding-top:18px}
+  .stat b{display:block;font-family:'Poppins';font-weight:700;font-size:2rem;color:var(--coral-d);line-height:1}
+  .stat span{font-size:.76rem;color:var(--mut);letter-spacing:.04em}
+  .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .fcard{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:3/4;background:var(--ink)}
+  .fcard img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)} .fcard:hover img{transform:scale(1.08)}
+  .fcard::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(58,40,34,.86) 0%,rgba(58,40,34,.12) 55%,transparent 80%)}
+  .fcard .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px;color:#fff}
+  .fcard .cap h3{font-size:1.2rem;color:#fff} .fcard .cap p{font-size:.82rem;color:#f6e4dd;margin-top:2px;font-weight:400}
+  .gallery{background:var(--cream2)}
+  .gallery .sec-head{margin-bottom:42px}
+  .g-wrap{position:relative}
+  .g-track{display:flex;gap:18px;padding:0 30px;width:max-content}
+  .gallery:not(.gsap-on) .g-wrap{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:14px}
+  .gallery:not(.gsap-on) .gslide{scroll-snap-align:center}
+  .gallery.gsap-on .g-wrap{height:100vh;display:flex;align-items:center;overflow:hidden}
+  .gslide{position:relative;flex:0 0 auto;width:min(76vw,380px);aspect-ratio:3/4;border-radius:22px;overflow:hidden;background:var(--ink)}
+  .gslide img{width:100%;height:100%;object-fit:cover}
+  .gslide .gc{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px;color:#fff;background:linear-gradient(to top,rgba(58,40,34,.9),transparent)}
+  .gslide .gc b{font-family:'Poppins';font-weight:700;font-size:1.2rem;display:block} .gslide .gc span{font-size:.78rem;color:#ffd9cf}
+  .g-hint{text-align:center;color:var(--mut);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;margin-top:26px}
+  .quote{position:relative;height:80vh;min-height:500px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+  .quote .qbg{position:absolute;inset:-15% 0;z-index:0;background:url("images/perfectnails-people.jpg") center/cover no-repeat;will-change:transform}
+  .quote::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(70,28,22,.55),rgba(70,28,22,.64))}
+  .quote .wrap{position:relative;z-index:2;color:#fff}
+  .quote h2{font-size:clamp(2.2rem,5vw,3.8rem);color:#fff;max-width:18ch;margin:0 auto} .quote h2 em{color:#ffd9cf}
+  .quote p{margin-top:18px;color:#f6e4dd;font-size:1.05rem}
+  .book-sec{background:var(--cream)}
+  .book{background:linear-gradient(135deg,var(--coral),var(--coral-d));color:#fff;text-align:center;border-radius:28px;padding:72px 44px;position:relative;overflow:hidden}
+  .book::after{content:"";position:absolute;left:-60px;bottom:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 70%)}
+  .book .inner{position:relative;z-index:2}
+  .book h2{color:#fff;font-size:clamp(2.2rem,5vw,3.2rem)} .book p{color:#ffe6de;max-width:500px;margin:16px auto 30px}
+  .book-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .info{display:flex;justify-content:center;gap:44px;flex-wrap:wrap;margin-top:40px;color:#ffe6de;font-size:.92rem} .info b{display:block;font-weight:700;color:#fff;margin-bottom:3px}
+  footer{padding:50px 0 38px;text-align:center;color:var(--mut);font-size:.86rem;border-top:1px solid var(--line)}
+  footer .fl{font-family:'Poppins';font-weight:700;font-size:1.4rem;color:var(--coral-d);margin-bottom:8px}
+  .pitch{background:var(--gold);color:var(--ink);text-align:center;padding:52px 24px}
+  .pitch h3{font-family:'Poppins';font-weight:700;font-size:1.9rem;margin-bottom:6px} .pitch p{margin:6px 0;font-weight:400} .pitch a{font-weight:600;color:var(--ink);border-bottom:2px solid var(--ink)}
+  @media(max-width:900px){.nav-links{display:none}.story-grid{grid-template-columns:1fr;gap:42px}.feat{grid-template-columns:1fr 1fr}.pad{padding:84px 0}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition-duration:.001ms!important}.js [data-reveal]{opacity:1!important;transform:none!important}.js .hero-title .w{transform:none!important}.js .img-reveal{clip-path:none!important}.img-reveal img{transform:none!important}.hero-bg{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div class="mk">Perfect Nails</div><div class="ln"></div></div>
+<div class="cursor" id="cursor"></div>
+<nav id="nav"><div class="wrap nav-in">
+  <a href="#" class="logo">Perfect <span>Nails</span><small>Morley Markets</small></a>
+  <div class="nav-links"><a href="#story">About</a><a href="#services">Services</a><a href="#gallery">The Work</a><a href="#book">Visit</a></div>
+  <a href="#book" class="btn btn-coral magnetic" data-cursor>Book Now</a>
+</div></nav>
+<header class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="wrap">
+    <div class="eyebrow">Nail bar · Morley Markets</div>
+    <h1 class="hero-title">
+      <span class="line"><span class="w">Nails</span> <span class="w">made</span></span>
+      <span class="line"><span class="w"><em>perfect.</em></span></span>
+    </h1>
+    <p class="hero-sub" data-reveal data-delay="2">Your friendly local nail bar in Morley Markets — acrylics, gel, SNS, mani-pedis and nail art, done with a smile. Bookings &amp; walk-ins welcome.</p>
+    <div class="hero-cta" data-reveal data-delay="3">
+      <a href="#book" class="btn btn-white magnetic" data-cursor>Book Now</a>
+      <a href="#services" class="btn btn-ghost magnetic" data-cursor>Our Services</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="ln"></span></div>
+</header>
+<div class="marquee" aria-hidden="true"><div class="track">
+  <span>Acrylic <b>♥</b> Gel <b>♥</b> SNS <b>♥</b> Mani &amp; Pedi <b>♥</b> Nail art <b>♥</b> Walk-ins welcome <b>♥</b></span>
+  <span>Acrylic <b>♥</b> Gel <b>♥</b> SNS <b>♥</b> Mani &amp; Pedi <b>♥</b> Nail art <b>♥</b> Walk-ins welcome <b>♥</b></span>
+</div></div>
+<section class="story pad" id="story"><div class="wrap"><div class="story-grid">
+  <div class="img-reveal" data-reveal><img src="images/perfectnails-nails.jpg" alt="Nail art at Perfect Nails Morley"></div>
+  <div>
+    <div class="kf" data-reveal>Your local nail bar</div>
+    <h2 data-reveal data-delay="1">Friendly service, <em>perfect nails.</em></h2>
+    <p data-reveal data-delay="2">Right in Morley Markets, Perfect Nails is the relaxed, welcoming spot the neighbourhood loves — acrylics, gel, SNS, mani-pedis and nail art, all done with care and a personal touch.</p>
+    <p data-reveal data-delay="3">Pop in for a quick polish or settle in for the full set. Bookings and walk-ins both welcome.</p>
+    <div class="stats">
+      <div class="stat" data-reveal data-delay="2"><b>1.3k+</b><span>Happy followers</span></div>
+      <div class="stat" data-reveal data-delay="3"><b>Walk-ins</b><span>&amp; bookings</span></div>
+      <div class="stat" data-reveal data-delay="4"><b>Morley</b><span>Markets, easy parking</span></div>
+    </div>
+  </div>
+</div></div></section>
+<section class="pad" id="services"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Our Services</div><h2 class="big" data-reveal data-delay="1">Treat <em>yourself</em></h2><p data-reveal data-delay="2">From a quick polish to a full set — book in for a little pampering.</p></div>
+  <div class="feat">
+    <div class="fcard" data-reveal><img src="images/perfectnails-acrylic.jpg" alt="Acrylics"><div class="cap"><h3>Acrylics</h3><p>Full sets &amp; infills, any shape</p></div></div>
+    <div class="fcard" data-reveal data-delay="1"><img src="images/perfectnails-gel.jpg" alt="Gel & SNS"><div class="cap"><h3>Gel &amp; SNS</h3><p>Long-lasting colour &amp; dipping</p></div></div>
+    <div class="fcard" data-reveal data-delay="2"><img src="images/perfectnails-pedi.jpg" alt="Mani & Pedi"><div class="cap"><h3>Mani &amp; Pedi</h3><p>Classic &amp; spa treatments</p></div></div>
+    <div class="fcard" data-reveal data-delay="3"><img src="images/perfectnails-nails.jpg" alt="Nail art"><div class="cap"><h3>Nail Art</h3><p>Subtle to statement designs</p></div></div>
+  </div>
+</div></section>
+<section class="gallery pad" id="gallery"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>The work</div><h2 class="big" data-reveal data-delay="1">Pretty in every detail</h2></div>
+</div>
+  <div class="g-wrap" id="gWrap"><div class="g-track" id="gTrack">
+    <div class="gslide"><img src="images/perfectnails-nails.jpg" alt=""><div class="gc"><b>Nail art</b><span>Made your way</span></div></div>
+    <div class="gslide"><img src="images/perfectnails-acrylic.jpg" alt=""><div class="gc"><b>Acrylics</b><span>Any shape, any length</span></div></div>
+    <div class="gslide"><img src="images/perfectnails-gel.jpg" alt=""><div class="gc"><b>Gel &amp; SNS</b><span>Flawless colour</span></div></div>
+    <div class="gslide"><img src="images/perfectnails-pedi.jpg" alt=""><div class="gc"><b>Mani &amp; pedi</b><span>Pure pamper</span></div></div>
+    <div class="gslide"><img src="images/perfectnails-hero.jpg" alt=""><div class="gc"><b>The salon</b><span>Relax &amp; unwind</span></div></div>
+    <div class="gslide"><img src="images/perfectnails-people.jpg" alt=""><div class="gc"><b>Treat yourself</b><span>You deserve it</span></div></div>
+  </div></div>
+  <div class="wrap"><div class="g-hint">⟵ drag / scroll to explore ⟶</div></div>
+</section>
+<section class="quote"><div class="qbg" id="quoteBg"></div><div class="wrap">
+  <h2 data-reveal>Treat <em>yourself.</em></h2>
+  <p data-reveal data-delay="2">Your friendly Morley nail bar — bookings &amp; walk-ins welcome.</p>
+</div></section>
+<section class="book-sec pad" id="book"><div class="wrap">
+  <div class="book" data-reveal><div class="inner">
+    <div class="kf" style="color:#ffe6de">Come in</div>
+    <h2>Ready for a fresh set?</h2>
+    <p>Message us on Facebook to book, or just walk in — you'll find us in Morley Markets. New clients always welcome!</p>
+    <div class="book-cta">
+      <a href="#" class="btn btn-white magnetic" data-cursor>Message to Book</a>
+      <a href="https://maps.google.com/?q=Perfect+Nails+Morley+Markets+238+Walter+Road+West+Morley" target="_blank" rel="noopener" class="btn btn-ghost magnetic" data-cursor>📍 Find Us</a>
+    </div>
+    <div class="info">
+      <div><b>Find Us</b>Shop 30, Morley Markets<br>238 Walter Rd West, Morley</div>
+      <div><b>Booking</b>Facebook message<br>or walk in</div>
+      <div><b>Parking</b>Free at Morley Markets</div>
+    </div>
+  </div></div>
+</section>
+<footer><div class="wrap">
+  <div class="fl">Perfect Nails</div>
+  © 2026 Perfect Nails · Morley Markets, Perth · Concept design by Anderson Web Studio
+</div></footer>
+<div class="pitch"><h3>Like this for Perfect Nails?</h3><p>A site like this — with online booking so clients book themselves 24/7 — $390 to build, then $39/mo for hosting, updates &amp; support (cancel anytime).</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, doc=document;
+  function ready(){ var l=doc.getElementById('loader'); if(l) l.classList.add('done'); doc.body.classList.add('ready'); var h=doc.getElementById('hero'); if(h) h.classList.add('go'); }
+  if(doc.readyState==='complete') ready(); else window.addEventListener('load', ready);
+  setTimeout(ready, 1600);
+  var revs=doc.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+    revs.forEach(function(el){ io.observe(el); });
+  } else revs.forEach(function(el){ el.classList.add('in'); });
+  var nav=doc.getElementById('nav');
+  function onScroll(){ if(window.scrollY>40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+    var cur=doc.getElementById('cursor'), cx=0,cy=0,tx=0,ty=0,shown=false;
+    window.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; if(!shown){shown=true;cur.style.opacity=1;} });
+    (function loop(){ cx+=(tx-cx)*.2; cy+=(ty-cy)*.2; cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; requestAnimationFrame(loop); })();
+    doc.querySelectorAll('a,button,[data-cursor]').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cur.classList.add('big'); });
+      el.addEventListener('mouseleave', function(){ cur.classList.remove('big'); });
+    });
+    doc.querySelectorAll('.magnetic').forEach(function(el){
+      el.addEventListener('mousemove', function(e){ var r=el.getBoundingClientRect(), mx=e.clientX-(r.left+r.width/2), my=e.clientY-(r.top+r.height/2); el.style.transform='translate('+mx*.26+'px,'+my*.38+'px)'; });
+      el.addEventListener('mouseleave', function(){ el.style.transform=''; });
+    });
+  }
+  if(reduce) return;
+  var lenis=null;
+  try{ if(window.Lenis){ lenis=new Lenis({duration:1.15,smoothWheel:true}); (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(); } }catch(e){}
+  if(window.gsap && window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    if(lenis){ lenis.on('scroll', ScrollTrigger.update); }
+    gsap.to('#heroBg', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
+    gsap.to('#quoteBg', { yPercent:16, ease:'none', scrollTrigger:{ trigger:'.quote', start:'top bottom', end:'bottom top', scrub:true } });
+    var track=doc.getElementById('gTrack'), gal=doc.getElementById('gallery');
+    if(track){
+      gsap.matchMedia().add('(min-width:761px)', function(){
+        gal.classList.add('gsap-on');
+        var tw=gsap.to(track, { x:function(){ return -(track.scrollWidth - window.innerWidth + 30); }, ease:'none',
+          scrollTrigger:{ trigger:gal, start:'top top', end:function(){ return '+=' + (track.scrollWidth - window.innerWidth + 200); }, pin:true, scrub:1, invalidateOnRefresh:true, anticipatePin:1 } });
+        return function(){ gal.classList.remove('gsap-on'); if(tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); gsap.set(track,{clearProps:'x'}); };
+      });
+    }
+    window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+    setTimeout(function(){ ScrollTrigger.refresh(); }, 800);
+  }
+})();
+</script>
+</body>
+</html>
