@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Youngbloods Tattoo — Concept Redesign</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0d0f; --bg2:#141416; --bg3:#1d1d20; --red:#d81f34; --red-l:#f43b50; --red-d:#af1728; --bone:#ece7de; --bone2:#c9c3b8;
+    --mut:#8a8781; --line:#26262b; --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{font-family:'Work Sans',system-ui,sans-serif;color:var(--bone);background:var(--bg);line-height:1.7;overflow-x:hidden}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 30px}
+  a{color:inherit;text-decoration:none} img{display:block;max-width:100%}
+  h1,h2,h3{font-family:'Anton',sans-serif;font-weight:400;line-height:.94;text-transform:uppercase;letter-spacing:.005em}
+  .mono{font-family:'Space Mono',monospace}
+  :focus-visible{outline:3px solid var(--red);outline-offset:3px}
+  ::selection{background:var(--red);color:#fff}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.055;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .cursor{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:var(--red);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease),opacity .3s;mix-blend-mode:difference;opacity:0}
+  .cursor.big{width:52px;height:52px;background:var(--red-l)}
+  @media (hover:none),(pointer:coarse){.cursor{display:none}}
+  .loader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .7s var(--ease),visibility .7s}
+  .loader.done{opacity:0;visibility:hidden}
+  .loader .mk{font-family:'Anton';font-size:1.8rem;letter-spacing:.04em;color:var(--bone);text-transform:uppercase} .loader .mk b{color:var(--red-l);font-weight:400}
+  .loader .ln{width:0;height:2px;background:var(--red);animation:draw 1.1s var(--ease) forwards}
+  @keyframes draw{to{width:170px}}
+  .js [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity 1.05s var(--ease),transform 1.05s var(--ease)}
+  .js [data-reveal].in{opacity:1;transform:none}
+  [data-delay="1"]{transition-delay:.08s}[data-delay="2"]{transition-delay:.16s}[data-delay="3"]{transition-delay:.24s}[data-delay="4"]{transition-delay:.32s}
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .4s var(--ease),box-shadow .4s}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:82px;transition:height .4s var(--ease)}
+  nav.scrolled{background:rgba(13,13,15,.94);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+  nav.scrolled .nav-in{height:62px}
+  .logo{font-family:'Anton';font-size:1.6rem;letter-spacing:.03em;color:var(--bone);line-height:.85;text-transform:uppercase}
+  .logo small{display:block;font-family:'Space Mono';font-size:.54rem;letter-spacing:.24em;color:var(--red-l);margin-top:4px;text-transform:none}
+  .nav-links{display:flex;gap:30px;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+  .nav-links a{position:relative;transition:color .3s} .nav-links a:hover{color:var(--bone)}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:var(--red);transition:width .3s var(--ease)} .nav-links a:hover::after{width:100%}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Anton';font-size:1rem;letter-spacing:.05em;text-transform:uppercase;border-radius:4px;padding:13px 26px;transition:transform .25s var(--ease),background .25s,color .25s,box-shadow .25s;will-change:transform;cursor:pointer}
+  .btn-red{background:var(--red);color:#fff} .btn-red:hover{background:var(--red-l);box-shadow:0 12px 30px rgba(216,31,52,.4)}
+  .btn-line{border:1.6px solid rgba(236,231,222,.35);color:var(--bone)} .btn-line:hover{border-color:var(--red);color:var(--red-l)}
+  .hero{position:relative;height:100vh;min-height:660px;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-bg{position:absolute;inset:-8% 0;z-index:0;background:url("images/youngbloods-hero.jpg") center/cover no-repeat;animation:kb 22s ease-in-out infinite alternate;will-change:transform}
+  @keyframes kb{0%{transform:scale(1.05)}100%{transform:scale(1.16) translate(-1.5%,-2%)}}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(85deg,rgba(9,9,11,.96) 0%,rgba(9,9,11,.6) 48%,rgba(9,9,11,.3) 100%)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(9,9,11,.88),transparent 34%)}
+  .hero .wrap{position:relative;z-index:2;padding-bottom:8vh;width:100%}
+  .eyebrow{display:inline-block;font-family:'Space Mono';font-size:.76rem;letter-spacing:.22em;text-transform:uppercase;color:var(--red-l);margin-bottom:18px}
+  .hero-title{font-size:clamp(3.2rem,10vw,7rem);line-height:.9;max-width:13ch}
+  .hero-title .line{display:block;overflow:hidden;padding-bottom:.02em}
+  .hero-title .w{display:inline-block;transition:transform 1.05s var(--ease)}
+  .js .hero-title .w{transform:translateY(110%)}
+  .js body.ready .hero-title .w,.js .hero.go .w{transform:translateY(0)}
+  .hero-title em{font-style:normal;color:var(--red-l)}
+  .hero-sub{font-size:1.16rem;max-width:450px;margin:18px 0 28px;color:#d8d3c9}
+  .hero-cta{display:flex;gap:13px;flex-wrap:wrap}
+  .status{display:inline-flex;align-items:center;gap:14px;font-family:'Space Mono';font-size:.84rem;color:#cfcabe;margin-top:22px;flex-wrap:wrap}
+  .status b{color:var(--red-l)}
+  .scroll-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:2;color:var(--mut);font-size:.64rem;letter-spacing:.28em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:9px;font-family:'Space Mono'}
+  .scroll-cue .ln{width:1px;height:38px;background:linear-gradient(var(--red-l),transparent);animation:cue 1.8s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+  .marquee{background:var(--red);color:#fff;padding:15px 0;overflow:hidden;white-space:nowrap}
+  .marquee .track{display:inline-flex;animation:scroll 26s linear infinite;will-change:transform}
+  .marquee span{font-family:'Anton';font-size:1.3rem;letter-spacing:.03em;display:inline-flex;align-items:center;gap:24px;padding-right:24px} .marquee b{opacity:.55}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  section{position:relative}
+  .pad{padding:112px 0}
+  .sec-head{max-width:660px;margin:0 auto 50px;text-align:center}
+  .kf{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono';font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red-l);margin-bottom:14px}
+  .kf::before,.kf::after{content:"";width:22px;height:1px;background:var(--red);opacity:.5}
+  h2.big{font-size:clamp(2.6rem,6vw,4.6rem);color:var(--bone)}
+  .sec-head p{color:var(--mut);margin-top:10px;font-size:1.04rem}
+  .story-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:62px;align-items:center}
+  .story h2{font-size:clamp(2.6rem,5.5vw,4rem);color:var(--bone);margin-bottom:18px} .story h2 em{font-style:normal;color:var(--red-l)}
+  .story p{color:var(--mut);font-size:1.06rem;margin-bottom:18px;max-width:48ch}
+  .img-reveal{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:4/5;border:1px solid var(--line)}
+  .img-reveal img{width:100%;height:100%;object-fit:cover;transform:scale(1.16);transition:transform 1.5s var(--ease)}
+  .js .img-reveal{clip-path:inset(0 0 100% 0)} .js .img-reveal.in{clip-path:inset(0 0 0 0);transition:clip-path 1.3s var(--ease)} .img-reveal.in img{transform:scale(1)}
+  .stats{display:flex;gap:16px;margin-top:38px;flex-wrap:wrap}
+  .stat{flex:1;min-width:110px;border-top:2px solid var(--line);padding-top:16px}
+  .stat b{display:block;font-family:'Anton';font-size:2.6rem;color:var(--red-l);line-height:.9}
+  .stat span{font-size:.78rem;color:var(--mut);letter-spacing:.04em;text-transform:uppercase}
+  .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .fcard{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:3/4;background:var(--bg2)}
+  .fcard img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)} .fcard:hover img{transform:scale(1.08)}
+  .fcard::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,9,.92) 0%,rgba(7,7,9,.15) 55%,transparent 80%)}
+  .fcard .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:20px 22px;color:var(--bone)}
+  .fcard .cap h3{font-size:1.5rem;color:#fff;letter-spacing:.03em} .fcard .cap p{font-size:.84rem;color:#c9c3b8;margin-top:2px;font-family:'Work Sans'}
+  .gallery{background:var(--bg2)}
+  .gallery .sec-head{margin-bottom:42px}
+  .g-wrap{position:relative}
+  .g-track{display:flex;gap:18px;padding:0 30px;width:max-content}
+  .gallery:not(.gsap-on) .g-wrap{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:14px}
+  .gallery:not(.gsap-on) .gslide{scroll-snap-align:center}
+  .gallery.gsap-on .g-wrap{height:100vh;display:flex;align-items:center;overflow:hidden}
+  .gslide{position:relative;flex:0 0 auto;width:min(76vw,380px);aspect-ratio:3/4;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--bg3)}
+  .gslide img{width:100%;height:100%;object-fit:cover}
+  .gslide .gc{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px;background:linear-gradient(to top,rgba(7,7,9,.92),transparent)}
+  .gslide .gc b{font-family:'Anton';font-size:1.4rem;letter-spacing:.03em;color:var(--bone);display:block} .gslide .gc span{font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--red-l)}
+  .g-hint{text-align:center;color:var(--mut);font-family:'Space Mono';font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;margin-top:24px}
+  .quote{position:relative;height:82vh;min-height:520px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+  .quote .qbg{position:absolute;inset:-15% 0;z-index:0;background:url("images/youngbloods-people.jpg") center/cover no-repeat;will-change:transform}
+  .quote::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(9,9,11,.72),rgba(9,9,11,.8))}
+  .quote .wrap{position:relative;z-index:2}
+  .quote h2{font-size:clamp(2.6rem,6vw,4.8rem);color:var(--bone);max-width:16ch;margin:0 auto} .quote h2 em{font-style:normal;color:var(--red-l)}
+  .quote p{margin-top:16px;color:var(--mut);font-size:1.04rem;font-family:'Space Mono'}
+  .book-sec{background:var(--bg2)}
+  .book{text-align:center;border:1px solid var(--red);border-radius:6px;padding:70px 44px;background:radial-gradient(130% 130% at 50% 0,rgba(216,31,52,.24),transparent 62%)}
+  .book h2{font-size:clamp(2.4rem,5vw,3.6rem);color:var(--bone)} .book h2 em{font-style:normal;color:var(--red-l)}
+  .book p{color:var(--mut);max-width:520px;margin:16px auto 30px}
+  .book-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .info{display:flex;justify-content:center;gap:46px;flex-wrap:wrap;margin-top:40px;color:var(--mut);font-size:.92rem} .info b{display:block;font-family:'Anton';color:var(--bone);font-size:1.15rem;margin-bottom:3px;letter-spacing:.02em}
+  footer{background:var(--bg);padding:50px 0 36px;border-top:1px solid var(--line)}
+  .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:22px;align-items:flex-start}
+  .foot-cols{display:flex;gap:50px;flex-wrap:wrap;font-size:.88rem}
+  .foot-cols b{display:block;font-family:'Anton';font-size:1.2rem;letter-spacing:.03em;color:var(--bone);margin-bottom:8px}
+  .foot-cols a{display:block;color:var(--mut);padding:3px 0} .foot-cols a:hover{color:var(--red-l)}
+  .foot-base{border-top:1px solid var(--line);margin-top:34px;padding-top:20px;font-size:.8rem;color:var(--mut);text-align:center;font-family:'Space Mono'}
+  .pitch{background:var(--red);color:#fff;text-align:center;padding:50px 24px}
+  .pitch h3{font-family:'Anton';font-size:2.1rem;letter-spacing:.03em} .pitch p{margin:6px 0;font-weight:500} .pitch a{font-weight:700;color:#fff;border-bottom:2px solid #fff}
+  @media(max-width:900px){.nav-links{display:none}.story-grid{grid-template-columns:1fr;gap:38px}.feat{grid-template-columns:1fr 1fr}.pad{padding:80px 0}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition-duration:.001ms!important}.js [data-reveal]{opacity:1!important;transform:none!important}.js .hero-title .w{transform:none!important}.js .img-reveal{clip-path:none!important}.img-reveal img{transform:none!important}.hero-bg{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div class="mk">YOUNG<b>BLOODS</b></div><div class="ln"></div></div>
+<div class="cursor" id="cursor"></div>
+<nav id="nav"><div class="wrap nav-in">
+  <a href="#" class="logo">YOUNGBLOODS<small>Tattoo Studio · Rockingham</small></a>
+  <div class="nav-links"><a href="#story">The Studio</a><a href="#work">The Work</a><a href="#services">Get Inked</a><a href="#book">Book</a></div>
+  <a href="#book" class="btn btn-red magnetic" data-cursor>Book a Consult</a>
+</div></nav>
+<header class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="wrap">
+    <div class="eyebrow">Rockingham · illustrative &amp; custom tattoos</div>
+    <h1 class="hero-title">
+      <span class="line"><span class="w">Custom</span> <span class="w">ink,</span></span>
+      <span class="line"><span class="w">made</span> <span class="w">to</span> <span class="w"><em>last.</em></span></span>
+    </h1>
+    <p class="hero-sub" data-reveal data-delay="2">Award-winning illustrative tattooing in Rockingham — custom pieces, walk-ins and cover-ups, by artists who treat your skin like a canvas.</p>
+    <div class="hero-cta" data-reveal data-delay="3">
+      <a href="#book" class="btn btn-red magnetic" data-cursor>Book a Consult</a>
+      <a href="https://instagram.com/youngbloodstattoo" target="_blank" rel="noopener" class="btn btn-line magnetic" data-cursor>See the Work</a>
+    </div>
+    <div class="status" data-reveal data-delay="4"><span><b>★ 4.8</b> · 144 Google reviews</span><span><b>22k</b> on Instagram</span></div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="ln"></span></div>
+</header>
+<div class="marquee" aria-hidden="true"><div class="track">
+  <span>Custom tattoos <b>✦</b> Illustrative style <b>✦</b> Walk-ins <b>✦</b> Cover-ups <b>✦</b> Consultations <b>✦</b> Award-winning artists <b>✦</b></span>
+  <span>Custom tattoos <b>✦</b> Illustrative style <b>✦</b> Walk-ins <b>✦</b> Cover-ups <b>✦</b> Consultations <b>✦</b> Award-winning artists <b>✦</b></span>
+</div></div>
+<section class="story pad" id="story"><div class="wrap"><div class="story-grid">
+  <div>
+    <div class="kf" data-reveal>The studio</div>
+    <h2 data-reveal data-delay="1">Rockingham's <em>award-winning</em> studio.</h2>
+    <p data-reveal data-delay="2">Youngbloods is where Rockingham comes for ink that means something. Our artists specialise in illustrative and custom work — every piece drawn for you, done clean, and built to last a lifetime.</p>
+    <p data-reveal data-delay="3">Big idea or first tattoo, walk-in or full sleeve — pull up a chair and let's make something you'll be proud of.</p>
+    <div class="stats">
+      <div class="stat" data-reveal data-delay="2"><b>22k</b><span>Instagram followers</span></div>
+      <div class="stat" data-reveal data-delay="3"><b data-count="144" data-suffix="+">144+</b><span>5-star reviews</span></div>
+      <div class="stat" data-reveal data-delay="4"><b>★ 4.8</b><span>Rated by Rockingham</span></div>
+    </div>
+  </div>
+  <div class="img-reveal" data-reveal><img src="images/youngbloods-studio.jpg" alt="Inside Youngbloods Tattoo studio"></div>
+</div></div></section>
+<section class="gallery pad" id="work"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>The work</div><h2 class="big" data-reveal data-delay="1">Drawn for you, done right</h2><p data-reveal data-delay="2">A look at the ink coming out of the studio.</p></div>
+</div>
+  <div class="g-wrap" id="gWrap"><div class="g-track" id="gTrack">
+    <div class="gslide"><img src="images/youngbloods-work1.jpg" alt=""><div class="gc"><b>Sleeves</b><span>Custom illustrative</span></div></div>
+    <div class="gslide"><img src="images/youngbloods-work2.jpg" alt=""><div class="gc"><b>Fine detail</b><span>Clean line work</span></div></div>
+    <div class="gslide"><img src="images/youngbloods-work3.jpg" alt=""><div class="gc"><b>Custom pieces</b><span>Drawn for you</span></div></div>
+    <div class="gslide"><img src="images/youngbloods-hero.jpg" alt=""><div class="gc"><b>In the chair</b><span>Done clean</span></div></div>
+    <div class="gslide"><img src="images/youngbloods-studio.jpg" alt=""><div class="gc"><b>The studio</b><span>Rockingham</span></div></div>
+    <div class="gslide"><img src="images/youngbloods-people.jpg" alt=""><div class="gc"><b>Worn proud</b><span>Made to last</span></div></div>
+  </div></div>
+  <div class="wrap"><div class="g-hint">⟵ drag / scroll to explore ⟶</div></div>
+</section>
+<section class="pad" id="services"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Get inked</div><h2 class="big" data-reveal data-delay="1">However you want it</h2></div>
+  <div class="feat">
+    <div class="fcard" data-reveal><img src="images/youngbloods-work3.jpg" alt="Custom design"><div class="cap"><h3>Custom Design</h3><p>Drawn from scratch, just for you</p></div></div>
+    <div class="fcard" data-reveal data-delay="1"><img src="images/youngbloods-work1.jpg" alt="Sleeves & big pieces"><div class="cap"><h3>Sleeves &amp; Big Pieces</h3><p>Full sleeves, backs &amp; sessions</p></div></div>
+    <div class="fcard" data-reveal data-delay="2"><img src="images/youngbloods-work2.jpg" alt="Walk-ins"><div class="cap"><h3>Walk-ins</h3><p>Smaller pieces, flash &amp; scripts</p></div></div>
+    <div class="fcard" data-reveal data-delay="3"><img src="images/youngbloods-hero.jpg" alt="Cover-ups & consults"><div class="cap"><h3>Cover-ups &amp; Consults</h3><p>Rework old ink · free consults</p></div></div>
+  </div>
+</div></section>
+<section class="quote"><div class="qbg" id="quoteBg"></div><div class="wrap">
+  <h2 data-reveal>Ink you'll wear <em>proud.</em></h2>
+  <p data-reveal data-delay="2">Award-winning artists · Rockingham</p>
+</div></section>
+<section class="book-sec pad" id="book"><div class="wrap">
+  <div class="book" data-reveal>
+    <div class="kf">Book in</div>
+    <h2>Ready to get <em>inked?</em></h2>
+    <p>Book a free consult to plan your piece, or DM us on Instagram — walk-ins welcome when the artists are free.</p>
+    <div class="book-cta">
+      <a href="tel:0402521926" class="btn btn-red magnetic" data-cursor>☎ Book a Consult</a>
+      <a href="https://instagram.com/youngbloodstattoo" target="_blank" rel="noopener" class="btn btn-line magnetic" data-cursor>DM on Instagram</a>
+    </div>
+    <div class="info">
+      <div><b>Find Us</b>Shop 2/1 Robinson Rd<br>Rockingham WA 6168</div>
+      <div><b>Call</b>0402 521 926<br>(08) 9592 1518</div>
+      <div><b>Instagram</b>@youngbloodstattoo<br>22k followers</div>
+    </div>
+  </div>
+</div></section>
+<footer><div class="wrap">
+  <div class="foot-in">
+    <a href="#" class="logo">YOUNGBLOODS<small>Tattoo Studio · Rockingham</small></a>
+    <div class="foot-cols">
+      <div><b>Ink</b><a href="#work">The work</a><a href="#services">Get inked</a><a href="#book">Book a consult</a></div>
+      <div><b>Visit</b><a href="#book">Shop 2/1 Robinson Rd</a><a href="tel:0402521926">0402 521 926</a><a href="https://instagram.com/youngbloodstattoo" target="_blank" rel="noopener">@youngbloodstattoo</a></div>
+    </div>
+  </div>
+  <div class="foot-base">© 2026 Youngbloods Tattoo Studio · Rockingham, Perth · Concept design by Anderson Web Studio</div>
+</div></footer>
+<div class="pitch"><h3>Like this for Youngbloods?</h3><p>A site like this — a proper portfolio + online booking so 22k followers can actually book you — $390 to build, then $39/mo for hosting, updates &amp; support (cancel anytime).</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, doc=document;
+  function ready(){ var l=doc.getElementById('loader'); if(l) l.classList.add('done'); doc.body.classList.add('ready'); var h=doc.getElementById('hero'); if(h) h.classList.add('go'); }
+  if(doc.readyState==='complete') ready(); else window.addEventListener('load', ready);
+  setTimeout(ready, 1600);
+  var revs=doc.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+    revs.forEach(function(el){ io.observe(el); });
+  } else revs.forEach(function(el){ el.classList.add('in'); });
+  function runCount(el){
+    var target=parseFloat(el.getAttribute('data-count')), suf=el.getAttribute('data-suffix')||''; if(reduce){ el.textContent=target+suf; return; }
+    var t0=null,dur=1400;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1), e=1-Math.pow(1-p,3); el.textContent=Math.round(target*e)+suf; if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var counters=doc.querySelectorAll('[data-count]');
+  if('IntersectionObserver' in window){
+    var cio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ runCount(e.target); cio.unobserve(e.target);} }); },{threshold:.6});
+    counters.forEach(function(el){ cio.observe(el); });
+  } else counters.forEach(runCount);
+  var nav=doc.getElementById('nav');
+  function onScroll(){ if(window.scrollY>40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+    var cur=doc.getElementById('cursor'), cx=0,cy=0,tx=0,ty=0,shown=false;
+    window.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; if(!shown){shown=true;cur.style.opacity=1;} });
+    (function loop(){ cx+=(tx-cx)*.2; cy+=(ty-cy)*.2; cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; requestAnimationFrame(loop); })();
+    doc.querySelectorAll('a,button,[data-cursor]').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cur.classList.add('big'); });
+      el.addEventListener('mouseleave', function(){ cur.classList.remove('big'); });
+    });
+    doc.querySelectorAll('.magnetic').forEach(function(el){
+      el.addEventListener('mousemove', function(e){ var r=el.getBoundingClientRect(), mx=e.clientX-(r.left+r.width/2), my=e.clientY-(r.top+r.height/2); el.style.transform='translate('+mx*.28+'px,'+my*.4+'px)'; });
+      el.addEventListener('mouseleave', function(){ el.style.transform=''; });
+    });
+  }
+  if(reduce) return;
+  var lenis=null;
+  try{ if(window.Lenis){ lenis=new Lenis({duration:1.1,smoothWheel:true}); (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(); } }catch(e){}
+  if(window.gsap && window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    if(lenis){ lenis.on('scroll', ScrollTrigger.update); }
+    gsap.to('#heroBg', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
+    gsap.to('#quoteBg', { yPercent:16, ease:'none', scrollTrigger:{ trigger:'.quote', start:'top bottom', end:'bottom top', scrub:true } });
+    var track=doc.getElementById('gTrack'), gal=doc.getElementById('work');
+    if(track){
+      gsap.matchMedia().add('(min-width:761px)', function(){
+        gal.classList.add('gsap-on');
+        var tw=gsap.to(track, { x:function(){ return -(track.scrollWidth - window.innerWidth + 30); }, ease:'none',
+          scrollTrigger:{ trigger:gal, start:'top top', end:function(){ return '+=' + (track.scrollWidth - window.innerWidth + 200); }, pin:true, scrub:1, invalidateOnRefresh:true, anticipatePin:1 } });
+        return function(){ gal.classList.remove('gsap-on'); if(tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); gsap.set(track,{clearProps:'x'}); };
+      });
+    }
+    window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+    setTimeout(function(){ ScrollTrigger.refresh(); }, 800);
+  }
+})();
+</script>
+</body>
+</html>
