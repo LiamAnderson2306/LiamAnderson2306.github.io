@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Barbers Chair — Concept Website</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12181a; --bg2:#192124; --acc:#2f9c8f; --acc2:#46b8a9; --ink:#eef4f2; --mut:#8ea19c; --line:#213033;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{font-family:'Work Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65;overflow-x:hidden}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 30px}
+  a{color:inherit;text-decoration:none} img{display:block;max-width:100%}
+  h1,h2,h3{font-family:'Teko',sans-serif;font-weight:600;line-height:1;letter-spacing:.01em;text-transform:uppercase}
+  .mono{font-family:'Space Mono',monospace}
+  :focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+  ::selection{background:var(--acc);color:var(--bg)}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .cursor{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--acc);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease),opacity .3s;mix-blend-mode:difference;opacity:0}
+  .cursor.big{width:52px;height:52px;background:var(--acc2)}
+  @media (hover:none),(pointer:coarse){.cursor{display:none}}
+  .progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:80;background:linear-gradient(90deg,var(--acc),var(--acc2));transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+  /* barber-pole loader */
+  .loader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .7s var(--ease),visibility .7s}
+  .loader.done{opacity:0;visibility:hidden}
+  .pole{width:26px;height:96px;border-radius:13px;overflow:hidden;box-shadow:0 0 0 3px var(--line);position:relative}
+  .pole::before{content:"";position:absolute;inset:-50% -50%;background:repeating-linear-gradient(45deg,var(--acc) 0 10px,#f4f1ea 10px 20px,var(--acc2) 20px 30px);animation:pole 1s linear infinite}
+  @keyframes pole{to{transform:translateY(28px)}}
+  .loader .mk{font-family:'Teko';font-weight:600;font-size:1.5rem;color:var(--ink);text-align:center;letter-spacing:.06em}
+  .js [data-reveal]{opacity:0;transform:translateY(32px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  .js [data-reveal].in{opacity:1;transform:none}
+  [data-delay="1"]{transition-delay:.08s}[data-delay="2"]{transition-delay:.16s}[data-delay="3"]{transition-delay:.24s}[data-delay="4"]{transition-delay:.32s}
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .4s var(--ease),box-shadow .4s}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:78px;transition:height .4s var(--ease)}
+  nav.scrolled{background:rgba(10,10,12,.82);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+  nav.scrolled .nav-in{height:62px}
+  .logo{font-family:'Teko';font-weight:600;font-size:1.3rem;letter-spacing:.05em;display:flex;align-items:center;gap:10px;color:var(--ink)}
+  .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--acc)}
+  .nav-links{display:flex;gap:28px;font-size:.86rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}
+  .nav-links a{position:relative} .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:var(--acc);transition:width .3s var(--ease)} .nav-links a:hover::after{width:100%}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Work Sans';font-weight:700;border-radius:8px;padding:13px 24px;font-size:.9rem;letter-spacing:.02em;transition:transform .25s var(--ease),background .25s,color .25s,box-shadow .25s;will-change:transform;cursor:pointer}
+  .btn-acc{background:var(--acc);color:var(--bg)} .btn-acc:hover{background:var(--acc2);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+  .btn-ghost{border:1.5px solid rgba(255,255,255,.32);color:var(--ink)} .btn-ghost:hover{border-color:var(--acc);color:var(--acc2)}
+  /* hero + cinematic video */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-media{position:absolute;inset:-6% 0;z-index:0;overflow:hidden}
+  .hero-media video,.hero-media .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-media .poster{background:url("images/the-barbers-chair-hero.jpg") center/cover no-repeat;animation:kb 26s ease-in-out infinite alternate}
+  @keyframes kb{0%{transform:scale(1.05)}100%{transform:scale(1.16) translate(-1.5%,-2%)}}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(8,8,10,.94) 0%,rgba(8,8,10,.6) 46%,rgba(8,8,10,.32) 100%)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,var(--bg) 2%,transparent 34%)}
+  .hero-pole{position:absolute;left:0;top:0;bottom:0;width:8px;z-index:2;background:repeating-linear-gradient(45deg,var(--acc) 0 12px,#f4f1ea 12px 24px,var(--acc2) 24px 36px);opacity:.9}
+  .hero .wrap{position:relative;z-index:3;padding-bottom:9vh;width:100%}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:'Space Mono';font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc2);margin-bottom:18px}
+  .hero-title{font-family:'Teko';font-weight:600;font-size:clamp(3rem,10vw,7.4rem);line-height:.92;text-transform:uppercase;letter-spacing:.01em}
+  .hero-title .line{display:block;overflow:hidden;padding-bottom:.02em}
+  .hero-title .w{display:inline-block;transition:transform 1.05s var(--ease)}
+  .js .hero-title .w{transform:translateY(110%)}
+  .js body.ready .hero-title .w,.js .hero.go .w{transform:translateY(0)}
+  .hero-title em{font-style:normal;color:var(--acc2)}
+  .hero-sub{font-size:1.14rem;max-width:440px;margin:20px 0 28px;color:#d7d2ca;font-family:'Work Sans'}
+  .hero-cta{display:flex;gap:13px;flex-wrap:wrap}
+  .badge{display:inline-flex;align-items:center;gap:9px;font-family:'Space Mono';font-size:.8rem;color:#cfd8da;margin-top:22px}
+  .badge .dot{width:10px;height:10px;border-radius:50%;background:#37c07a;box-shadow:0 0 0 4px rgba(55,192,122,.22)}
+  .badge .dot.shut{background:#d8654f;box-shadow:0 0 0 4px rgba(216,101,79,.2)}
+  .scroll-cue{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:3;color:rgba(255,255,255,.7);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'Space Mono'}
+  .scroll-cue .ln{width:1px;height:34px;background:linear-gradient(var(--acc2),transparent);animation:cue 1.8s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+  .marquee{background:var(--acc);color:var(--bg);padding:14px 0;overflow:hidden;white-space:nowrap}
+  .marquee .track{display:inline-flex;animation:scroll 26s linear infinite;will-change:transform}
+  .marquee span{font-family:'Teko';font-weight:600;font-size:1.35rem;letter-spacing:.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:20px;padding-right:20px}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  section{position:relative}
+  .pad{padding:104px 0}
+  .sec-head{max-width:640px;margin:0 auto 48px;text-align:center}
+  .kf{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono';font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin-bottom:14px}
+  .kf::before,.kf::after{content:"";width:22px;height:1px;background:var(--acc);opacity:.5}
+  h2.big{font-size:clamp(2.4rem,6vw,4.2rem);color:var(--ink)} h2.big em{font-style:normal;color:var(--acc2)}
+  .sec-head p{color:var(--mut);margin-top:12px;font-size:1.05rem;font-family:'Work Sans'}
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:58px;align-items:center}
+  .story h2{font-size:clamp(2.2rem,5vw,3.4rem);color:var(--ink);margin-bottom:18px} .story h2 em{font-style:normal;color:var(--acc2)}
+  .story p{color:var(--mut);font-size:1.05rem;margin-bottom:18px;max-width:48ch;font-family:'Work Sans'}
+  .img-reveal{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/5;border:1px solid var(--line)}
+  .img-reveal img{width:100%;height:100%;object-fit:cover;transform:scale(1.16);transition:transform 1.5s var(--ease)}
+  .js .img-reveal{clip-path:inset(0 0 100% 0)} .js .img-reveal.in{clip-path:inset(0 0 0 0);transition:clip-path 1.3s var(--ease)} .img-reveal.in img{transform:scale(1)}
+  .stats{display:flex;gap:16px;margin-top:36px;flex-wrap:wrap}
+  .stat{flex:1;min-width:120px;border-top:2px solid var(--line);padding-top:16px}
+  .stat b{display:block;font-family:'Teko';font-weight:600;font-size:2.3rem;color:var(--acc2);line-height:.9}
+  .stat span{font-size:.8rem;color:var(--mut);font-family:'Work Sans'}
+  .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .fcard{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;background:var(--bg2)}
+  .fcard img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)} .fcard:hover img{transform:scale(1.08)}
+  .fcard::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,10,.92) 0%,rgba(8,8,10,.12) 55%,transparent 80%)}
+  .fcard .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:20px}
+  .fcard .cap h3{font-size:1.3rem;color:#fff} .fcard .cap p{font-size:.82rem;color:#d3dcde;margin-top:2px;font-family:'Work Sans'}
+  /* the board */
+  .board-sec{background:var(--bg2)}
+  .board{background:#f4f1ea;color:#1a1a1e;border-radius:10px;padding:44px 42px;max-width:940px;margin:0 auto;box-shadow:0 30px 60px rgba(0,0,0,.45);position:relative;border:6px solid var(--acc)}
+  .board::before,.board::after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#b9b2a3);top:12px}
+  .board::before{left:12px}.board::after{right:12px}
+  .board h3.bt{text-align:center;font-family:'Teko';font-weight:600;font-size:2rem;color:#1a1a1e;margin-bottom:4px}
+  .board .bsub{text-align:center;font-family:'Space Mono';font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:#8a8377;margin-bottom:22px}
+  .board-cols{display:grid;grid-template-columns:1fr 1fr;gap:4px 54px}
+  .brow{display:flex;align-items:baseline;gap:8px;padding:9px 0;border-bottom:1px dotted #cfc7b6}
+  .brow .nm{font-weight:600} .brow .led{flex:1} .brow .pr{font-family:'Space Mono';font-weight:700;color:#237a70}
+  .board-note{text-align:center;font-family:'Space Mono';font-size:.74rem;color:#8a8377;margin-top:22px}
+  /* gallery */
+  .gallery{background:var(--bg)}
+  .g-wrap{position:relative}
+  .g-track{display:flex;gap:18px;padding:0 30px;width:max-content}
+  .gallery:not(.gsap-on) .g-wrap{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:14px}
+  .gallery:not(.gsap-on) .gslide{scroll-snap-align:center}
+  .gallery.gsap-on .g-wrap{height:100vh;display:flex;align-items:center;overflow:hidden}
+  .gslide{position:relative;flex:0 0 auto;width:min(78vw,380px);aspect-ratio:3/4;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--bg2)}
+  .gslide img{width:100%;height:100%;object-fit:cover}
+  .gslide .gc{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:20px;background:linear-gradient(to top,rgba(8,8,10,.9),transparent)}
+  .gslide .gc b{font-family:'Teko';font-weight:600;font-size:1.35rem;color:#fff;display:block;letter-spacing:.03em} .gslide .gc span{font-size:.8rem;color:var(--acc2);font-family:'Space Mono'}
+  .g-hint{text-align:center;color:var(--mut);font-family:'Space Mono';font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;margin-top:24px}
+  /* film — scroll-scrubbed video (scrolling plays the room) */
+  .film{position:relative;height:100vh;min-height:520px;overflow:hidden;display:flex;align-items:flex-end}
+  .film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:url("images/the-barbers-chair-shop.jpg") center/cover no-repeat}
+  .film::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(8,8,10,.92) 0%,rgba(8,8,10,.22) 46%,rgba(8,8,10,.38) 100%)}
+  .film .wrap{position:relative;z-index:2;padding-bottom:10vh}
+  .film h2{font-family:'Teko';font-weight:600;font-size:clamp(2.1rem,5.4vw,3.9rem);color:#fff;max-width:22ch;text-transform:uppercase}
+  .film .sw{display:inline-block}
+  /* gsap owns transforms on these; reveal stays opacity-only */
+  .js .fcard[data-reveal],.js .board[data-reveal]{transform:none;transition:opacity 1s var(--ease)}
+  .board-sec .wrap{perspective:1100px}
+  .quote{position:relative;height:72vh;min-height:440px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+  .quote .qbg{position:absolute;inset:-15% 0;z-index:0;background:url("images/the-barbers-chair-quote.jpg") center/cover no-repeat;will-change:transform}
+  .quote::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(8,8,10,.78),rgba(8,8,10,.84))}
+  .quote .wrap{position:relative;z-index:2}
+  .quote h2{font-family:'Teko';font-weight:600;font-size:clamp(2.2rem,6vw,4.2rem);color:#fff;max-width:20ch;margin:0 auto;text-transform:uppercase} .quote h2 em{font-style:normal;color:var(--acc2)}
+  .quote p{margin-top:14px;color:#c8d3d5;font-family:'Space Mono';font-size:.92rem}
+  /* visit */
+  .visit-sec{background:var(--bg2)}
+  .visit-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:46px;align-items:center}
+  .visit-l h2{color:var(--ink);font-size:clamp(2rem,4.4vw,3rem);margin-bottom:8px}
+  .visit-l>p{color:var(--mut);margin-bottom:22px;max-width:42ch;font-family:'Work Sans'}
+  .hours{list-style:none;margin-bottom:8px}
+  .hours li{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:1rem;color:#d7d2ca;font-family:'Work Sans'}
+  .hours li.today{color:var(--acc2);font-weight:700} .hours .t{font-family:'Space Mono'}
+  .visit-l .row{display:flex;gap:13px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+  .visit-l .row b{font-family:'Space Mono';font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--acc2);min-width:74px} .visit-l .row span{color:#d7d2ca;font-family:'Work Sans'}
+  .vbtns{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .visit-r{position:relative;min-height:340px;border-radius:12px;overflow:hidden;background:url("images/the-barbers-chair-shop.jpg") center/cover;border:1px solid var(--line)}
+  .visit-r .glass{position:absolute;left:20px;right:20px;bottom:20px;background:rgba(20,20,24,.9);backdrop-filter:blur(8px);border-radius:10px;padding:16px 20px;border:1px solid var(--line)}
+  .visit-r .glass b{font-family:'Teko';font-weight:600;font-size:1.3rem;color:#fff;letter-spacing:.03em} .visit-r .glass span{color:var(--mut);font-size:.85rem;font-family:'Work Sans'}
+  footer{background:#0a0a0c;color:#8b8b90;padding:46px 0 34px}
+  .foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;align-items:center}
+  .foot-in .logo{color:#fff} .foot-in .r{font-size:.9rem;text-align:right;font-family:'Work Sans'}
+  .pitch{background:var(--acc);color:var(--bg);text-align:center;padding:46px 24px}
+  .pitch h3{font-family:'Teko';font-weight:600;font-size:1.7rem;letter-spacing:.03em} .pitch p{margin:8px 0 4px;font-family:'Work Sans'} .pitch a{font-weight:700;color:var(--bg);border-bottom:2px solid var(--bg)}
+  @media(max-width:920px){.nav-links{display:none}.story-grid,.visit-grid,.board-cols{grid-template-columns:1fr;gap:34px}.board-cols{gap:0}.feat{grid-template-columns:1fr 1fr}.pad{padding:74px 0}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition-duration:.001ms!important}.js [data-reveal]{opacity:1!important;transform:none!important}.js .hero-title .w{transform:none!important}.js .img-reveal{clip-path:none!important}.img-reveal img{transform:none!important}.hero-media .poster{animation:none!important}.hero-media video{display:none}}
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div class="pole"></div><div class="mk">The Barbers Chair</div></div>
+<div class="cursor" id="cursor"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<nav id="nav"><div class="wrap nav-in">
+  <a href="#" class="logo"><span class="dot"></span>The Barbers Chair</a>
+  <div class="nav-links"><a href="#story">The Shop</a><a href="#services">Services</a><a href="#gallery">Gallery</a><a href="#visit">Find Us</a></div>
+  <a href="tel:+61435478606" class="btn btn-acc magnetic" data-cursor>Book Here</a>
+</div></nav>
+<header class="hero" id="hero">
+  <div class="hero-media" id="heroMedia">
+    <div class="poster"></div>
+    <video autoplay muted loop playsinline preload="none" poster="images/the-barbers-chair-hero.jpg">
+      <source src="videos/the-barbers-chair-hero.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-pole" data-depth="6"></div>
+  <div class="wrap">
+    <div class="eyebrow" data-depth="26">✂ Subiaco · Est. local barbershop</div>
+    <h1 class="hero-title" data-depth="14"><span class="line"><span class="w">The</span> <span class="w">Barbers</span></span>
+      <span class="line"><span class="w"><em>Chair</em></span></span></h1>
+    <p class="hero-sub" data-reveal data-delay="2">Fresh fades, sharp line-ups and proper hot-towel shaves — Subiaco's local barbershop, walk-ins welcome.</p>
+    <div class="hero-cta" data-reveal data-delay="3">
+      <a href="tel:+61435478606" class="btn btn-acc magnetic" data-cursor>Book Here</a>
+      <a href="#services" class="btn btn-ghost magnetic" data-cursor>View Services</a>
+    </div>
+    <div class="badge" id="badge"><span class="dot" id="badge-dot"></span><span id="badge-txt">+61 435 478 606 · walk-ins welcome</span></div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="ln"></span></div>
+</header>
+<div class="marquee" aria-hidden="true"><div class="track">
+  <span>Fades ✦ Beards ✦ Hot towel shaves ✦ Walk-ins welcome ✦ Subiaco ✦ Sharp cuts ✦ </span><span>Fades ✦ Beards ✦ Hot towel shaves ✦ Walk-ins welcome ✦ Subiaco ✦ Sharp cuts ✦ </span>
+</div></div>
+<section class="story pad" id="story"><div class="wrap"><div class="story-grid">
+  <div>
+    <div class="kf" data-reveal>The shop</div>
+    <h2 data-reveal data-delay="1">A proper cut, <em>every time.</em></h2>
+    <p data-reveal data-delay="2">Tucked in Subiaco, we do one thing and do it right: a proper cut. Skin fades, scissor work, beard shape-ups and the classic hot-towel shave.</p>
+    <p data-reveal data-delay="3">Grab a seat, relax, and walk out looking sharp. Book ahead or drop in — we'll always sort you out.</p>
+    <div class="stats">
+      <div class="stat" data-reveal data-delay="2"><b>Skin</b><span>Fades &amp; tapers</span></div>
+      <div class="stat" data-reveal data-delay="3"><b>Beard</b><span>Trims &amp; hot towel</span></div>
+      <div class="stat" data-reveal data-delay="4"><b>Walk</b><span>-ins welcome</span></div>
+    </div>
+  </div>
+  <div class="img-reveal" data-reveal><img src="images/the-barbers-chair-fade.jpg" alt="The Barbers Chair haircut"></div>
+</div></div></section>
+<section class="pad" id="services"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>What we do</div><h2 class="big" data-reveal data-delay="1">Sharp, <em>clean, done right</em></h2><p data-reveal data-delay="2">From skin fades to hot-towel shaves.</p></div>
+  <div class="feat">
+    <div class="fcard" data-reveal><img src="images/the-barbers-chair-fade.jpg" alt="Fades"><div class="cap"><h3>Fades</h3><p>Skin, taper &amp; low</p></div></div>
+    <div class="fcard" data-reveal data-delay="1"><img src="images/the-barbers-chair-cut.jpg" alt="Haircuts"><div class="cap"><h3>Cuts</h3><p>Classic &amp; modern</p></div></div>
+    <div class="fcard" data-reveal data-delay="2"><img src="images/the-barbers-chair-beard.jpg" alt="Beards"><div class="cap"><h3>Beards</h3><p>Line-ups &amp; trims</p></div></div>
+    <div class="fcard" data-reveal data-delay="3"><img src="images/the-barbers-chair-shave.jpg" alt="Shaves"><div class="cap"><h3>Shaves</h3><p>Hot towel &amp; razor</p></div></div>
+  </div>
+</div></section>
+<section class="board-sec pad" id="board"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Price list</div><h2 class="big" data-reveal data-delay="1">The Board</h2></div>
+  <div class="board" data-reveal>
+    <h3 class="bt">The Barbers Chair</h3>
+    <div class="bsub">Cuts · Fades · Beards · Shaves</div>
+    <div class="board-cols"><div class="brow"><span class="nm">Haircut</span><span class="led"></span><span class="pr">$35</span></div>
+      <div class="brow"><span class="nm">Skin Fade</span><span class="led"></span><span class="pr">$40</span></div>
+      <div class="brow"><span class="nm">Kids Cut (u12)</span><span class="led"></span><span class="pr">$28</span></div>
+      <div class="brow"><span class="nm">Beard Trim</span><span class="led"></span><span class="pr">$20</span></div>
+      <div class="brow"><span class="nm">Cut & Beard</span><span class="led"></span><span class="pr">$50</span></div>
+      <div class="brow"><span class="nm">Hot Towel Shave</span><span class="led"></span><span class="pr">$35</span></div>
+      <div class="brow"><span class="nm">Head Shave</span><span class="led"></span><span class="pr">$30</span></div>
+      <div class="brow"><span class="nm">Line-up</span><span class="led"></span><span class="pr">$15</span></div></div>
+    <p class="board-note">Sample prices for this concept — real prices set by the shop</p>
+  </div>
+</div></section>
+<section class="gallery pad" id="gallery"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>The work</div><h2 class="big" data-reveal data-delay="1">Fresh out the chair</h2></div>
+</div>
+  <div class="g-wrap" id="gWrap"><div class="g-track" id="gTrack">
+    <div class="gslide"><img src="images/the-barbers-chair-hero.jpg" alt=""><div class="gc"><b>The Fade</b><span>Skin &amp; taper</span></div></div>
+    <div class="gslide"><img src="images/the-barbers-chair-cut.jpg" alt=""><div class="gc"><b>The Cut</b><span>Sharp &amp; clean</span></div></div>
+    <div class="gslide"><img src="images/the-barbers-chair-beard.jpg" alt=""><div class="gc"><b>The Beard</b><span>Shaped up</span></div></div>
+    <div class="gslide"><img src="images/the-barbers-chair-shave.jpg" alt=""><div class="gc"><b>The Shave</b><span>Hot towel</span></div></div>
+    <div class="gslide"><img src="images/the-barbers-chair-fade.jpg" alt=""><div class="gc"><b>The Detail</b><span>Line-ups</span></div></div>
+    <div class="gslide"><img src="images/the-barbers-chair-shop.jpg" alt=""><div class="gc"><b>The Shop</b><span>Subiaco</span></div></div>
+  </div></div>
+  <div class="wrap"><div class="g-hint">⟵ drag / scroll to explore ⟶</div></div>
+</section>
+<section class="film" id="film" aria-label="Inside The Barbers Chair">
+  <video id="filmVid" muted playsinline preload="metadata" poster="images/the-barbers-chair-shop.jpg" aria-hidden="true">
+    <source src="videos/the-barbers-chair-hero.mp4" type="video/mp4">
+  </video>
+  <div class="wrap">
+    <div class="kf">Step inside</div>
+    <h2 id="filmTitle">The clippers hum, the talk flows, you leave sharp.</h2>
+  </div>
+</section>
+<section class="quote"><div class="qbg" id="quoteBg"></div><div class="wrap">
+  <h2 data-reveal>Look sharp. <em>Feel sharper.</em></h2>
+  <p data-reveal data-delay="2">Subiaco · walk-ins &amp; bookings</p>
+</div></section>
+<section class="visit-sec pad" id="visit"><div class="wrap">
+  <div class="sec-head"><div class="kf" data-reveal>Find us</div><h2 class="big" data-reveal data-delay="1">Come in for a cut</h2></div>
+  <div class="visit-grid" data-reveal>
+    <div class="visit-l">
+      <h2>Opening hours</h2>
+      <p>Pop in or give us a call — we'll sort you out.</p>
+      <ul class="hours" id="hours"><li data-day="1"><span class="d">Monday</span><span class="t">9am – 6:30pm</span></li>
+        <li data-day="2"><span class="d">Tuesday</span><span class="t">9am – 6:30pm</span></li>
+        <li data-day="3"><span class="d">Wednesday</span><span class="t">9am – 6:30pm</span></li>
+        <li data-day="4"><span class="d">Thursday</span><span class="t">9am – 6:30pm</span></li>
+        <li data-day="5"><span class="d">Friday</span><span class="t">9am – 7:30pm</span></li>
+        <li data-day="6"><span class="d">Saturday</span><span class="t">8:30am – 5pm</span></li>
+        <li data-day="0"><span class="d">Sunday</span><span class="t">10am – 3pm</span></li></ul>
+      <div class="row"><b>Address</b><span>Subiaco, Perth WA</span></div>
+      <div class="row"><b>Phone</b><span>+61 435 478 606</span></div>
+      <div class="row"><b>Social</b><span>IG @thebarberschairsubi</span></div>
+      <div class="vbtns">
+        <a href="tel:+61435478606" class="btn btn-acc magnetic" data-cursor>Book Here</a>
+        <a href="https://maps.google.com/?q=The+Barbers+Chair+Subiaco+WA" target="_blank" rel="noopener" class="btn btn-ghost magnetic" data-cursor>📍 Directions</a>
+      </div>
+    </div>
+    <div class="visit-r"><div class="glass"><b>The Barbers Chair</b><br><span>Subiaco, Perth WA</span></div></div>
+  </div>
+</div></section>
+<footer><div class="wrap foot-in">
+  <a href="#" class="logo"><span class="dot"></span>The Barbers Chair</a>
+  <div class="r">Subiaco, Perth WA · +61 435 478 606<br><span style="font-size:.8rem;opacity:.7">Concept design by Anderson Web Studio</span></div>
+</div></footer>
+<div class="pitch"><h3>Like this for The Barbers Chair?</h3><p>A site like this — mobile-ready, on Google, with online booking — $390 to build, then $39/mo for hosting, updates &amp; support (cancel anytime).</p><p>Liam Anderson · Anderson Web Studio · <a href="tel:+61493437981">+61 493 437 981</a> · <a href="mailto:andersonwebstudio@outlook.com">andersonwebstudio@outlook.com</a></p></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, doc=document;
+  function ready(){ var l=doc.getElementById('loader'); if(l) l.classList.add('done'); doc.body.classList.add('ready'); var h=doc.getElementById('hero'); if(h) h.classList.add('go'); }
+  if(doc.readyState==='complete') ready(); else window.addEventListener('load', ready);
+  setTimeout(ready, 1600);
+  // live open/closed status (win: day -> [openMin, closeMin])
+  try{
+    var win={"1": [540, 1110], "2": [540, 1110], "3": [540, 1110], "4": [540, 1110], "5": [540, 1170], "6": [510, 1020], "0": [600, 900]};
+    var now=new Date(), day=now.getDay(), mins=now.getHours()*60+now.getMinutes();
+    doc.querySelectorAll('#hours li').forEach(function(li){ if(+li.dataset.day===day) li.classList.add('today'); });
+    var open=false; if(win[day]){ open = mins>=win[day][0] && mins<win[day][1]; }
+    var txt=doc.getElementById('badge-txt'), dot=doc.getElementById('badge-dot');
+    if(open){ txt.textContent='Open now · walk-ins welcome'; }
+    else { txt.textContent='Closed now · see hours below'; if(dot) dot.classList.add('shut'); }
+  }catch(e){}
+  var revs=doc.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+    revs.forEach(function(el){ io.observe(el); });
+  } else revs.forEach(function(el){ el.classList.add('in'); });
+  var nav=doc.getElementById('nav');
+  function onScroll(){ if(window.scrollY>40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+    var cur=doc.getElementById('cursor'), cx=0,cy=0,tx=0,ty=0,shown=false;
+    window.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; if(!shown){shown=true;cur.style.opacity=1;} });
+    (function loop(){ cx+=(tx-cx)*.2; cy+=(ty-cy)*.2; cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; requestAnimationFrame(loop); })();
+    doc.querySelectorAll('a,button,[data-cursor]').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ cur.classList.add('big'); });
+      el.addEventListener('mouseleave', function(){ cur.classList.remove('big'); });
+    });
+    doc.querySelectorAll('.magnetic').forEach(function(el){
+      el.addEventListener('mousemove', function(e){ var r=el.getBoundingClientRect(), mx=e.clientX-(r.left+r.width/2), my=e.clientY-(r.top+r.height/2); el.style.transform='translate('+mx*.25+'px,'+my*.35+'px)'; });
+      el.addEventListener('mouseleave', function(){ el.style.transform=''; });
+    });
+    // cinematic mouse-parallax depth on hero layers
+    var depths=[].slice.call(doc.querySelectorAll('.hero [data-depth]'));
+    if(depths.length){
+      window.addEventListener('mousemove', function(e){
+        var dx=(e.clientX/window.innerWidth-.5), dy=(e.clientY/window.innerHeight-.5);
+        depths.forEach(function(el){ var d=parseFloat(el.dataset.depth)||0; el.style.transform='translate('+(-dx*d)+'px,'+(-dy*d)+'px)'; });
+      });
+    }
+  }
+  if(reduce) return;
+  var lenis=null;
+  try{ if(window.Lenis){ lenis=new Lenis({duration:1.1,smoothWheel:true}); (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(); } }catch(e){}
+  if(window.gsap && window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    if(lenis){ lenis.on('scroll', ScrollTrigger.update); }
+    gsap.to('#heroMedia', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
+    gsap.to('#quoteBg', { yPercent:16, ease:'none', scrollTrigger:{ trigger:'.quote', start:'top bottom', end:'bottom top', scrub:true } });
+    // scroll progress bar
+    gsap.to('#progress', { scaleX:1, ease:'none', scrollTrigger:{ start:0, end:'max', scrub:.3 } });
+    // hero content drifts up + fades as you scroll away
+    gsap.to('#hero .wrap', { yPercent:-14, autoAlpha:0, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'88% top', scrub:true } });
+    // marquee skews with scroll velocity
+    var mq=doc.querySelector('.marquee');
+    if(mq){
+      var proxy={s:0}, sset=gsap.quickSetter(mq,'skewX','deg'), clampV=gsap.utils.clamp(-8,8);
+      ScrollTrigger.create({ onUpdate:function(self){
+        var s=clampV(self.getVelocity()/-300);
+        if(Math.abs(s)>Math.abs(proxy.s)){ proxy.s=s; gsap.to(proxy,{s:0,duration:.7,ease:'power3',overwrite:true,onUpdate:function(){ sset(proxy.s); }}); }
+      }});
+    }
+    // service cards drift at different speeds while the row passes
+    gsap.utils.toArray('.fcard').forEach(function(el,i){
+      var d=[12,46,20,58][i%4];
+      gsap.fromTo(el, {y:d}, {y:-d, ease:'none', scrollTrigger:{ trigger:'.feat', start:'top bottom', end:'bottom top', scrub:.5 }});
+    });
+    // price board tilts up into place (3D)
+    gsap.fromTo('.board', {rotationX:12, y:60}, {rotationX:0, y:0, ease:'none', scrollTrigger:{ trigger:'.board', start:'top 96%', end:'top 45%', scrub:.4 }});
+    // scroll-scrubbed film: pinning the section, scroll position drives video time
+    var fv=doc.getElementById('filmVid'), ft=doc.getElementById('filmTitle');
+    if(ft){ ft.innerHTML=ft.textContent.trim().split(/\s+/).map(function(w){ return '<span class="sw">'+w+'</span>'; }).join(' '); }
+    if(fv){
+      gsap.matchMedia().add('(min-width:761px)', function(){
+        var words=ft?ft.querySelectorAll('.sw'):[], tl=null, tick=null, tgt=0, cur=0;
+        function arm(){
+          if(tl || !fv.duration) return;
+          tl=gsap.timeline({ scrollTrigger:{ trigger:'#film', start:'top top', end:'+=140%', pin:true, scrub:true, anticipatePin:1,
+            onUpdate:function(self){ tgt=self.progress*Math.max(fv.duration-.2,0); } } });
+          if(words.length) tl.fromTo(words, {opacity:.12, yPercent:40}, {opacity:1, yPercent:0, stagger:.06, ease:'none'}, 0);
+          cur=fv.currentTime||0;
+          tick=function(){ cur+=(tgt-cur)*.15; if(Math.abs(cur-fv.currentTime)>.033){ try{ fv.currentTime=cur; }catch(e){} } };
+          gsap.ticker.add(tick);
+        }
+        fv.preload='auto';
+        if(fv.readyState>=1) arm(); else fv.addEventListener('loadedmetadata', arm, {once:true});
+        return function(){ if(tick) gsap.ticker.remove(tick); if(tl){ if(tl.scrollTrigger) tl.scrollTrigger.kill(); tl.kill(); tl=null; } };
+      });
+      // mobile: same clip just plays as a living background
+      gsap.matchMedia().add('(max-width:760px)', function(){
+        fv.setAttribute('autoplay',''); fv.setAttribute('loop','');
+        if(fv.play) fv.play().catch(function(){});
+      });
+    }
+    var track=doc.getElementById('gTrack'), gal=doc.getElementById('gallery');
+    if(track){
+      gsap.matchMedia().add('(min-width:761px)', function(){
+        gal.classList.add('gsap-on');
+        var tw=gsap.to(track, { x:function(){ return -(track.scrollWidth - window.innerWidth + 30); }, ease:'none',
+          scrollTrigger:{ trigger:gal, start:'top top', end:function(){ return '+=' + (track.scrollWidth - window.innerWidth + 200); }, pin:true, scrub:1, invalidateOnRefresh:true, anticipatePin:1 } });
+        return function(){ gal.classList.remove('gsap-on'); if(tw.scrollTrigger) tw.scrollTrigger.kill(); tw.kill(); gsap.set(track,{clearProps:'x'}); };
+      });
+    }
+    window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+    setTimeout(function(){ ScrollTrigger.refresh(); }, 800);
+  }
+})();
+</script>
+</body>
+</html>
