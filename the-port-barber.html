@@ -27,6 +27,7 @@
   .cursor{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--acc);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease),opacity .3s;mix-blend-mode:difference;opacity:0}
   .cursor.big{width:52px;height:52px;background:var(--acc2)}
   @media (hover:none),(pointer:coarse){.cursor{display:none}}
+  .progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:80;background:linear-gradient(90deg,var(--acc),var(--acc2));transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
   /* barber-pole loader */
   .loader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .7s var(--ease),visibility .7s}
   .loader.done{opacity:0;visibility:hidden}
@@ -123,6 +124,16 @@
   .gslide .gc{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:20px;background:linear-gradient(to top,rgba(8,8,10,.9),transparent)}
   .gslide .gc b{font-family:'Oswald';font-weight:600;font-size:1.35rem;color:#fff;display:block;letter-spacing:.03em} .gslide .gc span{font-size:.8rem;color:var(--acc2);font-family:'Space Mono'}
   .g-hint{text-align:center;color:var(--mut);font-family:'Space Mono';font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;margin-top:24px}
+  /* film — scroll-scrubbed video (scrolling plays the room) */
+  .film{position:relative;height:100vh;min-height:520px;overflow:hidden;display:flex;align-items:flex-end}
+  .film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:url("images/the-port-barber-shop.jpg") center/cover no-repeat}
+  .film::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(8,8,10,.92) 0%,rgba(8,8,10,.22) 46%,rgba(8,8,10,.38) 100%)}
+  .film .wrap{position:relative;z-index:2;padding-bottom:10vh}
+  .film h2{font-family:'Oswald';font-weight:600;font-size:clamp(2.1rem,5.4vw,3.9rem);color:#fff;max-width:22ch;text-transform:uppercase}
+  .film .sw{display:inline-block}
+  /* gsap owns transforms on these; reveal stays opacity-only */
+  .js .fcard[data-reveal],.js .board[data-reveal]{transform:none;transition:opacity 1s var(--ease)}
+  .board-sec .wrap{perspective:1100px}
   .quote{position:relative;height:72vh;min-height:440px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
   .quote .qbg{position:absolute;inset:-15% 0;z-index:0;background:url("images/the-port-barber-quote.jpg") center/cover no-repeat;will-change:transform}
   .quote::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(8,8,10,.78),rgba(8,8,10,.84))}
@@ -155,6 +166,7 @@
 <body>
 <div class="loader" id="loader"><div class="pole"></div><div class="mk">The Port Barber</div></div>
 <div class="cursor" id="cursor"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
 <nav id="nav"><div class="wrap nav-in">
   <a href="#" class="logo"><span class="dot"></span>The Port Barber</a>
   <div class="nav-links"><a href="#story">The Shop</a><a href="#services">Services</a><a href="#gallery">Gallery</a><a href="#visit">Find Us</a></div>
@@ -235,6 +247,15 @@
     <div class="gslide"><img src="images/the-port-barber-shop.jpg" alt=""><div class="gc"><b>The Shop</b><span>North Coogee</span></div></div>
   </div></div>
   <div class="wrap"><div class="g-hint">⟵ drag / scroll to explore ⟶</div></div>
+</section>
+<section class="film" id="film" aria-label="Inside The Port Barber">
+  <video id="filmVid" muted playsinline preload="metadata" poster="images/the-port-barber-shop.jpg" aria-hidden="true">
+    <source src="videos/the-port-barber-hero.mp4" type="video/mp4">
+  </video>
+  <div class="wrap">
+    <div class="kf">Step inside</div>
+    <h2 id="filmTitle">The clippers hum, the talk flows, you leave sharp.</h2>
+  </div>
 </section>
 <section class="quote"><div class="qbg" id="quoteBg"></div><div class="wrap">
   <h2 data-reveal>Look sharp. <em>Feel sharper.</em></h2>
@@ -325,6 +346,51 @@
     if(lenis){ lenis.on('scroll', ScrollTrigger.update); }
     gsap.to('#heroMedia', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
     gsap.to('#quoteBg', { yPercent:16, ease:'none', scrollTrigger:{ trigger:'.quote', start:'top bottom', end:'bottom top', scrub:true } });
+    // scroll progress bar
+    gsap.to('#progress', { scaleX:1, ease:'none', scrollTrigger:{ start:0, end:'max', scrub:.3 } });
+    // hero content drifts up + fades as you scroll away
+    gsap.to('#hero .wrap', { yPercent:-14, autoAlpha:0, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'88% top', scrub:true } });
+    // marquee skews with scroll velocity
+    var mq=doc.querySelector('.marquee');
+    if(mq){
+      var proxy={s:0}, sset=gsap.quickSetter(mq,'skewX','deg'), clampV=gsap.utils.clamp(-8,8);
+      ScrollTrigger.create({ onUpdate:function(self){
+        var s=clampV(self.getVelocity()/-300);
+        if(Math.abs(s)>Math.abs(proxy.s)){ proxy.s=s; gsap.to(proxy,{s:0,duration:.7,ease:'power3',overwrite:true,onUpdate:function(){ sset(proxy.s); }}); }
+      }});
+    }
+    // service cards drift at different speeds while the row passes
+    gsap.utils.toArray('.fcard').forEach(function(el,i){
+      var d=[12,46,20,58][i%4];
+      gsap.fromTo(el, {y:d}, {y:-d, ease:'none', scrollTrigger:{ trigger:'.feat', start:'top bottom', end:'bottom top', scrub:.5 }});
+    });
+    // price board tilts up into place (3D)
+    gsap.fromTo('.board', {rotationX:12, y:60}, {rotationX:0, y:0, ease:'none', scrollTrigger:{ trigger:'.board', start:'top 96%', end:'top 45%', scrub:.4 }});
+    // scroll-scrubbed film: pinning the section, scroll position drives video time
+    var fv=doc.getElementById('filmVid'), ft=doc.getElementById('filmTitle');
+    if(ft){ ft.innerHTML=ft.textContent.trim().split(/\s+/).map(function(w){ return '<span class="sw">'+w+'</span>'; }).join(' '); }
+    if(fv){
+      gsap.matchMedia().add('(min-width:761px)', function(){
+        var words=ft?ft.querySelectorAll('.sw'):[], tl=null, tick=null, tgt=0, cur=0;
+        function arm(){
+          if(tl || !fv.duration) return;
+          tl=gsap.timeline({ scrollTrigger:{ trigger:'#film', start:'top top', end:'+=140%', pin:true, scrub:true, anticipatePin:1,
+            onUpdate:function(self){ tgt=self.progress*Math.max(fv.duration-.2,0); } } });
+          if(words.length) tl.fromTo(words, {opacity:.12, yPercent:40}, {opacity:1, yPercent:0, stagger:.06, ease:'none'}, 0);
+          cur=fv.currentTime||0;
+          tick=function(){ cur+=(tgt-cur)*.15; if(Math.abs(cur-fv.currentTime)>.033){ try{ fv.currentTime=cur; }catch(e){} } };
+          gsap.ticker.add(tick);
+        }
+        fv.preload='auto';
+        if(fv.readyState>=1) arm(); else fv.addEventListener('loadedmetadata', arm, {once:true});
+        return function(){ if(tick) gsap.ticker.remove(tick); if(tl){ if(tl.scrollTrigger) tl.scrollTrigger.kill(); tl.kill(); tl=null; } };
+      });
+      // mobile: same clip just plays as a living background
+      gsap.matchMedia().add('(max-width:760px)', function(){
+        fv.setAttribute('autoplay',''); fv.setAttribute('loop','');
+        if(fv.play) fv.play().catch(function(){});
+      });
+    }
     var track=doc.getElementById('gTrack'), gal=doc.getElementById('gallery');
     if(track){
       gsap.matchMedia().add('(min-width:761px)', function(){
