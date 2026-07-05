@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anderson Automation - Demo Report</title>
+<style>
+  :root { --teal:#0f766e; --ink:#0f172a; --mut:#64748b; --bg:#f8fafc;
+          --red:#dc2626; --green:#059669; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+         background:var(--bg); color:var(--ink); padding:40px 20px; }
+  .wrap { max-width:960px; margin:0 auto; }
+  header { margin-bottom:28px; }
+  header .brand { color:var(--teal); font-weight:800; letter-spacing:.08em;
+                  text-transform:uppercase; font-size:13px; }
+  h1 { font-size:30px; margin-top:6px; }
+  h1 span { color:var(--teal); }
+  .sub { color:var(--mut); margin-top:6px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+           gap:12px; margin:26px 0; }
+  .card { background:#fff; border:1px solid #e2e8f0; border-radius:12px;
+          padding:18px; }
+  .card .n { font-size:28px; font-weight:800; }
+  .card .l { color:var(--mut); font-size:13px; margin-top:2px; }
+  .card.hot .n { color:var(--red); }
+  .callout { background:#fef2f2; border:1px solid #fecaca; border-radius:12px;
+             padding:20px 22px; margin:26px 0; }
+  .callout h2 { color:var(--red); font-size:18px; }
+  .callout p { margin-top:6px; color:#7f1d1d; }
+  section { margin-top:36px; }
+  section > h2 { font-size:20px; margin-bottom:12px; }
+  table { width:100%; border-collapse:collapse; background:#fff;
+          border:1px solid #e2e8f0; border-radius:12px; overflow:hidden;
+          font-size:14px; }
+  th { text-align:left; background:#f1f5f9; padding:10px 12px; font-size:12px;
+       text-transform:uppercase; letter-spacing:.05em; color:var(--mut); }
+  td { padding:9px 12px; border-top:1px solid #eef2f7; vertical-align:top; }
+  td.old { color:var(--mut); font-family:Consolas,monospace; font-size:13px; }
+  td.new { color:var(--teal); font-family:Consolas,monospace; font-size:13px;
+           font-weight:600; }
+  td.arrow { color:#cbd5e1; }
+  td.amt { text-align:right; font-variant-numeric:tabular-nums; font-weight:600; }
+  .badge { font-size:11px; font-weight:700; padding:2px 8px; border-radius:99px; }
+  .badge.red { background:#fee2e2; color:var(--red); }
+  .badge.green { background:#d1fae5; color:var(--green); }
+  tr.odue td { background:#fff8f8; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid #e2e8f0;
+           color:var(--mut); font-size:14px; }
+  footer b { color:var(--ink); }
+</style></head><body><div class="wrap">
+
+<header>
+  <div class="brand">Anderson Automation &middot; Perth</div>
+  <h1>Your shared drive, <span>fixed in under a second</span></h1>
+  <p class="sub">We pointed our organiser at a typical messy business folder
+  (40 files, cryptic names, duplicates, no structure).
+  Here is what came out.</p>
+</header>
+
+<div class="cards">
+  <div class="card"><div class="n">40</div><div class="l">files processed</div></div>
+  <div class="card"><div class="n">28</div><div class="l">auto-sorted &amp; renamed</div></div>
+  <div class="card"><div class="n">9</div><div class="l">duplicates caught</div></div>
+  <div class="card"><div class="n">15</div><div class="l">deadlines extracted</div></div>
+  <div class="card hot"><div class="n">$17,270.00</div><div class="l">overdue money found</div></div>
+</div>
+
+<div class="callout">
+  <h2>Found: $17,270.00 in unpaid invoices already past due</h2>
+  <p>These were sitting in files named things like &ldquo;scan_0002.txt&rdquo; and
+  &ldquo;Document (3).txt&rdquo;. Nobody was chasing them, because nobody could see them.</p>
+  <table style="margin-top:12px">
+    <tr><th>Invoice</th><th>Client</th><th>Amount</th><th>Was due</th></tr>
+    <tr><td>INV-2033</td><td>Fremantle Logistics</td><td class='amt'>$2,940.00</td><td>15 Mar 2026</td></tr><tr><td>INV-2034</td><td>Harbour View Dental</td><td class='amt'>$4,850.00</td><td>28 Mar 2026</td></tr><tr><td>INV-2036</td><td>Cottesloe Physio</td><td class='amt'>$1,450.00</td><td>02 May 2026</td></tr><tr><td>INV-2038</td><td>Subiaco Legal Group</td><td class='amt'>$5,920.00</td><td>04 Jun 2026</td></tr><tr><td>INV-2039</td><td>Fremantle Logistics</td><td class='amt'>$2,110.00</td><td>23 Jun 2026</td></tr>
+  </table>
+</div>
+
+<section>
+  <h2>Every deadline in your paperwork, one list</h2>
+  <p class="sub" style="margin-bottom:10px">Invoice due dates, contract renewals,
+  quote expiries and meeting action items &mdash; extracted automatically and
+  exported to <b>Deadlines.csv</b>.</p>
+  <table>
+    <tr><th>Date</th><th></th><th>Type</th><th>Who</th><th>Detail</th><th>Amount</th></tr>
+    <tr class=odue><td>Sun 15 Mar 2026</td><td><span class='badge red'>OVERDUE</span></td><td>Invoice due</td><td>Fremantle Logistics</td><td>INV-2033 unpaid</td><td class='amt'>$2,940.00</td></tr><tr class=odue><td>Sat 28 Mar 2026</td><td><span class='badge red'>OVERDUE</span></td><td>Invoice due</td><td>Harbour View Dental</td><td>INV-2034 unpaid</td><td class='amt'>$4,850.00</td></tr><tr class=odue><td>Sat 02 May 2026</td><td><span class='badge red'>OVERDUE</span></td><td>Invoice due</td><td>Cottesloe Physio</td><td>INV-2036 unpaid</td><td class='amt'>$1,450.00</td></tr><tr class=odue><td>Thu 04 Jun 2026</td><td><span class='badge red'>OVERDUE</span></td><td>Invoice due</td><td>Subiaco Legal Group</td><td>INV-2038 unpaid</td><td class='amt'>$5,920.00</td></tr><tr class=odue><td>Tue 23 Jun 2026</td><td><span class='badge red'>OVERDUE</span></td><td>Invoice due</td><td>Fremantle Logistics</td><td>INV-2039 unpaid</td><td class='amt'>$2,110.00</td></tr><tr class=ok><td>Tue 07 Jul 2026</td><td><span class='badge green'>upcoming</span></td><td>Action item</td><td>Sam</td><td>chase Subiaco Legal invoice INV-2038</td><td class='amt'></td></tr><tr class=ok><td>Wed 08 Jul 2026</td><td><span class='badge green'>upcoming</span></td><td>Invoice due</td><td>Acme Mining Services</td><td>INV-2040 unpaid</td><td class='amt'>$7,200.00</td></tr><tr class=ok><td>Wed 08 Jul 2026</td><td><span class='badge green'>upcoming</span></td><td>Action item</td><td>Liam</td><td>send revised quote to Fremantle Logistics</td><td class='amt'></td></tr><tr class=ok><td>Fri 10 Jul 2026</td><td><span class='badge green'>upcoming</span></td><td>Contract renewal</td><td>Swan Valley Cellars</td><td>auto-renews, 30 days notice</td><td class='amt'>$420.00/mo</td></tr><tr class=ok><td>Tue 14 Jul 2026</td><td><span class='badge green'>upcoming</span></td><td>Invoice due</td><td>Cottesloe Physio</td><td>INV-2041 unpaid</td><td class='amt'>$1,890.00</td></tr><tr class=ok><td>Wed 15 Jul 2026</td><td><span class='badge green'>upcoming</span></td><td>Action item</td><td>Tess</td><td>book Synergy account review</td><td class='amt'></td></tr><tr class=ok><td>Sat 18 Jul 2026</td><td><span class='badge green'>upcoming</span></td><td>Quote expires</td><td>Fremantle Logistics</td><td>Q-118 awaiting decision</td><td class='amt'>$9,400.00</td></tr><tr class=ok><td>Sun 26 Jul 2026</td><td><span class='badge green'>upcoming</span></td><td>Quote expires</td><td>Cottesloe Physio</td><td>Q-119 awaiting decision</td><td class='amt'>$3,150.00</td></tr><tr class=ok><td>Sat 01 Aug 2026</td><td><span class='badge green'>upcoming</span></td><td>Contract renewal</td><td>Harbour View Dental</td><td>auto-renews, 30 days notice</td><td class='amt'>$650.00/mo</td></tr><tr class=ok><td>Tue 15 Sep 2026</td><td><span class='badge green'>upcoming</span></td><td>Contract renewal</td><td>Acme Mining Services</td><td>auto-renews, 30 days notice</td><td class='amt'>$980.00/mo</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Before &rarr; after (sample)</h2>
+  <p class="sub" style="margin-bottom:10px">Every file classified by reading its
+  contents &mdash; not its name &mdash; then filed and renamed consistently:
+  <b>date_type_client_amount</b>. Full mapping in <b>MASTER-INDEX.csv</b>.</p>
+  <table><tr><td class='old'>acme agreement OLD.txt</td><td class='arrow'>&rarr;</td><td class='new'>04 Contracts/Acme Mining Services/2025-09-15_contract_acme-mining-services_980.00.txt</td></tr><tr><td class='old'>old stuff\scan_0008.txt</td><td class='arrow'>&rarr;</td><td class='new'>04 Contracts/Swan Valley Cellars/2025-07-10_contract_swan-valley-cellars_420.00.txt</td></tr><tr><td class='old'>to sort\contract v3 USE THIS ONE.txt</td><td class='arrow'>&rarr;</td><td class='new'>04 Contracts/Harbour View Dental/2025-08-01_contract_harbour-view-dental_650.00.txt</td></tr><tr><td class='old'>doc1 (1).txt</td><td class='arrow'>&rarr;</td><td class='new'>01 Invoices/Harbour View Dental/2026-03-14_invoice_harbour-view-dental_inv-2034_4850.00.txt</td></tr><tr><td class='old'>from email\invoice_final_FINAL.txt</td><td class='arrow'>&rarr;</td><td class='new'>01 Invoices/Acme Mining Services/2026-04-02_invoice_acme-mining-services_inv-2035_6300.00.txt</td></tr><tr><td class='old'>from email\scan_0005.txt</td><td class='arrow'>&rarr;</td><td class='new'>01 Invoices/Acme Mining Services/2026-06-24_invoice_acme-mining-services_inv-2040_7200.00.txt</td></tr><tr><td class='old'>inv may.txt</td><td class='arrow'>&rarr;</td><td class='new'>01 Invoices/Swan Valley Cellars/2026-05-05_invoice_swan-valley-cellars_inv-2037_3780.00.txt</td></tr><tr><td class='old'>invoice (2) - Copy.txt</td><td class='arrow'>&rarr;</td><td class='new'>01 Invoices/Subiaco Legal Group/2026-02-16_invoice_subiaco-legal-group_inv-2032_5180.00.txt</td></tr><tr><td class='old'>invoice new1.txt</td><td class='arrow'>&rarr;</td><td class='new'>01 Invoices/Cottesloe Physio/2026-06-30_invoice_cottesloe-physio_inv-2041_1890.00.txt</td></tr><tr><td class='old'>old stuff\misc\Document (3).txt</td><td class='arrow'>&rarr;</td><td class='new'>01 Invoices/Fremantle Logistics/2026-06-09_invoice_fremantle-logistics_inv-2039_2110.00.txt</td></tr></table>
+</section>
+
+<section>
+  <h2>What this would cost you by hand</h2>
+  <p class="sub">Sorting, renaming and logging 40 files manually at
+  ~2 minutes each is roughly <b>1h 20m</b>
+  of staff time &mdash; and it would be out of date again next week.
+  This run took <b>under a second</b>, and can run every night.</p>
+</section>
+
+<footer>
+  <b>Anderson Automation</b> &mdash; we set this up on your files, on your server,
+  tuned to how your business works. Nothing leaves your premises.<br>
+  Liam Anderson &middot; +61 493 437 981 &middot; andersonwebstudio@outlook.com
+</footer>
+
+</div></body></html>
