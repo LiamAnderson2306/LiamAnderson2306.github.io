@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>FLOWSTATE — Lock In. Level Up.</title>
+<meta name="description" content="Focus timer with XP, ranks and streaks. Lock in, level up.">
+<meta name="theme-color" content="#0A0918">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FLOWSTATE">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.replace('no-js','js')</script>
+<style>
+:root{
+  --bg:#0A0918; --bg2:#100D24; --surface:#16132E; --surface2:#1D1940;
+  --line:rgba(140,130,220,.14);
+  --v1:#6C4DFF; --v2:#B44DFF; --gold:#FFC53D; --flame:#FF6B35; --mint:#4FE3C1;
+  --text:#EDEBFF; --muted:#8B87B0;
+  --grad:linear-gradient(135deg,var(--v1),var(--v2));
+  --tab-h:64px;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overscroll-behavior:none}
+body{
+  font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  background:var(--bg); color:var(--text);
+  position:fixed; inset:0; overflow:hidden;
+  -webkit-user-select:none; user-select:none; -webkit-touch-callout:none;
+}
+/* ambient drift */
+body::before{
+  content:""; position:fixed; inset:-30%;
+  background:
+    radial-gradient(38% 30% at 22% 18%, rgba(108,77,255,.16), transparent 70%),
+    radial-gradient(30% 26% at 82% 70%, rgba(180,77,255,.11), transparent 70%),
+    radial-gradient(24% 22% at 60% 20%, rgba(255,107,53,.05), transparent 70%);
+  animation:drift 26s ease-in-out infinite alternate; pointer-events:none; z-index:0;
+}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(3%,4%) scale(1.06)}}
+h1,h2,h3,.display{font-family:'Unbounded',sans-serif}
+
+#app{position:absolute;inset:0;display:flex;flex-direction:column;z-index:1}
+
+/* ===== header ===== */
+header{
+  padding:calc(var(--sat) + 10px) 18px 10px;
+  display:flex; align-items:center; gap:12px; flex-shrink:0;
+}
+.lvlchip{
+  display:flex;align-items:center;gap:8px;min-width:0;flex:1;
+}
+.lvlbadge{
+  font-family:'Unbounded';font-weight:900;font-size:12px;letter-spacing:.5px;
+  background:var(--grad); border-radius:10px; padding:7px 9px; white-space:nowrap;
+  box-shadow:0 0 18px rgba(124,77,255,.45);
+}
+.lvlmeta{min-width:0;flex:1}
+.rankname{font-family:'Unbounded';font-weight:700;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.xpbar{height:7px;border-radius:99px;background:var(--surface2);margin-top:5px;overflow:hidden;position:relative}
+.xpbar i{position:absolute;inset:0;width:0%;background:linear-gradient(90deg,var(--gold),#FFE08A);border-radius:99px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.xpnum{font-size:10px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+.streak{
+  display:flex;align-items:center;gap:6px;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;padding:8px 12px;flex-shrink:0;
+}
+.streak .fl{font-size:18px;filter:drop-shadow(0 0 6px rgba(255,107,53,.6))}
+.streak b{font-family:'Unbounded';font-weight:700;font-size:15px}
+.streak.dead .fl{filter:grayscale(1) opacity(.5)}
+
+/* ===== screens ===== */
+main{flex:1;position:relative;overflow:hidden}
+.screen{
+  position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:6px 18px calc(var(--tab-h) + var(--sab) + 24px);
+  opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .22s,transform .22s;
+}
+.screen.active{opacity:1;pointer-events:auto;transform:none}
+
+/* ===== tab bar ===== */
+nav#tabbar{
+  position:absolute;left:0;right:0;bottom:0;z-index:5;
+  display:flex;justify-content:space-around;align-items:stretch;
+  height:calc(var(--tab-h) + var(--sab));
+  padding:0 8px var(--sab);
+  background:rgba(13,11,29,.86);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  border-top:1px solid var(--line);
+}
+nav#tabbar button{
+  flex:1;background:none;border:0;color:var(--muted);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  font-family:'Space Grotesk';font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;
+}
+nav#tabbar button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav#tabbar button.active{color:var(--text)}
+nav#tabbar button.active svg{filter:drop-shadow(0 0 8px rgba(150,100,255,.8))}
+
+/* ===== FOCUS screen ===== */
+.hero-title{font-weight:900;font-size:24px;letter-spacing:1px;margin:8px 0 2px}
+.hero-sub{color:var(--muted);font-size:13px;margin-bottom:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px}
+label.flabel{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+input#task{
+  width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+  color:var(--text);font-family:'Space Grotesk';font-size:16px;padding:13px 14px;outline:none;
+  -webkit-user-select:text;user-select:text;
+}
+input#task:focus{border-color:var(--v1)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  border:1px solid var(--line);background:var(--bg2);color:var(--muted);
+  border-radius:99px;padding:8px 14px;font-family:'Space Grotesk';font-weight:500;font-size:13px;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+}
+.chip .dot{width:8px;height:8px;border-radius:50%}
+.chip.sel{color:var(--text);border-color:transparent;background:var(--surface2);box-shadow:inset 0 0 0 1.5px var(--v1)}
+.chip.sel.gold{box-shadow:inset 0 0 0 1.5px var(--gold)}
+.stepper{display:none;align-items:center;justify-content:center;gap:18px;margin-top:12px}
+.stepper.show{display:flex}
+.stepper button{
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg2);
+  color:var(--text);font-size:22px;cursor:pointer;font-family:'Space Grotesk';
+}
+.stepper b{font-family:'Unbounded';font-size:22px;min-width:110px;text-align:center}
+#lockBtn{
+  width:100%;border:0;border-radius:18px;padding:19px;cursor:pointer;
+  font-family:'Unbounded';font-weight:900;font-size:17px;letter-spacing:2px;color:#fff;
+  background:var(--grad);box-shadow:0 8px 32px rgba(124,60,255,.45);
+  transition:transform .15s;
+}
+#lockBtn:active{transform:scale(.97)}
+
+/* running */
+#setupView,#runView{transition:opacity .25s}
+#runView{display:none;text-align:center;padding-top:6px}
+body.in-session #setupView{display:none}
+body.in-session #runView{display:block}
+.ringwrap{position:relative;width:min(78vw,300px);margin:8px auto 6px}
+.ringwrap svg{width:100%;height:auto;display:block;transform:rotate(-90deg)}
+.ringwrap .track{stroke:var(--surface2)}
+.ringwrap .prog{stroke:url(#ringGrad);stroke-linecap:round;filter:drop-shadow(0 0 10px rgba(150,90,255,.7))}
+.ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+#timeLeft{font-family:'Unbounded';font-weight:700;font-size:clamp(38px,13vw,52px);line-height:1}
+#timeLeft span{display:inline-block;width:.66em;text-align:center}
+#timeLeft span.colon{width:.34em}
+.ring-inner .of{color:var(--muted);font-size:12px;letter-spacing:1px}
+#runTask{font-weight:700;font-size:17px;margin-top:8px}
+#runTag{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+#quote{color:var(--muted);font-size:13px;font-style:italic;margin:16px 20px 0;min-height:20px;transition:opacity .5s}
+#awayNote{display:none;margin:12px auto 0;font-size:12px;color:var(--flame);background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);border-radius:99px;padding:6px 14px;width:fit-content}
+#awayNote.show{display:block}
+#abandonBtn{
+  margin-top:22px;background:none;border:1px solid var(--line);color:var(--muted);
+  border-radius:99px;padding:11px 22px;font-family:'Space Grotesk';font-size:13px;letter-spacing:1px;cursor:pointer;
+}
+.install-tip{display:none;gap:10px;align-items:flex-start;background:rgba(108,77,255,.1);border:1px solid rgba(108,77,255,.35)}
+.install-tip.show{display:flex}
+.install-tip p{font-size:13px;color:var(--text);line-height:1.5}
+.install-tip p b{color:var(--gold)}
+.install-tip button{margin-left:auto;background:none;border:0;color:var(--muted);font-size:18px;cursor:pointer;padding:2px 6px}
+
+/* ===== STATS ===== */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.tile .v{font-family:'Unbounded';font-weight:700;font-size:20px}
+.tile .v small{font-size:12px;color:var(--muted);font-family:'Space Grotesk'}
+.tile .k{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:4px}
+.sec-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin:18px 2px 10px;font-family:'Space Grotesk'}
+#weekChart,#donutWrap{width:100%}
+.timeline{position:relative;height:64px;background:var(--bg2);border-radius:12px;overflow:hidden}
+.timeline .tick{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+.timeline .tick i{position:absolute;bottom:2px;left:3px;font-size:8px;color:var(--muted);font-style:normal}
+.timeline .blk{position:absolute;top:12px;height:26px;border-radius:6px;min-width:3px;opacity:.95}
+.timeline .now{position:absolute;top:0;bottom:0;width:2px;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.sess{display:flex;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px solid var(--line)}
+.sess:last-child{border-bottom:0}
+.sess .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.sess .nm{flex:1;min-width:0;font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sess .mn{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sess .xp{font-size:12px;color:var(--gold);font-weight:700;font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);font-size:13px;text-align:center;padding:18px 0}
+
+/* ===== RANKS ===== */
+.rankhero{text-align:center;padding:22px 16px}
+.rankhero .big{font-weight:900;font-size:28px;letter-spacing:2px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(140,80,255,.5))}
+.rankhero .lv{color:var(--muted);font-size:12px;letter-spacing:2px;margin-top:6px;text-transform:uppercase}
+.rankhero .xpbar{height:9px;margin:14px 30px 6px}
+.rankhero .xpnum{text-align:center}
+.ladder .row{display:flex;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid var(--line)}
+.ladder .row:last-child{border-bottom:0}
+.ladder .medal{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Unbounded';font-weight:900;font-size:11px;background:var(--surface2);color:var(--muted);flex-shrink:0}
+.ladder .row.done .medal{background:var(--grad);color:#fff}
+.ladder .row.cur .medal{background:var(--gold);color:#201500;box-shadow:0 0 14px rgba(255,197,61,.5)}
+.ladder .nm{font-family:'Unbounded';font-weight:700;font-size:13px;letter-spacing:1px;flex:1;color:var(--muted)}
+.ladder .row.done .nm,.ladder .row.cur .nm{color:var(--text)}
+.ladder .req{font-size:11px;color:var(--muted)}
+.ladder .row.cur .req{color:var(--gold);font-weight:700}
+
+/* ===== SHIELD ===== */
+.toggle-row{display:flex;align-items:center;gap:12px}
+.toggle-row .tx{flex:1}
+.toggle-row .tx b{font-size:15px}
+.toggle-row .tx p{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+.switch{position:relative;width:52px;height:31px;flex-shrink:0;cursor:pointer}
+.switch input{opacity:0;width:0;height:0}
+.switch i{position:absolute;inset:0;border-radius:99px;background:var(--surface2);transition:.2s}
+.switch i::after{content:"";position:absolute;top:3px;left:3px;width:25px;height:25px;border-radius:50%;background:#fff;transition:.2s}
+.switch input:checked + i{background:var(--v1)}
+.switch input:checked + i::after{transform:translateX(21px)}
+.shield-card h3{font-size:14px;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.shield-card p,.shield-card li{font-size:13px;color:var(--muted);line-height:1.65}
+.shield-card ol{padding-left:20px;margin-top:6px}
+.shield-card li{margin-bottom:5px}
+.shield-card li b, .shield-card p b{color:var(--text)}
+.shield-card .tip{margin-top:8px;background:rgba(255,197,61,.08);border:1px solid rgba(255,197,61,.25);border-radius:10px;padding:9px 12px;font-size:12px;color:var(--gold)}
+
+/* ===== overlays ===== */
+.overlay{
+  position:fixed;inset:0;z-index:20;background:rgba(8,7,20,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  display:none;align-items:center;justify-content:center;padding:24px;
+}
+.overlay.show{display:flex}
+.modal{
+  width:100%;max-width:360px;background:var(--surface);border:1px solid var(--line);
+  border-radius:24px;padding:26px 22px;text-align:center;animation:pop .35s cubic-bezier(.22,1.4,.36,1);
+}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h2{font-weight:900;font-size:20px;letter-spacing:1px;margin-bottom:4px}
+.modal .sub{color:var(--muted);font-size:13px;margin-bottom:16px}
+.xpline{display:flex;justify-content:space-between;font-size:14px;padding:8px 4px;border-bottom:1px solid var(--line)}
+.xpline:last-of-type{border-bottom:0}
+.xpline .r{font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums}
+.xptotal{font-family:'Unbounded';font-weight:900;font-size:38px;color:var(--gold);margin:14px 0 2px;filter:drop-shadow(0 0 16px rgba(255,197,61,.5))}
+.xptotal small{font-size:16px}
+.btn{
+  width:100%;border:0;border-radius:14px;padding:15px;cursor:pointer;margin-top:16px;
+  font-family:'Unbounded';font-weight:700;font-size:14px;letter-spacing:1px;color:#fff;background:var(--grad);
+}
+.btn.ghost{background:var(--surface2);color:var(--muted);margin-top:10px}
+.btn.danger{background:linear-gradient(135deg,#E5484D,#FF6B35)}
+#lvlupModal .big{font-weight:900;font-size:30px;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),#FFE08A);-webkit-background-clip:text;background-clip:text;color:transparent;margin:8px 0}
+#confetti{position:fixed;inset:0;z-index:30;pointer-events:none}
+.orb{position:fixed;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFE9AE,var(--gold));box-shadow:0 0 12px var(--gold);z-index:25;pointer-events:none}
+
+#toast{
+  position:fixed;left:50%;transform:translateX(-50%) translateY(20px);bottom:calc(var(--tab-h) + var(--sab) + 16px);
+  background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:10px 18px;
+  font-size:13px;z-index:40;opacity:0;pointer-events:none;transition:.3s;white-space:nowrap;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  body::before{animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="lvlchip">
+      <div class="lvlbadge" id="lvlBadge">LV 1</div>
+      <div class="lvlmeta">
+        <div class="rankname" id="rankName">ROOKIE</div>
+        <div class="xpbar"><i id="xpFill"></i></div>
+        <div class="xpnum" id="xpNum">0 / 200 XP</div>
+      </div>
+    </div>
+    <div class="streak dead" id="streakBox"><span class="fl">🔥</span><b id="streakN">0</b></div>
+  </header>
+
+  <main>
+    <!-- FOCUS -->
+    <section class="screen active" id="s-focus">
+      <div id="setupView">
+        <h1 class="hero-title">LOCK IN.</h1>
+        <p class="hero-sub">Pick your mission. Start the timer. Level up.</p>
+
+        <div class="card install-tip" id="installTip">
+          <p><b>Make it a real app:</b> tap Safari's <b>Share</b> button, then <b>Add to Home Screen</b>. Opens fullscreen, works offline.</p>
+          <button id="installClose" aria-label="Dismiss">×</button>
+        </div>
+
+        <div class="card">
+          <label class="flabel" for="task">Mission</label>
+          <input id="task" type="text" maxlength="40" placeholder="e.g. Maths revision" autocomplete="off">
+        </div>
+
+        <div class="card">
+          <label class="flabel">Tag</label>
+          <div class="chips" id="tagChips"></div>
+        </div>
+
+        <div class="card">
+          <label class="flabel">Duration</label>
+          <div class="chips" id="durChips"></div>
+          <div class="stepper" id="stepper">
+            <button id="durMinus" aria-label="Less time">−</button>
+            <b id="durCustom">60 min</b>
+            <button id="durPlus" aria-label="More time">+</button>
+          </div>
+        </div>
+
+        <button id="lockBtn">🔒 LOCK IN</button>
+      </div>
+
+      <div id="runView">
+        <div class="ringwrap">
+          <svg viewBox="0 0 300 300">
+            <defs>
+              <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6C4DFF"/><stop offset="1" stop-color="#B44DFF"/>
+              </linearGradient>
+            </defs>
+            <circle class="track" cx="150" cy="150" r="132" fill="none" stroke-width="14"/>
+            <circle class="prog" id="ringProg" cx="150" cy="150" r="132" fill="none" stroke-width="14"/>
+          </svg>
+          <div class="ring-inner">
+            <div id="timeLeft">25:00</div>
+            <div class="of" id="runOf">of 25 min</div>
+          </div>
+        </div>
+        <div id="runTask">Deep work</div>
+        <div id="runTag">STUDY</div>
+        <div id="awayNote">📵 away 0s this session</div>
+        <p id="quote"></p>
+        <button id="abandonBtn">Abandon session</button>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="screen" id="s-stats">
+      <h1 class="hero-title">STATS</h1>
+      <p class="hero-sub">Where your focus actually goes.</p>
+      <div class="tiles" id="tiles"></div>
+      <div class="sec-title">Today's timeline</div>
+      <div class="card"><div class="timeline" id="timeline"></div></div>
+      <div class="sec-title">Last 7 days</div>
+      <div class="card" id="weekCard"><svg id="weekChart" viewBox="0 0 320 150"></svg></div>
+      <div class="sec-title">Focus by tag — 7 days</div>
+      <div class="card" id="donutWrap"></div>
+      <div class="sec-title">Recent sessions</div>
+      <div class="card" id="recent"></div>
+    </section>
+
+    <!-- RANKS -->
+    <section class="screen" id="s-ranks">
+      <h1 class="hero-title">RANKS</h1>
+      <p class="hero-sub">Earn XP for every focused minute. Streaks multiply it.</p>
+      <div class="card rankhero">
+        <div class="big display" id="rhName">ROOKIE</div>
+        <div class="lv" id="rhLv">Level 1</div>
+        <div class="xpbar"><i id="rhFill"></i></div>
+        <div class="xpnum" id="rhNum"></div>
+      </div>
+      <div class="card ladder" id="ladder"></div>
+      <div class="card shield-card">
+        <h3>💡 How XP works</h3>
+        <p><b>10 XP per focused minute.</b> Day streak multiplies it (+5% per day, up to +50%). Finish without slipping onto other apps → <b>+20% clean bonus</b>. Abandoning a session banks only 25%.</p>
+      </div>
+    </section>
+
+    <!-- SHIELD -->
+    <section class="screen" id="s-shield">
+      <h1 class="hero-title">SHIELD</h1>
+      <p class="hero-sub">Make the distractions physically harder to reach.</p>
+
+      <div class="card toggle-row">
+        <div class="tx">
+          <b>Strict mode</b>
+          <p>Tracks time you spend off the app mid-session. Stay clean → +20% XP bonus. Locking your phone is fine — that's the goal.</p>
+        </div>
+        <label class="switch"><input type="checkbox" id="strictToggle" checked><i></i></label>
+      </div>
+
+      <div class="card shield-card">
+        <h3>☢️ The nuclear option</h3>
+        <p><b>Aeroplane mode + phone face-down</b>, or phone in another room. Start the session, lock the screen, walk away. The timer keeps counting — it works off the clock, not the screen.</p>
+      </div>
+
+      <div class="card shield-card">
+        <h3>⏳ App Limits (real blocking)</h3>
+        <p>iPhones can hard-block apps for free — no subscription needed:</p>
+        <ol>
+          <li>Settings → <b>Screen Time</b> → <b>App Limits</b> → <b>Add Limit</b></li>
+          <li>Pick Instagram, TikTok, YouTube, Snapchat</li>
+          <li>Set the limit to <b>1 minute</b> per day</li>
+          <li>When you hit it, the apps grey out until midnight</li>
+        </ol>
+        <div class="tip">Pro move: set a Screen Time passcode and get someone else to type it so you can't "Ask For More Time".</div>
+      </div>
+
+      <div class="card shield-card">
+        <h3>🌘 Focus mode combo</h3>
+        <ol>
+          <li>Settings → <b>Focus</b> → <b>+</b> → create one called <b>Locked In</b></li>
+          <li>Allow calls from family only, silence everything else</li>
+          <li>Under <b>Customise Screens</b>, show only a home page with FLOWSTATE on it</li>
+          <li>Flip it on every time you lock in</li>
+        </ol>
+      </div>
+
+      <div class="card shield-card">
+        <h3>🤝 The honesty check</h3>
+        <p>A web app can't see what other apps you open — only that you left. If you were gone a while, FLOWSTATE asks whether you slipped. Lie and you're only scamming your own XP.</p>
+        <p style="margin-top:8px">Your data lives only on this phone. No account, no tracking, no subscription. Ever.</p>
+      </div>
+    </section>
+  </main>
+
+  <nav id="tabbar">
+    <button data-s="s-focus" class="active"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Focus</button>
+    <button data-s="s-stats"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Stats</button>
+    <button data-s="s-ranks"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM7 6H4a3 3 0 0 0 3 5M17 6h3a3 3 0 0 1-3 5"/></svg>Ranks</button>
+    <button data-s="s-shield"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Shield</button>
+  </nav>
+</div>
+
+<!-- overlays -->
+<div class="overlay" id="doneModalWrap">
+  <div class="modal">
+    <h2 id="doneTitle">SESSION COMPLETE</h2>
+    <p class="sub" id="doneSub">You locked in. Respect.</p>
+    <div id="xpLines"></div>
+    <div class="xptotal" id="xpTotal">+0<small> XP</small></div>
+    <button class="btn" id="doneBtn">COLLECT</button>
+  </div>
+</div>
+
+<div class="overlay" id="honestyWrap">
+  <div class="modal">
+    <h2>QUICK CHECK</h2>
+    <p class="sub" id="honestySub">You were off the app for a while. Locked phone counts as focused — other apps don't.</p>
+    <button class="btn" id="honestClean">😤 Stayed focused</button>
+    <button class="btn ghost" id="honestSlip">😔 I slipped</button>
+  </div>
+</div>
+
+<div class="overlay" id="abandonWrap">
+  <div class="modal">
+    <h2>GIVE UP?</h2>
+    <p class="sub">You only bank 25% of the XP, and it won't count toward your streak.</p>
+    <button class="btn danger" id="abandonYes">ABANDON</button>
+    <button class="btn ghost" id="abandonNo">KEEP GOING</button>
+  </div>
+</div>
+
+<div class="overlay" id="lvlupModal">
+  <div class="modal">
+    <p class="sub" style="margin-bottom:0">RANK UP</p>
+    <div class="big display" id="lvlupName">GRINDER</div>
+    <p class="sub" id="lvlupLv">You reached Level 3</p>
+    <button class="btn" id="lvlupBtn">LET'S GO</button>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* ================= state ================= */
+const KEY='flowstate_v1';
+const TAGS=[
+  {n:'Study',c:'#6C4DFF'},{n:'Homework',c:'#4D9FFF'},{n:'Business',c:'#FFC53D'},
+  {n:'Reading',c:'#4FE3C1'},{n:'Gym',c:'#FF6B35'},{n:'Create',c:'#B44DFF'},{n:'Other',c:'#8B87B0'}
+];
+const RANKS=[[1,'ROOKIE'],[3,'GRINDER'],[5,'LOCKED IN'],[8,'DEEP WORKER'],[12,'FLOW STATE'],[16,'CRACKED'],[21,'SWEAT'],[27,'GOATED'],[34,'ASCENDED'],[42,'IMMORTAL']];
+const QUOTES=[
+  'Nobody is coming to do this for you.',
+  'The phone can wait. The dream can’t.',
+  'Every minute here is a rep.',
+  'Boring now. Legendary later.',
+  'Locked in beats logged on.',
+  'Future you is watching.'
+];
+const DURS=[15,25,45,90];
+
+let S=load();
+function load(){
+  try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s.xp==='number')return s;}catch(e){}
+  return {xp:0,sessions:[],streak:{count:0,last:null},strict:true,installDismissed:false,active:null};
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(S));}
+
+/* ================= level math ================= */
+function needFor(lv){return 200+(lv-1)*120;}                 // XP to go from lv -> lv+1
+function levelFromXp(xp){let lv=1,acc=0;while(xp>=acc+needFor(lv)){acc+=needFor(lv);lv++;}return {lv,into:xp-acc,need:needFor(lv)};}
+function rankFor(lv){let r=RANKS[0][1];for(const [l,n] of RANKS){if(lv>=l)r=n;}return r;}
+function nextRank(lv){for(const [l,n] of RANKS){if(l>lv)return [l,n];}return null;}
+
+/* ================= dates ================= */
+const dayKey=d=>{const x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');};
+const today=()=>dayKey(Date.now());
+const yesterday=()=>dayKey(Date.now()-864e5);
+function streakAlive(){return S.streak.last===today()||S.streak.last===yesterday();}
+function currentStreak(){return streakAlive()?S.streak.count:0;}
+function multiplier(){return 1+Math.min(currentStreak(),10)*0.05;}
+
+/* ================= els ================= */
+const $=id=>document.getElementById(id);
+const els={lvlBadge:$('lvlBadge'),rankName:$('rankName'),xpFill:$('xpFill'),xpNum:$('xpNum'),
+streakBox:$('streakBox'),streakN:$('streakN'),task:$('task'),tagChips:$('tagChips'),durChips:$('durChips'),
+stepper:$('stepper'),durCustom:$('durCustom'),lockBtn:$('lockBtn'),timeLeft:$('timeLeft'),runOf:$('runOf'),
+ringProg:$('ringProg'),runTask:$('runTask'),runTag:$('runTag'),quote:$('quote'),awayNote:$('awayNote'),
+toast:$('toast')};
+
+/* ================= setup UI ================= */
+let selTag='Study', selDur=25, customDur=60, customMode=false;
+TAGS.forEach(t=>{
+  const b=document.createElement('button');b.className='chip'+(t.n===selTag?' sel':'');b.type='button';
+  b.innerHTML='<span class="dot" style="background:'+t.c+'"></span>'+t.n;
+  b.onclick=()=>{selTag=t.n;[...els.tagChips.children].forEach(c=>c.classList.remove('sel'));b.classList.add('sel');};
+  els.tagChips.appendChild(b);
+});
+DURS.concat(['Custom']).forEach(d=>{
+  const b=document.createElement('button');b.className='chip'+(d===selDur?' sel':'');b.type='button';
+  b.textContent=d==='Custom'?'Custom':d+' min';
+  b.onclick=()=>{
+    [...els.durChips.children].forEach(c=>c.classList.remove('sel'));b.classList.add('sel');
+    customMode=(d==='Custom');els.stepper.classList.toggle('show',customMode);
+    if(!customMode)selDur=d;
+  };
+  els.durChips.appendChild(b);
+});
+$('durMinus').onclick=()=>{customDur=Math.max(5,customDur-5);els.durCustom.textContent=customDur+' min';};
+$('durPlus').onclick=()=>{customDur=Math.min(240,customDur+5);els.durCustom.textContent=customDur+' min';};
+
+/* install tip */
+const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+if(!standalone&&!S.installDismissed)$('installTip').classList.add('show');
+$('installClose').onclick=()=>{$('installTip').classList.remove('show');S.installDismissed=true;save();};
+
+/* tabs */
+document.querySelectorAll('#tabbar button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('#tabbar button').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');$(b.dataset.s).classList.add('active');
+    if(b.dataset.s==='s-stats')renderStats();
+    if(b.dataset.s==='s-ranks')renderRanks();
+  };
+});
+
+/* strict toggle */
+$('strictToggle').checked=S.strict!==false;
+$('strictToggle').onchange=e=>{S.strict=e.target.checked;save();toast(S.strict?'Strict mode on 🛡️':'Strict mode off');};
+
+/* ================= timer engine ================= */
+const CIRC=2*Math.PI*132;
+els.ringProg.style.strokeDasharray=CIRC;
+let tickId=null,quoteId=null,wakeLock=null;
+
+function fmt(sec){
+  sec=Math.max(0,Math.round(sec));
+  const m=Math.floor(sec/60),s=sec%60;
+  const str=(m>=100?m:String(m).padStart(2,'0'))+':'+String(s).padStart(2,'0');
+  return [...str].map(ch=>'<span'+(ch===':'?' class="colon"':'')+'>'+ch+'</span>').join('');
+}
+async function grabWake(){try{if('wakeLock' in navigator)wakeLock=await navigator.wakeLock.request('screen');}catch(e){}}
+function dropWake(){try{wakeLock&&wakeLock.release();}catch(e){}wakeLock=null;}
+
+function startSession(){
+  const mins=customMode?customDur:selDur;
+  S.active={start:Date.now(),plannedMin:mins,task:els.task.value.trim()||'Deep work',tag:selTag,awayMs:0,hideAt:null};
+  save();enterRun();grabWake();
+  toast('Locked in. Go. 🔒');
+}
+function enterRun(){
+  document.body.classList.add('in-session');
+  els.runTask.textContent=S.active.task;
+  els.runTag.textContent=S.active.tag.toUpperCase()+' · '+S.active.plannedMin+' MIN';
+  els.runOf.textContent='of '+S.active.plannedMin+' min';
+  rotateQuote();quoteId=setInterval(rotateQuote,20000);
+  tickId=setInterval(tick,250);tick();
+}
+function rotateQuote(){els.quote.style.opacity=0;setTimeout(()=>{els.quote.textContent='“'+QUOTES[Math.floor(Math.random()*QUOTES.length)]+'”';els.quote.style.opacity=1;},300);}
+function tick(){
+  const a=S.active;if(!a)return;
+  const end=a.start+a.plannedMin*60000, left=(end-Date.now())/1000;
+  els.timeLeft.innerHTML=fmt(left);
+  const frac=Math.min(1,Math.max(0,left/(a.plannedMin*60)));
+  els.ringProg.style.strokeDashoffset=CIRC*(1-frac);
+  if(a.awayMs>1500){els.awayNote.classList.add('show');els.awayNote.textContent='📵 away '+Math.round(a.awayMs/1000)+'s this session';}
+  if(left<=0)finish(true);
+}
+function exitRun(){
+  document.body.classList.remove('in-session');
+  clearInterval(tickId);clearInterval(quoteId);tickId=quoteId=null;
+  els.awayNote.classList.remove('show');dropWake();
+}
+
+/* visibility -> away tracking + resume */
+document.addEventListener('visibilitychange',()=>{
+  const a=S.active;if(!a)return;
+  if(document.hidden){a.hideAt=Date.now();save();}
+  else{
+    if(a.hideAt){a.awayMs+=Date.now()-a.hideAt;a.hideAt=null;save();}
+    grabWake();
+    if(Date.now()>=a.start+a.plannedMin*60000)finish(true);
+  }
+});
+
+/* finish flow */
+let pending=null; // {mins, base, completed, clean pending}
+function finish(completed){
+  const a=S.active;if(!a)return;
+  exitRun();
+  if(a.hideAt){a.awayMs+=Math.min(Date.now(),a.start+a.plannedMin*60000)-a.hideAt;a.hideAt=null;}
+  const elapsedMin=Math.min(a.plannedMin,(Date.now()-a.start)/60000);
+  const mins=completed?a.plannedMin:Math.floor(elapsedMin);
+  pending={a,mins,completed};
+  if(completed&&S.strict&&a.awayMs>20000){
+    $('honestySub').textContent='You were off the app for '+fmtAway(a.awayMs)+'. Locked phone counts as focused — other apps don’t. Be real:';
+    $('honestyWrap').classList.add('show');
+  }else{
+    settle(completed&&a.awayMs<=20000);
+  }
+}
+function fmtAway(ms){const s=Math.round(ms/1000);return s<60?s+'s':Math.floor(s/60)+'m '+(s%60)+'s';}
+$('honestClean').onclick=()=>{$('honestyWrap').classList.remove('show');settle(true);};
+$('honestSlip').onclick=()=>{$('honestyWrap').classList.remove('show');settle(false);};
+
+function settle(clean){
+  const {a,mins,completed}=pending;
+  const before=levelFromXp(S.xp);
+  let base=Math.round(mins*10),lines=[],total=0;
+  if(completed){
+    const mult=multiplier();
+    const withMult=Math.round(base*mult);
+    const bonus=clean?Math.round(base*0.2):0;
+    total=withMult+bonus;
+    lines.push(['Focused '+mins+' min','+'+base]);
+    if(mult>1)lines.push(['Streak ×'+mult.toFixed(2),'+'+(withMult-base)]);
+    lines.push([clean?'Clean session bonus':'No clean bonus '+(S.strict?'(slipped)':'(strict off)'),clean?'+'+bonus:'+0']);
+  }else{
+    total=Math.round(base*0.25);
+    lines.push(['Abandoned at '+mins+' min','+'+total]);
+  }
+  S.xp+=total;
+  S.sessions.push({start:a.start,end:Date.now(),mins,task:a.task,tag:a.tag,xp:total,clean:completed&&clean,completed});
+  if(S.sessions.length>400)S.sessions=S.sessions.slice(-400);
+  if(completed&&mins>=10)bumpStreak();
+  S.active=null;save();renderHeader();
+
+  $('doneTitle').textContent=completed?'SESSION COMPLETE':'SESSION ABANDONED';
+  $('doneSub').textContent=completed?(clean?'Clean run. Certified locked in.':'Done — next one clean.'):'It happens. Reset and go again.';
+  $('xpLines').innerHTML=lines.map(l=>'<div class="xpline"><span>'+l[0]+'</span><span class="r">'+l[1]+' XP</span></div>').join('');
+  $('xpTotal').innerHTML='+'+total+'<small> XP</small>';
+  $('doneModalWrap').classList.add('show');
+  if(completed){chime();burst(24);}
+  const after=levelFromXp(S.xp);
+  $('doneBtn').onclick=()=>{
+    $('doneModalWrap').classList.remove('show');
+    flyOrbs(Math.min(10,3+Math.floor(total/80)));
+    if(after.lv>before.lv)setTimeout(()=>rankUp(after.lv),700);
+  };
+}
+function bumpStreak(){
+  const t=today();
+  if(S.streak.last===t)return;
+  S.streak.count=(S.streak.last===yesterday())?S.streak.count+1:1;
+  S.streak.last=t;
+}
+function rankUp(lv){
+  $('lvlupName').textContent=rankFor(lv);
+  $('lvlupLv').textContent='You reached Level '+lv;
+  $('lvlupModal').classList.add('show');
+  chime(true);burst(140);
+}
+$('lvlupBtn').onclick=()=>$('lvlupModal').classList.remove('show');
+
+els.lockBtn.onclick=startSession;
+$('abandonBtn').onclick=()=>$('abandonWrap').classList.add('show');
+$('abandonNo').onclick=()=>$('abandonWrap').classList.remove('show');
+$('abandonYes').onclick=()=>{$('abandonWrap').classList.remove('show');finish(false);};
+
+/* resume after reload / reopen */
+if(S.active){
+  const a=S.active,end=a.start+a.plannedMin*60000;
+  if(a.hideAt){a.awayMs+=Math.min(Date.now(),end)-a.hideAt;a.hideAt=null;save();}
+  if(Date.now()>=end)finish(true);
+  else{enterRun();grabWake();}
+}
+
+/* ================= header render ================= */
+function renderHeader(){
+  const L=levelFromXp(S.xp);
+  els.lvlBadge.textContent='LV '+L.lv;
+  els.rankName.textContent=rankFor(L.lv);
+  els.xpFill.style.width=(L.into/L.need*100)+'%';
+  els.xpNum.textContent=L.into+' / '+L.need+' XP';
+  const st=currentStreak();
+  els.streakN.textContent=st;
+  els.streakBox.classList.toggle('dead',st===0);
+}
+renderHeader();
+
+/* ================= stats ================= */
+const tagColor=n=>(TAGS.find(t=>t.n===n)||TAGS[6]).c;
+const minsOn=k=>S.sessions.filter(s=>dayKey(s.end)===k).reduce((a,s)=>a+s.mins,0);
+function renderStats(){
+  const t=today();
+  const todayMin=minsOn(t);
+  let weekMin=0,days=[];
+  for(let i=6;i>=0;i--){const d=new Date(Date.now()-i*864e5);const k=dayKey(d);const m=minsOn(k);weekMin+=m;days.push({k,m,d});}
+  const totalMin=S.sessions.reduce((a,s)=>a+s.mins,0);
+  const best=Math.max(0,...[...new Set(S.sessions.map(s=>dayKey(s.end)))].map(minsOn));
+  $('tiles').innerHTML=[
+    [fmtMin(todayMin),'Today'],[fmtMin(weekMin),'This week'],
+    [currentStreak()+'<small> days</small>','Streak'],[S.sessions.filter(s=>s.completed).length,'Sessions done'],
+    [fmtMin(totalMin),'All time'],[fmtMin(best),'Best day']
+  ].map(x=>'<div class="tile"><div class="v">'+x[0]+'</div><div class="k">'+x[1]+'</div></div>').join('');
+
+  /* timeline 06:00–24:00 */
+  const tl=$('timeline');tl.innerHTML='';
+  const t0=new Date();t0.setHours(6,0,0,0);const span=18*3600e3;
+  for(let h=6;h<=24;h+=3){
+    const x=(h-6)/18*100;
+    tl.insertAdjacentHTML('beforeend','<div class="tick" style="left:'+x+'%"><i>'+(h===24?'12am':h<12?h+'am':h===12?'12pm':(h-12)+'pm')+'</i></div>');
+  }
+  S.sessions.filter(s=>dayKey(s.end)===t).forEach(s=>{
+    const l=Math.max(0,(s.start-t0)/span*100),r=Math.min(100,(s.end-t0)/span*100);
+    if(r>0&&l<100)tl.insertAdjacentHTML('beforeend','<div class="blk" style="left:'+l+'%;width:'+Math.max(1,r-l)+'%;background:'+tagColor(s.tag)+'"></div>');
+  });
+  const nowX=(Date.now()-t0)/span*100;
+  if(nowX>0&&nowX<100)tl.insertAdjacentHTML('beforeend','<div class="now" style="left:'+nowX+'%"></div>');
+
+  /* week bars */
+  const max=Math.max(30,...days.map(d=>d.m));
+  const letters=['S','M','T','W','T','F','S'];
+  let svg='';
+  days.forEach((d,i)=>{
+    const bw=28,gap=(320-7*bw)/8,x=gap+i*(bw+gap),h=Math.max(3,d.m/max*104),y=118-h;
+    const isT=d.k===t;
+    svg+='<rect x="'+x+'" y="'+y+'" width="'+bw+'" height="'+h+'" rx="6" fill="'+(isT?'url(#wg)':'#241F4D')+'"/>';
+    if(d.m>0)svg+='<text x="'+(x+bw/2)+'" y="'+(y-6)+'" text-anchor="middle" font-size="10" fill="'+(isT?'#FFC53D':'#8B87B0')+'" font-family="Space Grotesk" font-weight="700">'+d.m+'</text>';
+    svg+='<text x="'+(x+bw/2)+'" y="140" text-anchor="middle" font-size="10" fill="'+(isT?'#EDEBFF':'#8B87B0')+'" font-family="Space Grotesk">'+letters[d.d.getDay()]+'</text>';
+  });
+  $('weekChart').innerHTML='<defs><linearGradient id="wg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#6C4DFF"/><stop offset="1" stop-color="#B44DFF"/></linearGradient></defs>'+svg;
+
+  /* donut by tag (7 days) */
+  const cutoff=Date.now()-7*864e5;
+  const byTag={};let dtot=0;
+  S.sessions.filter(s=>s.end>=cutoff).forEach(s=>{byTag[s.tag]=(byTag[s.tag]||0)+s.mins;dtot+=s.mins;});
+  if(!dtot){$('donutWrap').innerHTML='<div class="empty">No sessions yet. Go lock in.</div>';}
+  else{
+    const R=52,C=2*Math.PI*R;let off=0,segs='';
+    const entries=Object.entries(byTag).sort((a,b)=>b[1]-a[1]);
+    entries.forEach(([tag,m])=>{
+      const frac=m/dtot;
+      segs+='<circle cx="70" cy="70" r="'+R+'" fill="none" stroke="'+tagColor(tag)+'" stroke-width="16" stroke-dasharray="'+(frac*C-2)+' '+(C-frac*C+2)+'" stroke-dashoffset="'+(-off*C)+'" transform="rotate(-90 70 70)"/>';
+      off+=frac;
+    });
+    $('donutWrap').innerHTML='<div style="display:flex;align-items:center;gap:18px">'+
+      '<svg viewBox="0 0 140 140" style="width:128px;flex-shrink:0">'+segs+
+      '<text x="70" y="66" text-anchor="middle" font-size="18" font-weight="700" fill="#EDEBFF" font-family="Unbounded">'+Math.round(dtot/60*10)/10+'h</text>'+
+      '<text x="70" y="84" text-anchor="middle" font-size="9" fill="#8B87B0" font-family="Space Grotesk">7 DAYS</text></svg>'+
+      '<div style="flex:1">'+entries.map(([tag,m])=>'<div class="sess" style="padding:7px 0"><span class="dot" style="background:'+tagColor(tag)+'"></span><span class="nm" style="font-size:13px">'+tag+'</span><span class="mn">'+fmtMin(m)+'</span></div>').join('')+'</div></div>';
+  }
+
+  /* recent */
+  const rec=S.sessions.slice(-8).reverse();
+  $('recent').innerHTML=rec.length?rec.map(s=>{
+    const d=new Date(s.start);
+    return '<div class="sess"><span class="dot" style="background:'+tagColor(s.tag)+'"></span>'+
+      '<span class="nm">'+esc(s.task)+(s.clean?' ✅':'')+(s.completed?'':' ✖️')+'</span>'+
+      '<span class="mn">'+s.mins+'m · '+d.toLocaleDateString(undefined,{weekday:'short'})+'</span>'+
+      '<span class="xp">+'+s.xp+'</span></div>';
+  }).join(''):'<div class="empty">Your history shows up here.</div>';
+}
+function fmtMin(m){return m>=60?(Math.round(m/60*10)/10)+'<small>h</small>':m+'<small>m</small>';}
+function esc(s){return s.replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));}
+
+/* ================= ranks ================= */
+function renderRanks(){
+  const L=levelFromXp(S.xp);
+  $('rhName').textContent=rankFor(L.lv);
+  $('rhLv').textContent='Level '+L.lv+' · '+S.xp+' XP total';
+  $('rhFill').style.width=(L.into/L.need*100)+'%';
+  const nx=nextRank(L.lv);
+  $('rhNum').textContent=nx?(L.need-L.into)+' XP to Level '+(L.lv+1)+' · next rank “'+nx[1]+'” at Level '+nx[0]:'MAX RANK. Touch grass, legend.';
+  $('ladder').innerHTML=RANKS.map(([l,n],i)=>{
+    const cls=rankFor(L.lv)===n?'cur':(L.lv>=l?'done':'');
+    return '<div class="row '+cls+'"><div class="medal">'+(i+1)+'</div><div class="nm">'+n+'</div><div class="req">Lv '+l+'</div></div>';
+  }).join('');
+}
+
+/* ================= juice: sound, confetti, orbs ================= */
+let actx=null;
+function chime(big){
+  try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    const notes=big?[523.25,659.25,783.99,1046.5]:[659.25,987.77];
+    notes.forEach((f,i)=>{
+      const o=actx.createOscillator(),g=actx.createGain();
+      o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(0,actx.currentTime+i*0.12);
+      g.gain.linearRampToValueAtTime(0.18,actx.currentTime+i*0.12+0.02);
+      g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+i*0.12+0.6);
+      o.connect(g).connect(actx.destination);
+      o.start(actx.currentTime+i*0.12);o.stop(actx.currentTime+i*0.12+0.65);
+    });
+  }catch(e){}
+}
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=$('confetti'),ctx=cv.getContext('2d');let parts=[],confId=null;
+function burst(n){
+  if(reduced)return;
+  cv.width=innerWidth;cv.height=innerHeight;
+  const cols=['#6C4DFF','#B44DFF','#FFC53D','#4FE3C1','#FF6B35','#fff'];
+  for(let i=0;i<n;i++)parts.push({x:innerWidth/2,y:innerHeight*0.35,vx:(Math.random()-.5)*14,vy:-Math.random()*13-3,r:Math.random()*5+3,c:cols[i%cols.length],a:1,rot:Math.random()*6});
+  if(!confId)confId=requestAnimationFrame(step);
+}
+function step(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.45;p.a-=0.012;p.rot+=0.1;
+    ctx.save();ctx.globalAlpha=Math.max(0,p.a);ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);ctx.restore();});
+  parts=parts.filter(p=>p.a>0&&p.y<cv.height+40);
+  if(parts.length)confId=requestAnimationFrame(step);else{confId=null;ctx.clearRect(0,0,cv.width,cv.height);}
+}
+function flyOrbs(n){
+  if(reduced){renderHeader();return;}
+  const tgt=els.xpFill.getBoundingClientRect();
+  for(let i=0;i<n;i++){
+    const o=document.createElement('div');o.className='orb';
+    const sx=innerWidth/2+(Math.random()-.5)*140,sy=innerHeight*0.45+(Math.random()-.5)*90;
+    o.style.left=sx+'px';o.style.top=sy+'px';document.body.appendChild(o);
+    o.animate([
+      {transform:'translate(0,0) scale(1)',opacity:1},
+      {transform:'translate('+(tgt.left+20-sx)+'px,'+(tgt.top-sy)+'px) scale(.4)',opacity:.9}
+    ],{duration:650+i*70,easing:'cubic-bezier(.4,0,.6,1)',fill:'forwards'}).onfinish=()=>o.remove();
+  }
+  setTimeout(renderHeader,750);
+}
+
+/* ================= misc ================= */
+let toastId=null;
+function toast(msg){els.toast.textContent=msg;els.toast.classList.add('show');clearTimeout(toastId);toastId=setTimeout(()=>els.toast.classList.remove('show'),2400);}
+addEventListener('resize',()=>{if(confId){cv.width=innerWidth;cv.height=innerHeight;}});
+
+/* service worker */
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>

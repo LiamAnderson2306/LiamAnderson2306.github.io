@@ -1,0 +1,16 @@
+{
+  "name": "FLOWSTATE",
+  "short_name": "FLOWSTATE",
+  "description": "Focus timer with XP, ranks and streaks. Lock in, level up.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A0918",
+  "theme_color": "#0A0918",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
