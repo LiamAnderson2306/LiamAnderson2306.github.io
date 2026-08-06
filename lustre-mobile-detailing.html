@@ -3,8 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lustre Mobile Detailing — Perth Metro | We Bring The Shine To Your Driveway</title>
-<meta name="description" content="Mobile car detailing across Perth. Full hand detailing, paint correction and ceramic coating — we come to your driveway. Photo quotes, fully insured, satisfaction checked before we leave.">
+<title>Mobile Car Detailing Perth | Lustre — We Come To Your Driveway</title>
+<meta name="description" content="Mobile car detailing across Perth Metro. Express wash from $89, full detailing, paint correction and ceramic coating — we come to your driveway. Photo quotes, fully insured, satisfaction checked before we leave.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://liamanderson2306.github.io/lustre-mobile-detailing.html">
+
+<!-- Geo / local SEO -->
+<meta name="geo.region" content="AU-WA">
+<meta name="geo.placename" content="Perth">
+<meta name="ICBM" content="-31.9523, 115.8613">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mobile Car Detailing Perth | Lustre">
+<meta property="og:description" content="Full hand detailing, paint correction and ceramic coating — we come to your driveway anywhere in Perth Metro. Photo quotes, fully insured.">
+<meta property="og:image" content="https://liamanderson2306.github.io/images/lustre-lambo.jpg">
+<meta property="og:url" content="https://liamanderson2306.github.io/lustre-mobile-detailing.html">
+<meta property="og:locale" content="en_AU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mobile Car Detailing Perth | Lustre">
+<meta name="twitter:description" content="Full hand detailing, paint correction and ceramic coating — we come to your driveway anywhere in Perth Metro.">
+<meta name="twitter:image" content="https://liamanderson2306.github.io/images/lustre-lambo.jpg">
+
+<!-- Local business structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutoWash",
+  "name": "Lustre Mobile Detailing",
+  "image": "https://liamanderson2306.github.io/images/lustre-lambo.jpg",
+  "url": "https://liamanderson2306.github.io/lustre-mobile-detailing.html",
+  "telephone": "+61493437981",
+  "email": "andersonwebstudio@outlook.com",
+  "priceRange": "$89-$899",
+  "areaServed": {
+    "@type": "City",
+    "name": "Perth",
+    "address": { "@type": "PostalAddress", "addressRegion": "WA", "addressCountry": "AU" }
+  },
+  "address": { "@type": "PostalAddress", "addressLocality": "Perth", "addressRegion": "WA", "addressCountry": "AU" },
+  "geo": { "@type": "GeoCoordinates", "latitude": -31.9523, "longitude": 115.8613 },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+    "opens": "07:00",
+    "closes": "18:00"
+  },
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Express Wash" }, "price": "89", "priceCurrency": "AUD" },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Standard Detail" }, "price": "179", "priceCurrency": "AUD" },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Premium Detail" }, "price": "299", "priceCurrency": "AUD" },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ceramic Coating" }, "price": "899", "priceCurrency": "AUD" }
+  ]
+}
+</script>
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -257,6 +309,18 @@ nav.links a:hover{color:var(--chrome);}
 .why-card h3{font-size:1.02rem;margin-bottom:.6rem;font-family:var(--body);font-weight:700;}
 .why-card p{font-size:.86rem;color:var(--chrome-dim);}
 
+/* ===== Reviews ===== */
+#reviews{background:var(--graphite);}
+.reviews-layout{display:grid;grid-template-columns:1fr 1fr;gap:3.2rem;align-items:start;}
+@media(max-width:900px){.reviews-layout{grid-template-columns:1fr;}}
+.review-form{background:var(--graphite-2);border:1px solid var(--steel);border-radius:var(--radius);padding:2rem;}
+.star-rating{display:flex;gap:.4rem;margin-top:.6rem;}
+.star-rating .star{width:34px;height:34px;color:var(--steel);transition:color .2s ease,transform .2s ease;padding:0;}
+.star-rating .star svg{width:100%;height:100%;}
+.star-rating .star:hover,.star-rating .star:hover ~ .star{color:var(--steel);}
+.star-rating .star.active{color:var(--bronze);}
+.star-rating .star:hover{transform:scale(1.12);}
+
 /* ===== Service area ===== */
 #area{background:var(--ink);}
 .area-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
@@ -333,6 +397,7 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
     <a href="#hero" class="logo"><span class="dot"></span>LUSTRE</a>
     <nav class="links">
       <a href="#pricing">Pricing</a>
+      <a href="#reviews">Reviews</a>
       <a href="#area">Service Area</a>
       <a href="#booking">Booking</a>
     </nav>
@@ -503,6 +568,52 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
   </div>
 </section>
 
+<!-- ===================== REVIEWS ===================== -->
+<section id="reviews">
+  <div class="container reviews-layout">
+    <div class="reveal">
+      <p class="eyebrow">Reviews</p>
+      <h2>Be one of our first reviews</h2>
+      <p style="color:var(--chrome-dim);margin-top:1rem;max-width:44ch;">Lustre is a brand new business — we don't have a page full of five-star ratings yet, and we're not going to pretend otherwise. Every honest review from here helps the next person trust us with their car.</p>
+      <ul class="booking-list" style="margin-top:2rem;">
+        <li><b>01</b><span>Had a detail with us? Rate it honestly, good or bad.</span></li>
+        <li><b>02</b><span>It comes straight to us by email — no public listing yet.</span></li>
+        <li><b>03</b><span>We read every one and use it to get better.</span></li>
+      </ul>
+    </div>
+
+    <form class="quote review-form reveal" id="reviewForm">
+      <div>
+        <label>Your rating</label>
+        <div class="star-rating" id="starRating" role="radiogroup" aria-label="Star rating">
+          <button type="button" class="star" data-value="1" aria-label="1 star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" class="star" data-value="2" aria-label="2 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" class="star" data-value="3" aria-label="3 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" class="star" data-value="4" aria-label="4 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" class="star" data-value="5" aria-label="5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+        </div>
+        <input type="hidden" id="r-rating" name="rating" value="0" required>
+        <p id="starError" style="display:none;color:var(--red);font-size:.8rem;margin-top:.5rem;">Pick a star rating first.</p>
+      </div>
+      <div class="field-row">
+        <div>
+          <label for="r-name">Name</label>
+          <input id="r-name" name="name" type="text" required placeholder="Your name">
+        </div>
+        <div>
+          <label for="r-suburb">Suburb</label>
+          <input id="r-suburb" name="suburb" type="text" placeholder="e.g. Fremantle">
+        </div>
+      </div>
+      <div>
+        <label for="r-comment">Your review</label>
+        <textarea id="r-comment" name="comment" required placeholder="How did we go?"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary magnetic" style="align-self:flex-start;">Send review</button>
+    </form>
+  </div>
+</section>
+
 <!-- ===================== SERVICE AREA ===================== -->
 <section id="area">
   <div class="container area-layout">
@@ -612,6 +723,7 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
         <div class="footer-col">
           <h4>Site</h4>
           <a href="#pricing">Pricing</a>
+          <a href="#reviews">Reviews</a>
           <a href="#booking">Booking</a>
         </div>
         <div class="footer-col">
@@ -787,6 +899,47 @@ try{
       'Notes: ' + d.get('notes');
     var mailto = 'mailto:andersonwebstudio@outlook.com?subject=' +
       encodeURIComponent('Quote request — ' + d.get('name')) +
+      '&body=' + encodeURIComponent(body);
+    window.location.href = mailto;
+  });
+})();
+
+/* ---------- Star rating widget + review form -> mailto ---------- */
+(function(){
+  var group = document.getElementById('starRating');
+  var ratingInput = document.getElementById('r-rating');
+  var form = document.getElementById('reviewForm');
+  if(!group || !form) return;
+
+  var stars = Array.prototype.slice.call(group.querySelectorAll('.star'));
+  function paint(value){
+    stars.forEach(function(s){
+      s.classList.toggle('active', Number(s.dataset.value) <= value);
+    });
+  }
+  stars.forEach(function(s){
+    s.addEventListener('click', function(){
+      ratingInput.value = s.dataset.value;
+      paint(Number(s.dataset.value));
+    });
+    s.addEventListener('mouseenter', function(){ paint(Number(s.dataset.value)); });
+  });
+  group.addEventListener('mouseleave', function(){ paint(Number(ratingInput.value)); });
+
+  var err = document.getElementById('starError');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(Number(ratingInput.value) < 1){ if(err) err.style.display = 'block'; group.scrollIntoView({ block:'center', behavior:'smooth' }); return; }
+    if(err) err.style.display = 'none';
+    var d = new FormData(form);
+    var starsText = Array(Number(d.get('rating'))).fill('★').join('') + Array(5 - Number(d.get('rating'))).fill('☆').join('');
+    var body =
+      'Rating: ' + starsText + ' (' + d.get('rating') + '/5)\n' +
+      'Name: ' + d.get('name') + '\n' +
+      'Suburb: ' + d.get('suburb') + '\n\n' +
+      d.get('comment');
+    var mailto = 'mailto:andersonwebstudio@outlook.com?subject=' +
+      encodeURIComponent('New review — ' + d.get('name') + ' (' + d.get('rating') + '★)') +
       '&body=' + encodeURIComponent(body);
     window.location.href = mailto;
   });
