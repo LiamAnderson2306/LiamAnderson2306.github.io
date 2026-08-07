@@ -53,7 +53,9 @@
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Express Wash" }, "price": "89", "priceCurrency": "AUD" },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Standard Detail" }, "price": "179", "priceCurrency": "AUD" },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Premium Detail" }, "price": "299", "priceCurrency": "AUD" },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ceramic Coating" }, "price": "899", "priceCurrency": "AUD" }
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Paint Restoration" }, "price": "499", "priceCurrency": "AUD" },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ceramic Coating" }, "price": "899", "priceCurrency": "AUD" },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Light Buffer" }, "price": "139", "priceCurrency": "AUD" }
   ]
 }
 </script>
@@ -266,7 +268,7 @@ nav.links a:hover{color:var(--chrome);}
 
 /* ===== Pricing ===== */
 #pricing{background:var(--ink);}
-.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
 @media(max-width:1100px){.pricing-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:620px){.pricing-grid{grid-template-columns:1fr;}}
 .price-card{
@@ -552,6 +554,21 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
 
       <div class="price-card reveal">
         <div>
+          <h3>Paint Restoration</h3>
+          <div class="amount">$499<span>from · ~5–6 hrs</span></div>
+        </div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Pre-wash &amp; decontamination</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Multi-stage machine paint correction</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Removes oxidation, swirls &amp; light scratches</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Protective sealant finish</li>
+        </ul>
+        <button type="button" class="detail-link" data-package="restoration">See full details &amp; pricing for larger cars</button>
+        <a href="#booking" class="btn btn-ghost magnetic">Book Restoration</a>
+      </div>
+
+      <div class="price-card reveal">
+        <div>
           <h3>Ceramic Coating</h3>
           <div class="amount">$899<span>from · by appointment</span></div>
         </div>
@@ -575,6 +592,15 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
       </div>
       <div class="amount">from $59/mo</div>
       <a href="#booking" class="btn btn-ghost magnetic">Ask about membership</a>
+    </div>
+
+    <div class="membership reveal">
+      <div>
+        <h3>Light Buffer</h3>
+        <p>Just want a quick shine boost? A single-stage machine polish to knock back light swirls and add gloss — on its own, no wash or detail required.</p>
+      </div>
+      <div class="amount">$139</div>
+      <a href="#booking" class="btn btn-ghost magnetic">Book Light Buffer</a>
     </div>
   </div>
 </section>
@@ -749,7 +775,9 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
             <option>Express Wash — from $89</option>
             <option>Standard Detail — from $179</option>
             <option>Premium Detail — from $299</option>
+            <option>Paint Restoration — from $499</option>
             <option>Ceramic Coating — from $899</option>
+            <option>Light Buffer — $139</option>
             <option>Not sure — recommend me one</option>
           </select>
         </div>
@@ -1053,6 +1081,16 @@ try{
         'Door jambs & shuts detailed',
         'Leather conditioning where fitted',
         'Machine-applied paint sealant'
+      ]
+    },
+    restoration: {
+      title: 'Paint Restoration', time: 'from $499 · ~5–6 hrs',
+      inclusions: [
+        'Pre-wash & clay decontamination — paint fully prepped before any machine work',
+        'Multi-stage machine paint correction, panel by panel',
+        'Removes oxidation, swirls & light scratches',
+        'Restores faded paint back toward a like-new finish',
+        'Protective sealant finish to lock in the result — no ceramic coating included'
       ]
     },
     ceramic: {
