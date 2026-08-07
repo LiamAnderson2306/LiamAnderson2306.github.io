@@ -334,6 +334,27 @@ nav.links a:hover{color:var(--chrome);}
 .package-modal-extras-list li span:first-child{color:var(--chrome);}
 .package-modal-extras-list li span:last-child{color:var(--bronze);font-family:var(--mono);white-space:nowrap;}
 .package-modal-note{color:var(--chrome-dim);font-size:.78rem;margin-top:1rem;}
+
+.pm-booking{border-top:1px solid var(--steel);padding-top:1.4rem;margin-bottom:1.4rem;}
+.pm-booking h4{font-family:var(--body);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--chrome-dim);margin-bottom:.8rem;}
+.pm-booking label{display:block;font-size:.8rem;color:var(--chrome-dim);margin-bottom:.4rem;}
+.pm-booking input[type="date"]{
+  width:100%;background:var(--graphite);border:1px solid var(--steel);border-radius:10px;
+  padding:.7rem .8rem;color:var(--chrome);font-family:var(--body);font-size:.92rem;margin-bottom:1rem;
+}
+.pm-slots{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem;}
+.pm-slot-btn{
+  background:var(--graphite);border:1px solid var(--steel);border-radius:8px;color:var(--chrome);
+  font-family:var(--mono);font-size:.82rem;padding:.5rem .8rem;cursor:pointer;transition:border-color .2s ease,color .2s ease;
+}
+.pm-slot-btn:hover,.pm-slot-btn:focus-visible{border-color:var(--cyan);color:var(--cyan);}
+.pm-slot-btn.selected{background:var(--cyan);border-color:var(--cyan);color:#04211d;}
+.pm-booking-status{color:var(--chrome-dim);font-size:.82rem;min-height:1.2em;}
+.pm-booking-status.error{color:var(--red);}
+.pm-booking-status.success{color:var(--cyan);}
+.pm-confirm-form{display:flex;flex-direction:column;gap:.9rem;margin-top:1rem;}
+.pm-selected-slot{font-family:var(--mono);font-size:.85rem;color:var(--cyan);}
+
 @media(prefers-reduced-motion:no-preference){
   .package-modal{transition:opacity .25s ease, transform .25s ease;opacity:0;transform:translateY(12px) scale(.98);}
   .package-modal[open]{opacity:1;transform:translateY(0) scale(1);}
@@ -636,6 +657,38 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
         <li><span>Stubborn stain &amp; odour treatment</span><span>+$45</span></li>
       </ul>
       <p class="package-modal-note">Every quote is confirmed from your photos before booking, so there's never a surprise on the day.</p>
+    </div>
+
+    <div class="pm-booking" id="pmBooking">
+      <h4>Book a time</h4>
+      <label for="pmDate">Pick a date</label>
+      <input type="date" id="pmDate">
+      <div class="pm-slots" id="pmSlots"></div>
+      <p class="pm-booking-status" id="pmSlotsStatus"></p>
+
+      <form class="pm-confirm-form" id="pmConfirmForm" style="display:none;">
+        <p class="pm-selected-slot" id="pmSelectedSlot"></p>
+        <div class="field-row">
+          <div>
+            <label for="pm-name">Name</label>
+            <input id="pm-name" name="name" type="text" required placeholder="Your name">
+          </div>
+          <div>
+            <label for="pm-phone">Phone</label>
+            <input id="pm-phone" name="phone" type="tel" required placeholder="04xx xxx xxx">
+          </div>
+        </div>
+        <div>
+          <label for="pm-suburb">Suburb</label>
+          <input id="pm-suburb" name="suburb" type="text" placeholder="e.g. Joondalup">
+        </div>
+        <div>
+          <label for="pm-notes">Anything we should know?</label>
+          <textarea id="pm-notes" name="notes" placeholder="Pet hair, stains, gate code..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary magnetic" id="pmConfirmBtn">Confirm booking</button>
+      </form>
+      <p class="pm-booking-status" id="pmBookingResult"></p>
     </div>
 
     <a href="#booking" class="btn btn-primary magnetic" id="pmBookLink">Book this package</a>
@@ -1115,9 +1168,137 @@ try{
     }
   };
 
+  // TODO(Adam): replace with the real Worker URL once deployed, e.g.
+  // https://lustre-booking.YOUR-SUBDOMAIN.workers.dev
+  var BOOKING_API = 'https://REPLACE-WITH-WORKER-URL.workers.dev';
+  var INSTANT_BOOKABLE = { express: true, standard: true, premium: true };
+
+  var pmBooking = document.getElementById('pmBooking');
+  var pmDate = document.getElementById('pmDate');
+  var pmSlots = document.getElementById('pmSlots');
+  var pmSlotsStatus = document.getElementById('pmSlotsStatus');
+  var pmConfirmForm = document.getElementById('pmConfirmForm');
+  var pmSelectedSlot = document.getElementById('pmSelectedSlot');
+  var pmBookingResult = document.getElementById('pmBookingResult');
+  var pmBookLink = document.getElementById('pmBookLink');
+  var currentKey = null;
+  var currentSlot = null;
+
+  function todayISO(){
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function addDaysISO(days){
+    var d = new Date();
+    d.setDate(d.getDate() + days);
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function resetBookingWidget(){
+    pmSlots.innerHTML = '';
+    pmSlotsStatus.textContent = '';
+    pmSlotsStatus.className = 'pm-booking-status';
+    pmConfirmForm.style.display = 'none';
+    pmConfirmForm.reset();
+    pmBookingResult.textContent = '';
+    pmBookingResult.className = 'pm-booking-status';
+    currentSlot = null;
+  }
+
+  function loadSlots(dateStr){
+    resetBookingWidget();
+    if(!dateStr || !currentKey) return;
+    pmSlotsStatus.textContent = 'Checking availability…';
+    fetch(BOOKING_API + '/availability?date=' + encodeURIComponent(dateStr) + '&package=' + encodeURIComponent(currentKey))
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if(data.error){ throw new Error(data.error); }
+        pmSlotsStatus.textContent = '';
+        if(!data.slots || data.slots.length === 0){
+          pmSlotsStatus.textContent = 'Nothing free that day — try another date, or send a photo quote request below.';
+          return;
+        }
+        data.slots.forEach(function(time){
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'pm-slot-btn';
+          btn.textContent = time;
+          btn.addEventListener('click', function(){
+            Array.prototype.forEach.call(pmSlots.querySelectorAll('.pm-slot-btn'), function(b){ b.classList.remove('selected'); });
+            btn.classList.add('selected');
+            currentSlot = { date: dateStr, time: time };
+            pmSelectedSlot.textContent = 'Selected: ' + dateStr + ' at ' + time;
+            pmConfirmForm.style.display = 'flex';
+            pmBookingResult.textContent = '';
+            pmBookingResult.className = 'pm-booking-status';
+          });
+          pmSlots.appendChild(btn);
+        });
+      })
+      .catch(function(){
+        pmSlotsStatus.textContent = 'Couldn\'t load availability right now — send a photo quote request below instead.';
+        pmSlotsStatus.className = 'pm-booking-status error';
+      });
+  }
+
+  pmDate.addEventListener('change', function(){ loadSlots(pmDate.value); });
+
+  pmConfirmForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!currentSlot || !currentKey) return;
+    var fd = new FormData(pmConfirmForm);
+    var confirmBtn = document.getElementById('pmConfirmBtn');
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Booking…';
+    pmBookingResult.textContent = '';
+    pmBookingResult.className = 'pm-booking-status';
+
+    fetch(BOOKING_API + '/book', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        date: currentSlot.date,
+        time: currentSlot.time,
+        package: currentKey,
+        name: fd.get('name'),
+        phone: fd.get('phone'),
+        suburb: fd.get('suburb'),
+        notes: fd.get('notes')
+      })
+    })
+      .then(function(r){ return r.json().then(function(data){ return { status: r.status, data: data }; }); })
+      .then(function(res){
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Confirm booking';
+        if(res.data.ok){
+          pmBookingResult.textContent = 'Booked! ' + currentSlot.date + ' at ' + currentSlot.time + ' — see you then.';
+          pmBookingResult.className = 'pm-booking-status success';
+          pmConfirmForm.style.display = 'none';
+          pmSlots.innerHTML = '';
+        } else if(res.status === 409){
+          // loadSlots() resets the whole widget (including this status message) as
+          // its first step, so refresh the slot list BEFORE setting the message —
+          // not after — or the message gets wiped the instant it's shown.
+          var conflictDate = currentSlot.date;
+          loadSlots(conflictDate);
+          pmBookingResult.textContent = res.data.error || 'That time was just taken — pick another slot.';
+          pmBookingResult.className = 'pm-booking-status error';
+        } else {
+          pmBookingResult.textContent = res.data.error || 'Something went wrong — try again, or send a photo quote request below.';
+          pmBookingResult.className = 'pm-booking-status error';
+        }
+      })
+      .catch(function(){
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Confirm booking';
+        pmBookingResult.textContent = 'Couldn\'t reach the booking system — send a photo quote request below instead.';
+        pmBookingResult.className = 'pm-booking-status error';
+      });
+  });
+
   function openPackage(key){
     var pkg = PACKAGES[key];
     if(!pkg) return;
+    currentKey = key;
     document.getElementById('pmTitle').textContent = pkg.title;
     document.getElementById('pmTime').textContent = pkg.time;
     var list = document.getElementById('pmInclusions');
@@ -1127,6 +1308,23 @@ try{
       li.textContent = item;
       list.appendChild(li);
     });
+
+    resetBookingWidget();
+    if(INSTANT_BOOKABLE[key]){
+      pmBooking.style.display = 'block';
+      pmDate.min = todayISO();
+      pmDate.max = addDaysISO(30);
+      pmDate.value = '';
+      pmBookLink.textContent = 'Prefer a photo quote instead?';
+      pmBookLink.classList.remove('btn-primary');
+      pmBookLink.classList.add('btn-ghost');
+    } else {
+      pmBooking.style.display = 'none';
+      pmBookLink.textContent = key === 'ceramic' ? 'Enquire' : 'Book this package';
+      pmBookLink.classList.remove('btn-ghost');
+      pmBookLink.classList.add('btn-primary');
+    }
+
     modal.showModal();
   }
 
@@ -1135,7 +1333,7 @@ try{
   });
   closeBtn.addEventListener('click', function(){ modal.close(); });
   modal.addEventListener('click', function(e){ if(e.target === modal) modal.close(); });
-  document.getElementById('pmBookLink').addEventListener('click', function(){ modal.close(); });
+  pmBookLink.addEventListener('click', function(){ modal.close(); });
 })();
 </script>
 
