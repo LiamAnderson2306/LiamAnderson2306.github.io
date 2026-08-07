@@ -299,6 +299,45 @@ nav.links a:hover{color:var(--chrome);}
 .membership p{color:var(--chrome-dim);font-size:.9rem;max-width:48ch;}
 .membership .amount{font-family:var(--mono);color:var(--bronze);font-size:1.6rem;white-space:nowrap;}
 
+.detail-link{
+  background:none;border:none;padding:0;text-align:left;cursor:pointer;
+  color:var(--cyan);font-size:.82rem;font-family:var(--body);font-weight:600;
+  text-decoration:underline;text-underline-offset:3px;text-decoration-color:transparent;
+  transition:text-decoration-color .25s ease;
+}
+.detail-link:hover,.detail-link:focus-visible{text-decoration-color:var(--cyan);}
+
+/* ===== Package detail modal ===== */
+.package-modal{
+  background:var(--graphite-2);color:var(--chrome);border:1px solid var(--steel);border-radius:var(--radius);
+  padding:0;max-width:520px;width:calc(100vw - 2.4rem);max-height:calc(100vh - 4rem);
+}
+.package-modal::backdrop{background:rgba(4,5,7,.72);backdrop-filter:blur(3px);}
+.package-modal-body{padding:2.2rem 2rem 2rem;overflow-y:auto;max-height:calc(100vh - 4rem);}
+.package-modal-close{
+  position:absolute;top:1.1rem;right:1.1rem;width:36px;height:36px;border-radius:50%;
+  background:var(--graphite);border:1px solid var(--steel);color:var(--chrome-dim);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:color .2s ease,border-color .2s ease;
+}
+.package-modal-close:hover,.package-modal-close:focus-visible{color:var(--chrome);border-color:var(--cyan);}
+.package-modal-close svg{width:16px;height:16px;}
+.package-modal-time{color:var(--chrome-dim);font-size:.85rem;font-family:var(--mono);margin-top:.3rem;margin-bottom:1.3rem;}
+#pmInclusions{display:flex;flex-direction:column;gap:.6rem;font-size:.92rem;color:var(--chrome-dim);margin-bottom:1.8rem;}
+#pmInclusions li{display:flex;gap:.6rem;align-items:flex-start;}
+#pmInclusions li::before{content:'';flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-top:.5rem;}
+.package-modal-extras{border-top:1px solid var(--steel);padding-top:1.4rem;margin-bottom:1.6rem;}
+.package-modal-extras h4{font-family:var(--body);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--chrome-dim);margin-bottom:.7rem;}
+.package-modal-extras h4:not(:first-child){margin-top:1.2rem;}
+.package-modal-extras-list{display:flex;flex-direction:column;gap:.5rem;font-size:.88rem;}
+.package-modal-extras-list li{display:flex;justify-content:space-between;gap:1rem;}
+.package-modal-extras-list li span:first-child{color:var(--chrome);}
+.package-modal-extras-list li span:last-child{color:var(--bronze);font-family:var(--mono);white-space:nowrap;}
+.package-modal-note{color:var(--chrome-dim);font-size:.78rem;margin-top:1rem;}
+@media(prefers-reduced-motion:no-preference){
+  .package-modal{transition:opacity .25s ease, transform .25s ease;opacity:0;transform:translateY(12px) scale(.98);}
+  .package-modal[open]{opacity:1;transform:translateY(0) scale(1);}
+}
+
 /* ===== Trust / why ===== */
 #why{background:var(--graphite);}
 .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;}
@@ -477,6 +516,7 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Quick interior vacuum</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Windows &amp; tyre dressing</li>
         </ul>
+        <button type="button" class="detail-link" data-package="express">See full details &amp; pricing for larger cars</button>
         <a href="#booking" class="btn btn-ghost magnetic">Book Express</a>
       </div>
 
@@ -491,6 +531,7 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Spray wax or sealant finish</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Interior glass, streak-free</li>
         </ul>
+        <button type="button" class="detail-link" data-package="standard">See full details &amp; pricing for larger cars</button>
         <a href="#booking" class="btn btn-primary magnetic">Book Standard</a>
       </div>
 
@@ -505,6 +546,7 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Engine bay &amp; door jambs</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Leather conditioning &amp; machine sealant</li>
         </ul>
+        <button type="button" class="detail-link" data-package="premium">See full details &amp; pricing for larger cars</button>
         <a href="#booking" class="btn btn-ghost magnetic">Book Premium</a>
       </div>
 
@@ -519,6 +561,7 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Long-term hydrophobic gloss</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Needs a controlled, undercover space</li>
         </ul>
+        <button type="button" class="detail-link" data-package="ceramic">See full details &amp; pricing for larger cars</button>
         <a href="#booking" class="btn btn-ghost magnetic">Enquire</a>
       </div>
     </div>
@@ -528,13 +571,42 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
     <div class="membership reveal">
       <div>
         <h3>Regular Shine Membership</h3>
-        <p>A maintenance wash every fortnight, so your car never drops far from that just-detailed feel. Cancel anytime.</p>
+        <p>A maintenance wash every fortnight, so your car never drops far from that just-detailed feel. Stay on the plan and every visit after your first is <strong>20% off</strong> — upgrade to a bigger detail whenever you like and the 20% still applies. Cancel anytime.</p>
       </div>
       <div class="amount">from $59/mo</div>
       <a href="#booking" class="btn btn-ghost magnetic">Ask about membership</a>
     </div>
   </div>
 </section>
+
+<dialog class="package-modal" id="packageModal">
+  <button type="button" class="package-modal-close" id="packageModalClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l18 12"/></svg>
+  </button>
+  <div class="package-modal-body">
+    <p class="eyebrow" id="pmEyebrow">Package</p>
+    <h3 id="pmTitle"></h3>
+    <p class="package-modal-time" id="pmTime"></p>
+    <ul id="pmInclusions"></ul>
+
+    <div class="package-modal-extras">
+      <h4>Vehicle size</h4>
+      <ul class="package-modal-extras-list">
+        <li><span>Sedan / hatch</span><span>included in price shown</span></li>
+        <li><span>Medium SUV / wagon</span><span>+$20</span></li>
+        <li><span>Large SUV / 4WD / van / ute</span><span>+$40</span></li>
+      </ul>
+      <h4>Common add-ons</h4>
+      <ul class="package-modal-extras-list">
+        <li><span>Pet hair removal</span><span>+$35</span></li>
+        <li><span>Stubborn stain &amp; odour treatment</span><span>+$45</span></li>
+      </ul>
+      <p class="package-modal-note">Every quote is confirmed from your photos before booking, so there's never a surprise on the day.</p>
+    </div>
+
+    <a href="#booking" class="btn btn-primary magnetic" id="pmBookLink">Book this package</a>
+  </div>
+</dialog>
 
 <!-- ===================== WHY LUSTRE ===================== -->
 <section id="why">
@@ -943,6 +1015,79 @@ try{
       '&body=' + encodeURIComponent(body);
     window.location.href = mailto;
   });
+})();
+
+/* ---------- Package detail modal ---------- */
+(function(){
+  var modal = document.getElementById('packageModal');
+  var closeBtn = document.getElementById('packageModalClose');
+  if(!modal) return;
+
+  var PACKAGES = {
+    express: {
+      title: 'Express Wash', time: 'from $89 · ~45 min',
+      inclusions: [
+        'Wheels & tyres cleaned first, so brake dust never drags across the paint',
+        'Two-bucket hand wash & dry — no touchless/automatic gear',
+        'Quick interior vacuum — seats & floors',
+        'Windows cleaned inside & out',
+        'Tyre dressing finish'
+      ]
+    },
+    standard: {
+      title: 'Standard Detail', time: 'from $179 · ~2–3 hrs',
+      inclusions: [
+        'Everything in Express Wash',
+        'Full interior wipe-down — dash, console, doors, vents',
+        'Seats & carpets vacuumed and deep-cleaned',
+        'Spray wax or sealant paint finish',
+        'Interior glass, streak-free'
+      ]
+    },
+    premium: {
+      title: 'Premium Detail', time: 'from $299 · ~3–5 hrs',
+      inclusions: [
+        'Everything in Standard Detail',
+        'Steam-cleaned interior — seats & carpets',
+        'Engine bay cleaned',
+        'Door jambs & shuts detailed',
+        'Leather conditioning where fitted',
+        'Machine-applied paint sealant'
+      ]
+    },
+    ceramic: {
+      title: 'Ceramic Coating', time: 'from $899 · by appointment',
+      inclusions: [
+        'Full machine paint correction — swirls & light scratches polished out',
+        'Multi-stage paint decontamination & prep',
+        'Professional ceramic coating application',
+        'Long-term hydrophobic, UV-resistant gloss',
+        'Needs a controlled, undercover space — booked in advance, usually a full day'
+      ]
+    }
+  };
+
+  function openPackage(key){
+    var pkg = PACKAGES[key];
+    if(!pkg) return;
+    document.getElementById('pmTitle').textContent = pkg.title;
+    document.getElementById('pmTime').textContent = pkg.time;
+    var list = document.getElementById('pmInclusions');
+    list.innerHTML = '';
+    pkg.inclusions.forEach(function(item){
+      var li = document.createElement('li');
+      li.textContent = item;
+      list.appendChild(li);
+    });
+    modal.showModal();
+  }
+
+  document.querySelectorAll('.detail-link').forEach(function(btn){
+    btn.addEventListener('click', function(){ openPackage(btn.dataset.package); });
+  });
+  closeBtn.addEventListener('click', function(){ modal.close(); });
+  modal.addEventListener('click', function(e){ if(e.target === modal) modal.close(); });
+  document.getElementById('pmBookLink').addEventListener('click', function(){ modal.close(); });
 })();
 </script>
 
