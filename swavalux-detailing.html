@@ -51,8 +51,7 @@
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Express Wash" }, "price": "89", "priceCurrency": "AUD" },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Standard Detail" }, "price": "179", "priceCurrency": "AUD" },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Headlight Buffer" }, "price": "139", "priceCurrency": "AUD" },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Detail" }, "price": "149", "priceCurrency": "AUD" },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interior Detail" }, "price": "159", "priceCurrency": "AUD" }
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Detail" }, "price": "149", "priceCurrency": "AUD" }
   ]
 }
 </script>
@@ -265,7 +264,8 @@ nav.links a:hover{color:var(--chrome);}
 
 /* ===== Pricing ===== */
 #pricing{background:var(--ink);}
-.pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;max-width:760px;margin:0 auto;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+@media(max-width:900px){.pricing-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:620px){.pricing-grid{grid-template-columns:1fr;}}
 .price-card{
   background:var(--graphite);border:1px solid var(--steel);border-radius:var(--radius);
@@ -568,21 +568,6 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
         <button type="button" class="detail-link" data-package="exterior">See full details &amp; pricing for larger cars</button>
         <a href="#booking" class="btn btn-ghost magnetic">Book Exterior</a>
       </div>
-
-      <div class="price-card reveal">
-        <div>
-          <h3>Interior Detail</h3>
-          <div class="amount">$159<span>from · ~2–2.5 hrs</span></div>
-        </div>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Full interior wipe-down</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Deep hand-vacuum — seats, carpets, boot</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Hand-scrubbed seat &amp; carpet spot treatment</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Streak-free interior glass</li>
-        </ul>
-        <button type="button" class="detail-link" data-package="interior">See full details &amp; pricing for larger cars</button>
-        <a href="#booking" class="btn btn-ghost magnetic">Book Interior</a>
-      </div>
     </div>
 
     <p class="price-note reveal">Prices are a starting guide for a standard sedan/small SUV — vans, utes and larger 4WDs may cost a little more, and heavily soiled interiors are always confirmed from your photos first. GST included.</p>
@@ -628,8 +613,9 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
       <ul class="package-modal-extras-list">
         <li><span>Pet hair removal</span><span>+$35</span></li>
         <li><span>Stubborn stain &amp; odour treatment</span><span>+$45</span></li>
+        <li><span>Clay bar scrub (if paint needs it)</span><span>+$45</span></li>
       </ul>
-      <p class="package-modal-note">Every quote is confirmed from your photos before booking, so there's never a surprise on the day.</p>
+      <p class="package-modal-note">Every quote is confirmed from your photos before booking, so there's never a surprise on the day. Clay scrub is only added if your paint's actually contaminated — we'll tell you on the spot, not guess in advance.</p>
     </div>
 
     <div class="pm-booking" id="pmBooking">
@@ -810,7 +796,6 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
             <option>Standard Detail — from $179</option>
             <option>Headlight Buffer — $139</option>
             <option>Exterior Detail — $149</option>
-            <option>Interior Detail — $159</option>
             <option>Not sure — recommend me one</option>
           </select>
         </div>
@@ -1117,23 +1102,12 @@ try{
         'Exterior glass, streak-free'
       ]
     },
-    interior: {
-      title: 'Interior Detail', time: 'from $159 · ~2–2.5 hrs',
-      inclusions: [
-        'Full interior wipe-down — dash, console, doors, vents',
-        'Deep hand-vacuum — seats, carpets, boot',
-        'Hand-scrubbed seat & carpet spot treatment',
-        'Leather conditioning where fitted',
-        'Door jambs detailed',
-        'Streak-free interior glass'
-      ]
-    },
   };
 
   // TODO(Adam): replace with the real Worker URL once deployed, e.g.
   // https://swavalux-booking.YOUR-SUBDOMAIN.workers.dev
   var BOOKING_API = 'https://REPLACE-WITH-WORKER-URL.workers.dev';
-  var INSTANT_BOOKABLE = { express: true, standard: true, exterior: true, interior: true };
+  var INSTANT_BOOKABLE = { express: true, standard: true, exterior: true };
 
   var pmBooking = document.getElementById('pmBooking');
   var pmDate = document.getElementById('pmDate');
