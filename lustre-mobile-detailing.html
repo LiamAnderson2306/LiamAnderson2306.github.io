@@ -43,12 +43,10 @@
   },
   "address": { "@type": "PostalAddress", "addressLocality": "Perth", "addressRegion": "WA", "addressCountry": "AU" },
   "geo": { "@type": "GeoCoordinates", "latitude": -31.9523, "longitude": 115.8613 },
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-    "opens": "07:00",
-    "closes": "18:00"
-  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "15:30", "closes": "19:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday","Sunday"], "opens": "09:00", "closes": "18:00" }
+  ],
   "makesOffer": [
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Express Wash" }, "price": "89", "priceCurrency": "AUD" },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Standard Detail" }, "price": "179", "priceCurrency": "AUD" },
@@ -839,7 +837,8 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
         </div>
         <div class="footer-col">
           <h4>Hours</h4>
-          <span>Mon–Sat, 7am–6pm</span>
+          <span>Fri 3:30–7:30pm</span>
+          <span>Sat–Sun 9am–6pm</span>
           <span>Perth Metro, WA</span>
         </div>
       </div>
