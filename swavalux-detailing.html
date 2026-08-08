@@ -50,7 +50,9 @@
   "makesOffer": [
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Express Wash" }, "price": "89", "priceCurrency": "AUD" },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Standard Detail" }, "price": "179", "priceCurrency": "AUD" },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Headlight Buffer" }, "price": "139", "priceCurrency": "AUD" }
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Headlight Buffer" }, "price": "139", "priceCurrency": "AUD" },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Detail" }, "price": "149", "priceCurrency": "AUD" },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interior Detail" }, "price": "159", "priceCurrency": "AUD" }
   ]
 }
 </script>
@@ -551,6 +553,36 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
         <button type="button" class="detail-link" data-package="standard">See full details &amp; pricing for larger cars</button>
         <a href="#booking" class="btn btn-primary magnetic">Book Standard</a>
       </div>
+
+      <div class="price-card reveal">
+        <div>
+          <h3>Exterior Detail</h3>
+          <div class="amount">$149<span>from · ~1.5–2 hrs</span></div>
+        </div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Two-bucket hand wash &amp; dry</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Wheels &amp; tyres deep-cleaned</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Clay bar decontamination</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Hand-applied wax finish</li>
+        </ul>
+        <button type="button" class="detail-link" data-package="exterior">See full details &amp; pricing for larger cars</button>
+        <a href="#booking" class="btn btn-ghost magnetic">Book Exterior</a>
+      </div>
+
+      <div class="price-card reveal">
+        <div>
+          <h3>Interior Detail</h3>
+          <div class="amount">$159<span>from · ~2–2.5 hrs</span></div>
+        </div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Full interior wipe-down</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Deep hand-vacuum — seats, carpets, boot</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Hand-scrubbed seat &amp; carpet spot treatment</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Streak-free interior glass</li>
+        </ul>
+        <button type="button" class="detail-link" data-package="interior">See full details &amp; pricing for larger cars</button>
+        <a href="#booking" class="btn btn-ghost magnetic">Book Interior</a>
+      </div>
     </div>
 
     <p class="price-note reveal">Prices are a starting guide for a standard sedan/small SUV — vans, utes and larger 4WDs may cost a little more, and heavily soiled interiors are always confirmed from your photos first. GST included.</p>
@@ -558,7 +590,7 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
     <div class="membership reveal">
       <div>
         <h3>Every 2nd wash, 20% off</h3>
-        <p>No subscription, no lock-in — just book with us again and your 2nd, 4th, 6th visit (and so on) is <strong>20% off</strong>. Applies to Express Wash, Standard Detail and Headlight Buffer.</p>
+        <p>No subscription, no lock-in — just book with us again and your 2nd, 4th, 6th visit (and so on) is <strong>20% off</strong>. Applies to every service we offer.</p>
       </div>
       <div class="amount">20% off</div>
       <a href="#booking" class="btn btn-ghost magnetic">Book your next wash</a>
@@ -777,6 +809,8 @@ footer{background:var(--ink);border-top:1px solid var(--steel);padding:3.5rem 0 
             <option>Express Wash — from $89</option>
             <option>Standard Detail — from $179</option>
             <option>Headlight Buffer — $139</option>
+            <option>Exterior Detail — $149</option>
+            <option>Interior Detail — $159</option>
             <option>Not sure — recommend me one</option>
           </select>
         </div>
@@ -1072,12 +1106,34 @@ try{
         'Interior glass, streak-free'
       ]
     },
+    exterior: {
+      title: 'Exterior Detail', time: 'from $149 · ~1.5–2 hrs',
+      inclusions: [
+        'Two-bucket hand wash & dry',
+        'Wheels & tyres deep-cleaned, including wheel wells',
+        'Clay bar decontamination — removes bonded contaminants a normal wash can\'t',
+        'Hand-applied wax finish — deeper, longer-lasting shine than a spray sealant',
+        'Exterior trim & tyre dressing',
+        'Exterior glass, streak-free'
+      ]
+    },
+    interior: {
+      title: 'Interior Detail', time: 'from $159 · ~2–2.5 hrs',
+      inclusions: [
+        'Full interior wipe-down — dash, console, doors, vents',
+        'Deep hand-vacuum — seats, carpets, boot',
+        'Hand-scrubbed seat & carpet spot treatment',
+        'Leather conditioning where fitted',
+        'Door jambs detailed',
+        'Streak-free interior glass'
+      ]
+    },
   };
 
   // TODO(Adam): replace with the real Worker URL once deployed, e.g.
   // https://swavalux-booking.YOUR-SUBDOMAIN.workers.dev
   var BOOKING_API = 'https://REPLACE-WITH-WORKER-URL.workers.dev';
-  var INSTANT_BOOKABLE = { express: true, standard: true };
+  var INSTANT_BOOKABLE = { express: true, standard: true, exterior: true, interior: true };
 
   var pmBooking = document.getElementById('pmBooking');
   var pmDate = document.getElementById('pmDate');
