@@ -222,6 +222,7 @@ button{cursor:pointer}
 // ================================================================ constants + helpers
 const T0 = Date.UTC(2018, 0, 1) / 1000;          // candle times = New York wall-clock minutes since 1 Jan 2018
 const SPREAD = 0.5, START_BAL = 10000, START_BANK = 1000, UNLOCK = 15;
+const VERSION = "4";                              // bump on every publish so browsers fetch fresh data files
 const TFS = [["1m", 1], ["5m", 5], ["15m", 15], ["1h", 60], ["4h", 240], ["D", 1440]];
 const SHOW = {"D": 90, "4h": 90, "1h": 100, "15m": 110, "5m": 130, "1m": 150};
 const SPEEDS = [1, 2, 4, 8, 16], PLAY_SPEEDS = [5, 15, 40];
@@ -299,7 +300,7 @@ function loadFile(name) {
   if (scripts[name]) return scripts[name];
   return scripts[name] = new Promise((res, rej) => {
     const s = document.createElement("script");
-    s.src = "d/" + name + ".js";
+    s.src = "d/" + name + ".js?v=" + VERSION;
     s.onload = () => PITDATA[name] ? res(PITDATA[name]) : rej(new Error("empty " + name));
     s.onerror = () => { delete scripts[name]; rej(new Error("could not load " + name)); };
     document.head.appendChild(s);
@@ -324,7 +325,7 @@ async function candles(name) {
   }
   return candleCache[name] = {t, o, h, l, c, n};
 }
-let DAYS = [], LEVELS = [];
+let DAYS = [], LEVELS = [], ORDER = [];          // LEVELS by number, ORDER = how they're laid out (tier, then position)
 
 // ================================================================ the session (one day on the chart)
 let g = null, chart, series, layer, timer = null;
@@ -626,6 +627,7 @@ function priceViews() {
   if (D.hidden) return [];
   const v = [];
   for (const d of D.list) {
+    if (d.tjr && D.hideMarkup) continue;
     if (d.type === "hline" || d.type === "ray") v.push(pView(d.p[0].price, d.color));
     else if (d === D.sel) {
       if (d.p) d.p.forEach(q => v.push(pView(q.price, d.color)));
@@ -636,7 +638,7 @@ function priceViews() {
 }
 function timeViews() {
   if (D.hidden) return [];
-  return D.list.filter(d => d.p && (d.type === "vline" || d === D.sel)).map(d => {
+  return D.list.filter(d => d.p && !(d.tjr && D.hideMarkup) && (d.type === "vline" || d === D.sel)).map(d => {
     const x = X(d.p[0].t);
     return {coordinate: () => (x == null ? -999 : x), text: () => hm(d.p[0].t), textColor: () => "#ffffff", backColor: () => d.color, visible: () => x != null};
   });
@@ -662,16 +664,18 @@ function drawBack(ctx, W, H) {
     if (xa != null && xb != null && xb > 0 && xa < W) { ctx.fillStyle = TH.window; ctx.fillRect(xa - half, 0, xb - xa, H); }
     const xs = X((dd - 1) * 1440 + 1080);                              // 6pm session break
     if (xs != null && xs > 0 && xs < W) seg(ctx, xs - half, 0, xs - half, H, TH.sep, 1, [4, 4]);
-    if (xa != null && xa > 0 && xa < W && tfMin() <= 15) { ctx.font = "600 10px " + FONT; ctx.fillStyle = TH.muted; ctx.textBaseline = "alphabetic"; ctx.fillText("9:30 NY", xa - half + 4, 14); }
+    if (xa != null && xa > 0 && xa < W && tfMin() <= 15) { ctx.font = "600 10px " + FONT; ctx.fillStyle = TH.muted; ctx.textBaseline = "alphabetic"; ctx.fillText("9:30 NY", xa - half + 4, 34); }
   }
 }
 function drawFront(ctx, W, H) {
   if (!g || D.hidden || !g.bars.length) return;
   const all = D.draft ? D.list.concat([D.draft]) : D.list;
   for (const d of all) {
+    if (d.tjr && D.hideMarkup) continue;
     const o = geoOf(d), sel = d === D.sel || d === D.draft, c = d.color;
     ctx.save();
     switch (d.type) {
+      case "dot": if (o.x1 == null || o.y1 == null) break; ctx.beginPath(); ctx.arc(o.x1, o.y1, 5, 0, Math.PI * 2); ctx.fillStyle = c; ctx.fill(); break;
       case "trend": if ([o.x1, o.y1, o.x2, o.y2].some(v => v == null)) break; seg(ctx, o.x1, o.y1, o.x2, o.y2, c, 2); break;
       case "ray": if (o.y1 == null || o.x1 == null) break; seg(ctx, o.x1, o.y1, W, o.y1, c, 1.5); break;
       case "hline": if (o.y1 == null) break; seg(ctx, 0, o.y1, W, o.y1, c, 1.5); break;
@@ -732,8 +736,18 @@ function drawFront(ctx, W, H) {
       }
     }
     if (sel) for (const h of handlesOf(o)) handle(ctx, h.x, h.y, d.type === "long" || d.type === "short" ? TH.ink : c);
+    if (d.label) drawLabel(ctx, d, o, W);
     ctx.restore();
   }
+}
+function drawLabel(ctx, d, o, W) {
+  let x, y;
+  if (d.type === "vline") { x = o.x1 + 4; y = 24; }
+  else if (d.type === "rect") { x = Math.min(o.x1, o.x2 === Infinity ? W : o.x2); y = Math.min(o.y1, o.y2) - 11; }
+  else if (d.type === "dot") { x = o.x1 + 8; y = o.y1 + 12; }
+  else { x = Math.max(o.x1, 0) + 6; y = o.y1 - 11; }
+  if (x == null || y == null || !isFinite(x) || !isFinite(y)) return;
+  pill(ctx, d.label, Math.max(2, Math.min(x, W - 170)), y, d.color, "#fff");
 }
 
 // ---- pointer handling: draw, select, drag drawings, drag stop/target lines
@@ -900,12 +914,14 @@ function drawTradeLines() {
 }
 
 // ================================================================ LEVELS: predict, stop, money, PLAY OUT TRADE
+// the number shown to you = position on the level map (so the no-trade levels don't stand out); saves use the fixed level id
+function dispNo(n) { const i = ORDER.findIndex(L => L.n === n); return i < 0 ? n : i + 1; }
 function tierOf(n) { return LEVELS[n - 1].tier; }
 function starsIn(tier) { let s = 0; for (const L of LEVELS) if (L.tier === tier) s += (store.prog.best[L.n] || {}).stars || 0; return s; }
 function tierOpen(k) { return k === 0 || starsIn(k - 1) >= UNLOCK; }
 function nextLevelN(after) {
-  for (let n = (after || 0) + 1; n <= LEVELS.length; n++) if (tierOpen(tierOf(n)) && !store.prog.best[n]) return n;
-  for (let n = 1; n <= LEVELS.length; n++) if (tierOpen(tierOf(n)) && !store.prog.best[n]) return n;
+  const start = after ? ORDER.findIndex(L => L.n === after) + 1 : 0;
+  for (const L of ORDER.slice(start).concat(ORDER.slice(0, start))) if (tierOpen(L.tier) && !store.prog.best[L.n]) return L.n;
   return null;
 }
 async function startLevel(n, practice = false) {
@@ -921,7 +937,7 @@ async function startLevel(n, practice = false) {
   D.list = []; D.sel = null; D.draft = null; D.op = null; renderSel();
   $("result").hidden = true; $("ovMap").hidden = true;
   rebuild(); renderAll();
-  log(`Level ${n} loaded. The chart is frozen at ${hm(minuteNow())} New York.`);
+  log(`Level ${dispNo(n)} loaded. The chart is frozen at ${hm(minuteNow())} New York.`);
 }
 function betSide(side) {
   if (!g || g.phase !== "predict") return;
@@ -1007,11 +1023,12 @@ function levelTick() {
   if (!g.fast) { renderClock(); renderLegend(null); renderRight(); renderBottom(); }
 }
 function skipToResult() {
-  if (!g || g.phase !== "playing") return;
+  if (!g || (g.phase !== "playing" && g.phase !== "skipping")) return;
   if (timer) clearInterval(timer); timer = null;
   g.fast = true;
   let guard = 0;
-  while (g.phase === "playing" && guard++ < 20000) levelTick();
+  if (g.phase === "skipping") while (g.phase === "skipping" && guard++ < 2000) skipTick();
+  else while (g.phase === "playing" && guard++ < 20000) levelTick();
   g.fast = false;
 }
 function levelEngine(b) {
@@ -1039,14 +1056,16 @@ function finishLevel() {
   g.phase = "result";
   let stars = p.R >= 2 ? 3 : p.R >= 1 ? 2 : p.R > 0 ? 1 : 0, capped = false;
   if (p.riskPct > 2.05 && stars > 1) { stars = 1; capped = true; }
-  D.list.push({id: "tjr", tjr: true, type: L.dir === "BUY" ? "long" : "short", color: "#787b86", t1: L.i * 1440 + L.m, t2: L.i * 1440 + L.m + 45, entry: L.e, stop: L.s, target: L.tp});
+  if (L.kind === "nt") stars = 0;                      // traded on a TJR no-trade day: no stars, even if it made money
+  addMarkup(L);
   let blown = false;
   if (!g.practice) {
     store.prog.bank = r2(store.prog.bank + p.pnl);
     if (store.prog.bank < 1) { blown = true; store.prog.blown += 1; store.prog.bank = START_BANK; }
     const prev = store.prog.best[L.n];
     if (!prev || stars > prev.stars || (stars === prev.stars && p.R > prev.R)) store.prog.best[L.n] = {stars, R: r2(p.R)};
-    store.prog.tries.push({n: L.n, d: L.d, side: p.side, R: r2(p.R), pnl: p.pnl, riskPct: r2(p.riskPct), stars, tjrR: L.R, tjrDir: L.dir, why: p.why, at: new Date().toISOString()});
+    store.prog.tries.push({n: L.n, d: L.d, kind: L.kind || "setup", side: p.side, R: r2(p.R), pnl: p.pnl, riskPct: r2(p.riskPct), stars,
+      tjrR: L.kind === "nt" ? 0 : L.R, tjrDir: L.kind === "nt" ? "NONE" : L.dir, why: p.why, at: new Date().toISOString()});
     if (store.prog.tries.length > 800) store.prog.tries = store.prog.tries.slice(-800);
     saveProgress();
   }
@@ -1061,14 +1080,92 @@ function showResult(stars, capped, blown) {
     <div class="small">${p.side === "long" ? "Bought" : "Sold"} at ${fmtP(p.entry)}, out at ${fmtP(p.exit)}, held ${heldFor(p)}. Bank: ${usd(store.prog.bank)}.${g.practice ? " Practice run: no stars or money counted." : ""}</div>`;
   if (capped) h += `<div class="warnbox">You risked ${p.riskPct.toFixed(1)}% of your bank, so this level only counts 1 star. TJR risks 1%.</div>`;
   if (blown) h += `<div class="warnbox">Account blown! Your bank hit $0 and has been reset to ${usd(START_BANK, 0)}. Accounts blown: ${store.prog.blown}.</div>`;
-  h += `<div class="sum"><b>The date:</b> ${esc(dateLong(L.d))}<br><b>TJR's rules here:</b> ${L.dir === "BUY" ? "Buy" : "Sell"} at ${fmtP(L.e)} after the ${esc(L.sw)} was swept at ${hm(toMin(L.swt))}. Stop ${fmtP(L.s)}, target ${esc(L.tpn)} ${fmtP(L.tp)}. Result <b class="${L.R > 0 ? "ok" : "bad"}">${fmtR(L.R)}</b> (${esc(L.ex)}). It's the grey dashed box on the chart.<br>
-    ${sameWay ? "You picked the same direction as TJR's rules." : "You went the other way to TJR's rules."}</div>
-    <div class="row"><button class="btn primary" type="button" id="rsNext">Next level</button><button class="btn" type="button" id="rsAgain">Try again (practice)</button><button class="btn" type="button" id="rsMap">Level map</button><button class="btn" type="button" id="rsHide">Hide</button></div>`;
+  if (L.kind === "nt") h += `<div class="warnbox">This was a TJR no-trade day, so trading it earns no stars${p.pnl > 0 ? ", even though it made money" : ""}. The right call was to skip.</div>`;
+  h += tjrSummary(L, sameWay) + resultButtons();
   $("result").innerHTML = h; $("result").hidden = false;
+  bindResultButtons(L);
+}
+function tjrSummary(L, sameWay) {
+  if (L.kind === "nt") return `<div class="sum"><b>The date:</b> ${esc(dateLong(L.d))}<br><b>TJR: NO TRADE today.</b> ${esc(dedupe(L.r)[0] || "")}<br>The red lines on the chart show when the news came out.</div>`;
+  return `<div class="sum"><b>The date:</b> ${esc(dateLong(L.d))}<br><b>TJR's rules here:</b> ${L.dir === "BUY" ? "Buy" : "Sell"} at ${fmtP(L.e)} after the ${esc(L.sw)} was swept at ${hm(toMin(L.swt))}. Stop ${fmtP(L.s)}, target ${esc(L.tpn)} ${fmtP(L.tp)}. Result <b class="${L.R > 0 ? "ok" : "bad"}">${fmtR(L.R)}</b> (${esc(L.ex)}).<br>
+    On the chart: the orange line is the level that got swept, the blue box is where his rules entered, and the grey box is his trade.
+    ${sameWay == null ? "" : `<br>${sameWay ? "You picked the same direction as TJR's rules." : "You went the other way to TJR's rules."}`}</div>`;
+}
+function resultButtons() {
+  return `<div class="row"><button class="btn primary" type="button" id="rsNext">Next level</button><button class="btn" type="button" id="rsAgain">Try again (practice)</button><button class="btn" type="button" id="rsMarkup">${D.hideMarkup ? "Show" : "Hide"} TJR's markup</button><button class="btn" type="button" id="rsMap">Level map</button><button class="btn" type="button" id="rsHide">Hide this box</button></div>`;
+}
+function bindResultButtons(L) {
   $("rsNext").onclick = goNextLevel;
   $("rsAgain").onclick = () => startLevel(L.n, true);
   $("rsMap").onclick = showMap;
   $("rsHide").onclick = () => { $("result").hidden = true; };
+  $("rsMarkup").onclick = () => { D.hideMarkup = !D.hideMarkup; $("rsMarkup").textContent = `${D.hideMarkup ? "Show" : "Hide"} TJR's markup`; redraw(); };
+}
+// ---- TJR's markup: what his rules saw at this moment, drawn on the chart after the level
+function addMarkup(L) {
+  D.list = D.list.filter(d => !d.tjr);
+  const base = L.i * 1440, at = hhmm => base + toMin(hhmm);
+  if (L.kind === "nt") {
+    const why = /CPI|PPI|FOMC(?! Member)|Federal Funds|Non-Farm|NFP|Fed Chair/i;       // the news that makes it a no-trade day
+    for (const n of (g.day.n || []).filter(n => why.test(n[2]))) {
+      if (D.list.some(d => d.tjr && d.type === "vline" && d.p[0].t === at(n[0]))) continue;
+      D.list.push({id: "tjr-n" + n[0], tjr: true, type: "vline", color: "#f23645", p: [{t: at(n[0]), price: 0}], label: `${n[2]} ${hm(toMin(n[0]))}`});
+    }
+    return;
+  }
+  const entryT = base + L.m;
+  if (L.swp != null) {
+    D.list.push({id: "tjr-sw", tjr: true, type: "ray", color: "#ff9800", p: [{t: at(L.swt) - 45, price: L.swp}], label: `Swept: ${L.sw}`});
+    D.list.push({id: "tjr-swd", tjr: true, type: "dot", color: "#ff9800", p: [{t: at(L.swt), price: L.swp}], label: `Sweep ${hm(toMin(L.swt))}${L.ssz === "BIG" ? " (big)" : ""}`});
+  }
+  if (L.zl != null) {
+    const lo = Math.min(L.zl, L.zh), hi = Math.max(L.zl, L.zh, lo + 0.5);
+    D.list.push({id: "tjr-zone", tjr: true, type: "rect", color: "#2962ff", p: [{t: at(L.swt), price: hi}, {t: entryT + 10, price: lo}], label: `Entry zone: ${L.zone}`});
+  }
+  D.list.push({id: "tjr", tjr: true, type: L.dir === "BUY" ? "long" : "short", color: "#787b86", t1: entryT, t2: entryT + 45, entry: L.e, stop: L.s, target: L.tp});
+  D.list.push({id: "tjr-tp", tjr: true, type: "ray", color: "#089981", p: [{t: entryT, price: L.tp}], label: `TP1: ${L.tpn}`});
+  if (L.tp2 != null && Math.abs(L.tp2 - L.tp) > 0.01) D.list.push({id: "tjr-tp2", tjr: true, type: "ray", color: "#089981", p: [{t: entryT, price: L.tp2}], label: `TP2: ${L.tp2n}`});
+}
+
+// ---- Skip this trade
+function skipLevel() {
+  if (!g || g.mode !== "levels" || g.phase !== "predict") return;
+  g.phase = "skipping"; g.skipStart = g.cursor;
+  D.sel = null; renderSel(); setTool("cursor");
+  log("You skipped this one. Watching the next hour…");
+  drawTradeLines(); renderAll();
+  if (timer) clearInterval(timer);
+  timer = setInterval(skipTick, 1000 / store.settings.playSpeed);
+  renderStrip();
+}
+function skipTick() {
+  if (!g || g.phase !== "skipping") return stopTimer();
+  if (!stepAtom() || g.cursor - g.skipStart >= 60) return finishSkip();
+  if (!g.fast) { renderClock(); renderLegend(null); renderRight(); }
+}
+function finishSkip() {
+  stopTimer();
+  const L = g.level, riskD = g.bet.riskD || r2(store.prog.bank * 0.01);
+  g.phase = "result";
+  let good, stars, head, line;
+  if (L.kind === "nt") { good = true; stars = 3; head = "Correct skip!"; line = "TJR doesn't trade on a day like this. Reading the calendar is a real skill."; }
+  else if (L.R <= 0) { good = true; stars = 1; head = "Good skip"; line = `TJR's setup here lost ${fmtR(L.R)}. At your risk of ${usd(riskD)}, skipping saved you ${usd(Math.abs(L.R) * riskD)}.`; }
+  else { good = false; stars = 0; head = "Missed one"; line = `TJR's setup here made ${fmtR(L.R)}. At your risk of ${usd(riskD)}, that's ${usd(L.R * riskD)} you didn't take.`; }
+  addMarkup(L);
+  if (!g.practice) {
+    const prev = store.prog.best[L.n];
+    if (!prev || stars > prev.stars) store.prog.best[L.n] = {stars, R: 0};
+    store.prog.tries.push({n: L.n, d: L.d, kind: L.kind || "setup", skip: true, good, side: "skip", R: 0, pnl: 0, riskPct: 0, stars,
+      tjrR: L.kind === "nt" ? 0 : L.R, tjrDir: L.kind === "nt" ? "NONE" : L.dir, at: new Date().toISOString()});
+    if (store.prog.tries.length > 800) store.prog.tries = store.prog.tries.slice(-800);
+    saveProgress();
+  }
+  log(`${head}: ${line}`);
+  redraw(); renderAll();
+  $("result").innerHTML = `<div class="ph"><h3 class="${good ? "ok" : "bad"}">${head}</h3><span class="stars">${starStr(stars)}</span></div>
+    <div class="small">${esc(line)}${g.practice ? " Practice run: no stars counted." : ""}</div>` + tjrSummary(L, null) + resultButtons();
+  $("result").hidden = false;
+  bindResultButtons(L);
 }
 function goNextLevel() { const n = nextLevelN(g && g.level ? g.level.n : 0); if (n) startLevel(n); else showMap(); }
 
@@ -1293,9 +1390,10 @@ function renderStrip() {
     const L = g.level, playing = g.phase === "playing", paused = playing && !timer, open = playing && g.lp && g.lp.open;
     const stepBtns = g.phase === "predict" || paused
       ? `<button class="tbtn" type="button" id="nc1" title="Show the next candle of this timeframe (→)">▷| Next candle</button><button class="tbtn" type="button" id="nc5" title="Next 5 candles (Shift+→)">▷| 5 candles</button>` : "";
-    el.innerHTML = `<span class="chip t${L.tier}">${TIERS[L.tier]}</span><span class="lbl"><b style="color:var(--ink)">Level ${L.n}</b> · ${WDL[wdOf(L.d)]} · date hidden</span>
+    el.innerHTML = `<span class="chip t${L.tier}">${TIERS[L.tier]}</span><span class="lbl"><b style="color:var(--ink)">Level ${dispNo(L.n)}</b> · ${WDL[wdOf(L.d)]} · date hidden</span>
       ${playing ? `<button class="tbtn primary" type="button" id="ppBtn">${timer ? "❚❚ Pause" : "▶ Resume"}</button>` : ""}${stepBtns}
       ${open ? `<button class="tbtn" type="button" id="ctBtn" style="color:var(--down)">Close trade</button><button class="tbtn" type="button" id="skipBtn" title="Play it out instantly until the stop loss or take profit">Skip to result</button>` : ""}
+      ${g.phase === "skipping" ? `<button class="tbtn" type="button" id="skipBtn">Skip to result</button>` : ""}
       <span class="grow"></span>
       <span class="lbl">Play-out speed</span><div class="seg">${PLAY_SPEEDS.map(s => `<button type="button" data-ps="${s}" aria-pressed="${store.settings.playSpeed === s}">${s === 5 ? "Slow" : s === 15 ? "Normal" : "Fast"}</button>`).join("")}</div>`;
     el.querySelectorAll("[data-ps]").forEach(b => b.onclick = () => { store.settings.playSpeed = +b.dataset.ps; lsSet("pit-settings", store.settings); if (timer && g.phase === "playing") resumePlay(); else renderStrip(); });
@@ -1338,10 +1436,10 @@ function renderRight() {
 }
 function levelPanelHTML() {
   const L = g.level, b = g.bet, best = store.prog.best[L.n];
-  let h = `<section class="panel"><div class="ph"><h2>Level ${L.n} <span class="chip t${L.tier}">${TIERS[L.tier]}</span></h2><span class="stars" style="font-size:15px">${starStr(best ? best.stars : 0)}</span></div>`;
+  let h = `<section class="panel"><div class="ph"><h2>Level ${dispNo(L.n)} <span class="chip t${L.tier}">${TIERS[L.tier]}</span></h2><span class="stars" style="font-size:15px">${starStr(best ? best.stars : 0)}</span></div>`;
   if (g.phase === "predict") {
     const px = lastClose(), risk = betRisk(), rr = betRR(), pct = 100 * b.riskD / store.prog.bank;
-    h += `<div class="small" style="margin-bottom:8px">A real moment from 2024–2026, frozen. TJR's rules found a setup right here. Mark it up with the drawing tools, then decide: which way does the S&amp;P go next?${g.practice ? " <b>Practice run.</b>" : ""}<br>Want a better entry? Switch to 1m and press <b>▷| Next candle</b> (or →) under the chart until you like the price. Your trade enters wherever price is when you press PLAY OUT TRADE.</div>
+    h += `<div class="small" style="margin-bottom:8px">A real moment from 2018–2026, frozen. It might be a good trade, a bad one, or a day TJR wouldn't trade at all. Check the calendar, mark up the chart, then <b>trade it or skip it</b>.${g.practice ? " <b>Practice run.</b>" : ""}<br>Want a better entry? Switch to 1m and press <b>▷| Next candle</b> (or →) under the chart until you like the price. Your trade enters wherever price is when you press PLAY OUT TRADE.</div>
       <div class="bs"><button class="bsb sell" type="button" data-side="short" aria-pressed="${b.side === "short"}">SELL ▼<b>${fmtP(px - SPREAD / 2)}</b></button><button class="bsb buy" type="button" data-side="long" aria-pressed="${b.side === "long"}">BUY ▲<b>${fmtP(px + SPREAD / 2)}</b></button></div>`;
     if (b.side) {
       h += `<div class="fld"><label for="f-stop">Stop loss</label><input id="f-stop" type="number" step="0.25" inputmode="decimal" value="${b.stop ?? ""}"><span class="aux">${risk > 0 ? risk.toFixed(2) + " pts" : "wrong side"}</span></div>
@@ -1353,10 +1451,14 @@ function levelPanelHTML() {
         ${pct > 2.05 ? `<div class="warnbox">TJR risks 1%. Risking ${pct.toFixed(1)}% caps this level at 1 star.</div>` : ""}`;
     }
     const err = betCheck();
-    h += `<button class="go ${b.side === "long" ? "buy" : b.side === "short" ? "sell" : ""}" type="button" id="playOut" ${err ? "disabled" : ""}>PLAY OUT TRADE</button>${err ? `<div class="small" style="margin-top:6px">${esc(err)}</div>` : `<div class="small" style="margin-top:6px">Keys: B / S to pick a side, Enter to play out.</div>`}</section>`;
+    h += `<button class="go ${b.side === "long" ? "buy" : b.side === "short" ? "sell" : ""}" type="button" id="playOut" ${err ? "disabled" : ""}>PLAY OUT TRADE</button>${err ? `<div class="small" style="margin-top:6px">${esc(err)}</div>` : `<div class="small" style="margin-top:6px">Keys: B / S to pick a side, Enter to play out, K to skip.</div>`}
+      <button class="btn" type="button" id="skipLv" style="width:100%;margin-top:8px">Skip this trade</button>
+      <div class="small" style="margin-top:4px">Skipping costs nothing. You'll see the next hour, then whether skipping was the right call.</div></section>`;
     return h;
   }
+  if (g.phase === "skipping") return h + `<div class="small">You skipped. Watching what happens next… ${hm(g.cursor)} New York</div></section>`;
   const p = g.lp;
+  if (!p) return h + `<div class="small">Level done. Press Next level, or pick one on the level map.</div><div class="row"><button class="btn primary" type="button" id="lpNext">Next level</button><button class="btn" type="button" id="lpRes">Show result</button></div></section>`;
   if (g.phase === "playing") {
     const dir = p.side === "long" ? 1 : -1, R = p.open ? ((lastClose() - SPREAD / 2 * dir) - p.entry) * dir / p.risk : p.R;
     const days = Math.floor(g.cursor / 1440) - g.day.i;
@@ -1376,6 +1478,7 @@ function bindLevelPanel() {
   if ($("f-usetp")) $("f-usetp").onchange = e => { g.bet.useTp = e.target.checked; drawTradeLines(); renderRight(); };
   el.querySelectorAll("[data-pct]").forEach(b => b.onclick = () => { g.bet.riskD = r2(store.prog.bank * +b.dataset.pct / 100); drawTradeLines(); renderRight(); });
   if ($("playOut")) $("playOut").onclick = playOut;
+  if ($("skipLv")) $("skipLv").onclick = skipLevel;
   if ($("lpNext")) $("lpNext").onclick = goNextLevel;
   if ($("lpPause")) $("lpPause").onclick = () => timer ? pausePlay() : resumePlay();
   if ($("lpClose")) $("lpClose").onclick = closeLevelTrade;
@@ -1447,8 +1550,8 @@ let activeTab = "positions";
 function renderBottom() {
   const lv = store.settings.mode === "levels", P = store.prog;
   if (lv) {
-    const T = P.tries, wins = T.filter(t => t.R > 0).length, stars = Object.values(P.best).reduce((s, b) => s + b.stars, 0);
-    $("acct").innerHTML = `<span>Bank<b>${usd(P.bank)}</b></span><span>Levels played<b>${Object.keys(P.best).length}</b></span><span>Stars<b>${stars}</b></span><span>Win rate<b>${T.length ? Math.round(100 * wins / T.length) + "%" : "--"}</b></span><span>Accounts blown<b>${P.blown}</b></span>`;
+    const T = P.tries.filter(t => !t.skip), S = P.tries.filter(t => t.skip), wins = T.filter(t => t.R > 0).length, stars = Object.values(P.best).reduce((s, b) => s + b.stars, 0);
+    $("acct").innerHTML = `<span>Bank<b>${usd(P.bank)}</b></span><span>Levels played<b>${Object.keys(P.best).length}</b></span><span>Stars<b>${stars}</b></span><span>Win rate<b>${T.length ? Math.round(100 * wins / T.length) + "%" : "--"}</b></span><span>Good skips<b>${S.length ? Math.round(100 * S.filter(t => t.good).length / S.length) + "%" : "--"}</b></span><span>Accounts blown<b>${P.blown}</b></span>`;
   } else {
     const L = ledger(), p = g && g.pos, R = p ? openR() : 0;
     $("acct").innerHTML = `<span>Account balance<b>${usd(L.bal)}</b></span><span>Equity<b>${usd(L.bal + (p ? R * p.riskD : 0))}</b></span><span>Unrealized P&amp;L<b class="${R >= 0 ? "ok" : "bad"}">${p ? sgnUsd(r2(R * p.riskD)) : "$0.00"}</b></span><span>Total<b>${fmtR(L.tot)}</b></span>`;
@@ -1482,7 +1585,10 @@ function tabBody(lv) {
   }
   if (lv) {
     const T = store.prog.tries.slice().reverse().slice(0, 60);
-    return T.length ? `<table class="tbl"><thead><tr><th>Level</th><th>Date</th><th>You</th><th>Risk</th><th>Result</th><th>Stars</th><th>TJR's rules</th></tr></thead><tbody>${T.map(t => `<tr><td>${t.n}</td><td>${esc(t.d)}</td><td class="${t.side === "long" ? "ok" : "bad"}">${t.side === "long" ? "Buy" : "Sell"}</td><td>${t.riskPct}%</td><td class="${t.R > 0 ? "ok" : "bad"}">${sgnUsd(t.pnl)} (${fmtR(t.R)})</td><td class="stars" style="font-size:12px">${starStr(t.stars)}</td><td>${t.tjrDir === "BUY" ? "Buy" : "Sell"} ${fmtR(t.tjrR)}</td></tr>`).join("")}</tbody></table>` : `<div class="empty">Play a level and it shows up here.</div>`;
+    const you = t => t.skip ? `<span class="mut">Skip</span>` : `<span class="${t.side === "long" ? "ok" : "bad"}">${t.side === "long" ? "Buy" : "Sell"}</span>`;
+    const res = t => t.skip ? `<span class="${t.good ? "ok" : "bad"}">${t.good ? "Good skip" : "Missed"}</span>` : `<span class="${t.R > 0 ? "ok" : "bad"}">${sgnUsd(t.pnl)} (${fmtR(t.R)})</span>`;
+    const tjr = t => t.kind === "nt" ? "No-trade day" : `${t.tjrDir === "BUY" ? "Buy" : "Sell"} ${fmtR(t.tjrR)}`;
+    return T.length ? `<table class="tbl"><thead><tr><th>Level</th><th>Date</th><th>You</th><th>Risk</th><th>Result</th><th>Stars</th><th>TJR's rules</th></tr></thead><tbody>${T.map(t => `<tr><td>${dispNo(t.n)}</td><td>${esc(t.d)}</td><td>${you(t)}</td><td>${t.skip ? "--" : t.riskPct + "%"}</td><td>${res(t)}</td><td class="stars" style="font-size:12px">${starStr(t.stars)}</td><td>${tjr(t)}</td></tr>`).join("")}</tbody></table>` : `<div class="empty">Play a level and it shows up here.</div>`;
   }
   const G = store.games.slice().reverse().slice(0, 60);
   return G.length ? `<table class="tbl"><thead><tr><th>Day</th><th>TJR</th><th>Your call</th><th>Bias</th><th>Trade</th><th>Result</th></tr></thead><tbody>${G.map(x => `<tr><td>${esc(x.d)}</td><td>${esc(x.v)}</td><td>${x.call === "skip" ? "No-trade" : "Trade"} ${x.callOk ? "✓" : "✗"}</td><td>${{bull: "Bull", bear: "Bear", none: "None"}[x.bias] || "--"} ${x.biasOk == null ? "" : x.biasOk ? "✓" : "✗"}</td><td>${x.trade ? `${x.trade.side === "long" ? "Buy" : "Sell"} ${esc(x.trade.inT)}` : "--"}</td><td class="${x.trade ? (x.trade.R >= 0 ? "ok" : "bad") : ""}">${x.trade ? fmtR(x.trade.R) : ""}</td></tr>`).join("")}</tbody></table>` : `<div class="empty">Finish a day and it shows up here.</div>`;
@@ -1495,14 +1601,14 @@ function showMap() {
   stopTimer();
   const P = store.prog, total = Object.values(P.best).reduce((s, b) => s + b.stars, 0);
   let h = `<button class="x" type="button" id="mpX" aria-label="Close">×</button><h2>Levels</h2>
-    <p class="note">250 real moments from 2024–2026 where TJR's rules found a setup. For each one: predict the move, set your stop loss, choose how much fake money to risk, then press PLAY OUT TRADE. Bank <b>${usd(P.bank)}</b> · <b>${total}</b> ★ · accounts blown ${P.blown}.</p>
+    <p class="note">${LEVELS.length} real moments from 2018–2026. Most are moments where TJR's rules found a setup (some worked, most didn't), and some are days TJR wouldn't trade at all. For each one, either trade it (pick a side, set your stop loss, choose your money, PLAY OUT TRADE) or skip it. Bank <b>${usd(P.bank)}</b> · <b>${total}</b> ★ · accounts blown ${P.blown}.</p>
     <div class="row"><button class="btn primary" type="button" id="mpGo">${Object.keys(P.best).length ? "Continue" : "Start level 1"}</button></div>`;
   TIERS.forEach((name, k) => {
-    const open = tierOpen(k), ls = LEVELS.filter(L => L.tier === k), st = starsIn(k);
+    const open = tierOpen(k), ls = ORDER.filter(L => L.tier === k), st = starsIn(k);
     h += `<div class="tier"><div class="tierh"><h3 style="margin:0">${name} <span class="chip t${k}">${["easiest", "easy", "medium", "hard", "hardest"][k]}</span></h3><span class="small">${st} / ${ls.length * 3} ★${!open ? ` · earn ${UNLOCK} ★ in ${TIERS[k - 1]} to unlock` : ""}</span></div>
-      <div class="lv">${ls.map(L => { const b = P.best[L.n]; return `<button class="lvb ${b ? "done" : ""}" type="button" data-lv="${L.n}" ${open ? "" : "disabled"}>${L.n}<small>${b ? starStr(b.stars) : '<span class="off">★★★</span>'}</small></button>`; }).join("")}</div></div>`;
+      <div class="lv">${ls.map(L => { const b = P.best[L.n]; return `<button class="lvb ${b ? "done" : ""}" type="button" data-lv="${L.n}" ${open ? "" : "disabled"}>${dispNo(L.n)}<small>${b ? starStr(b.stars) : '<span class="off">★★★</span>'}</small></button>`; }).join("")}</div></div>`;
   });
-  h += `<p class="note" style="margin-top:14px">Levels run from clear moves (Rookie) to choppy ones (Legend). Stars: ★ any profit, ★★ 1R or more, ★★★ 2R or more. Risk more than 2% of your bank and the level counts 1 star at most.</p>`;
+  h += `<p class="note" style="margin-top:14px">Levels run from clear moves (Rookie) to choppy ones (Legend). Trading: ★ any profit, ★★ 1R or more, ★★★ 2R or more. Risk more than 2% of your bank and it counts 1 star at most. Skipping: ★ if the setup would have lost, nothing if it would have won, ★★★ on a TJR no-trade day. Trading on a no-trade day earns no stars, even if it wins.</p>`;
   $("mapBody").innerHTML = h; $("ovMap").hidden = false;
   $("mpX").onclick = () => { $("ovMap").hidden = true; };
   $("mpGo").onclick = () => { const n = nextLevelN(0); $("ovMap").hidden = true; if (n) startLevel(n); };
@@ -1529,18 +1635,20 @@ function showNewDay() {
 function pct(a, b) { return b ? Math.round(100 * a / b) + "%" : "--"; }
 function showStats() {
   stopTimer();
-  const P = store.prog, T = P.tries, wins = T.filter(t => t.R > 0), sumR = T.reduce((s, t) => s + t.R, 0), tjrR = T.reduce((s, t) => s + t.tjrR, 0);
-  const sameDir = T.filter(t => (t.side === "long") === (t.tjrDir === "BUY"));
+  const P = store.prog, A = P.tries, T = A.filter(t => !t.skip), S = A.filter(t => t.skip), wins = T.filter(t => t.R > 0);
+  const sumR = A.reduce((s, t) => s + (t.R || 0), 0), tjrR = A.reduce((s, t) => s + (t.tjrR || 0), 0);
+  const setupsTraded = T.filter(t => t.kind !== "nt"), sameDir = setupsTraded.filter(t => (t.side === "long") === (t.tjrDir === "BUY"));
+  const ntSeen = A.filter(t => t.kind === "nt"), ntSkipped = ntSeen.filter(t => t.skip);
   const L = ledger(), G = store.games, GT = G.filter(x => x.trade).map(x => x.trade), clean = GT.filter(t => t.clean), dirty = GT.filter(t => !t.clean), sr = a => a.reduce((s, t) => s + t.R, 0);
   const bs = G.filter(x => x.biasOk != null), nt = G.filter(x => x.v === "NO TRADE");
   const h = `<button class="x" type="button" id="stX" aria-label="Close">×</button><h2>My stats</h2>
     <h3>Levels</h3><div class="grid3">
     <div class="tile"><div class="k">Bank (started ${usd(START_BANK, 0)})</div><div class="v">${usd(P.bank)}</div><div class="k">accounts blown: ${P.blown}</div></div>
-    <div class="tile"><div class="k">Levels played / win rate</div><div class="v">${T.length} · ${pct(wins.length, T.length)}</div></div>
-    <div class="tile"><div class="k">You vs TJR's rules (same levels)</div><div class="v"><span class="${sumR >= 0 ? "ok" : "bad"}">${fmtR(sumR)}</span> / <span class="${tjrR >= 0 ? "ok" : "bad"}">${fmtR(tjrR)}</span></div></div>
-    <div class="tile"><div class="k">Average risk per level</div><div class="v">${T.length ? (T.reduce((s, t) => s + t.riskPct, 0) / T.length).toFixed(1) + "%" : "--"}</div><div class="k">TJR uses 1%</div></div>
-    <div class="tile"><div class="k">Picked TJR's direction</div><div class="v">${pct(sameDir.length, T.length)}</div></div>
-    <div class="tile"><div class="k">Average per level</div><div class="v">${T.length ? fmtR(sumR / T.length) : "--"}</div></div></div>
+    <div class="tile"><div class="k">Trades taken / win rate</div><div class="v">${T.length} · ${pct(wins.length, T.length)}</div></div>
+    <div class="tile"><div class="k">You vs TJR's rules (same levels)</div><div class="v"><span class="${sumR >= 0 ? "ok" : "bad"}">${fmtR(sumR)}</span> / <span class="${tjrR >= 0 ? "ok" : "bad"}">${fmtR(tjrR)}</span></div><div class="k">a skip counts as 0R</div></div>
+    <div class="tile"><div class="k">Skips / good skips</div><div class="v">${S.length} · ${pct(S.filter(t => t.good).length, S.length)}</div></div>
+    <div class="tile"><div class="k">No-trade days spotted</div><div class="v">${pct(ntSkipped.length, ntSeen.length)}</div><div class="k">${ntSeen.length} seen · skipping is right</div></div>
+    <div class="tile"><div class="k">Average risk per trade</div><div class="v">${T.length ? (T.reduce((s, t) => s + t.riskPct, 0) / T.length).toFixed(1) + "%" : "--"}</div><div class="k">TJR uses 1% · picked his direction ${pct(sameDir.length, setupsTraded.length)}</div></div></div>
     <h3>Replay a day</h3><div class="grid3">
     <div class="tile"><div class="k">Paper account</div><div class="v">${usd(L.bal, 0)}</div><div class="k">total ${fmtR(L.tot)}</div></div>
     <div class="tile"><div class="k">Clean trades (avg)</div><div class="v">${clean.length} · ${clean.length ? fmtR(sr(clean) / clean.length) : "--"}</div></div>
@@ -1548,7 +1656,7 @@ function showStats() {
     <div class="tile"><div class="k">Bias right (9:30–11)</div><div class="v">${pct(bs.filter(x => x.biasOk).length, bs.length)}</div><div class="k">coin flip = 50%</div></div>
     <div class="tile"><div class="k">Spotted no-trade days</div><div class="v">${pct(nt.filter(x => x.call === "skip").length, nt.length)}</div></div>
     <div class="tile"><div class="k">Days played</div><div class="v">${G.length}</div></div></div>
-    <h3>The bad side</h3><p class="note">This is a game on past data, not the live market. Real money feels different, and real fills can be worse around news. Across these 250 levels, TJR's own rules came out at −36R, with 79 winners out of 250. If you finish them positive, that's a good sign, but it's still a game. None of this counts toward your 30 TradingView paper trades.</p>
+    <h3>The bad side</h3><p class="note">This is a game on past data, not the live market. Real money feels different, and real fills can be worse around news. On the 250 setup levels, TJR's own rules came out at −36R, with 79 winners; the other 50 levels are no-trade days. If you finish them positive, that's a good sign, but it's still a game. None of this counts toward your 30 TradingView paper trades.</p>
     <p class="note">How fills work: you enter at the frozen price plus a 0.5-point spread. Stop losses and take profits fill at their price; if one candle touches both, the stop counts. ${store.db ? "Saved to your Practice Pit account (works across devices)." : "Saved in this browser only."}</p>`;
   $("statsBody").innerHTML = h; $("ovStats").hidden = false;
   $("stX").onclick = () => { $("ovStats").hidden = true; };
@@ -1586,7 +1694,7 @@ document.addEventListener("keydown", e => {
     if (e.key === "ArrowRight") { e.preventDefault(); nextCandle(e.shiftKey ? 5 : 1); return; }
     if (e.key === " " && g.phase === "playing") { e.preventDefault(); timer ? pausePlay() : resumePlay(); return; }
     if (g.phase === "predict") {
-      if (k === "b") betSide("long"); else if (k === "s") betSide("short");
+      if (k === "b") betSide("long"); else if (k === "s") betSide("short"); else if (k === "k") skipLevel();
       else if (e.key === "Enter" && !betCheck()) playOut();
     }
   }
@@ -1607,6 +1715,7 @@ async function start(data) {
   try {
     DAYS = JSON.parse(new TextDecoder().decode(await gunzip(await loadFile("days"))));
     LEVELS = await loadFile("levels");
+    ORDER = LEVELS.slice().sort((a, b) => a.tier - b.tier || (a.o || a.n * 10) - (b.o || b.n * 10));
   } catch (e) { $("fatal").innerHTML = `<div class="err">Couldn't load the game data (${esc(e.message)}). Reload to try again.</div>`; return; }
   connectDb();
   const s = data || {};
