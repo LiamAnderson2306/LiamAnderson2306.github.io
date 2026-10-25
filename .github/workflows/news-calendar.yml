@@ -1,0 +1,40 @@
+# Rebuilds the SPX News calendar (news/spx-news.ics) from the Forex Factory feed every day,
+# so the subscribed iPhone calendar stays up to date even when the PC is off.
+name: SPX news calendar
+
+on:
+  schedule:
+    - cron: "15 22 * * *"    # every day, 6:15am Perth
+    - cron: "30 4 * * 0"     # Sunday 12:30pm Perth, after Forex Factory rolls over to the new week
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: news-calendar
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the calendar
+        run: python3 news/build_calendar.py
+      - name: Save it if anything changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "spx-news-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add news/spx-news.ics news/events.json news/index.html
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Update SPX news calendar"
+            git push
+            # pushes made by this workflow don't always start a Pages build on their own, so ask for one
+            gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+          fi

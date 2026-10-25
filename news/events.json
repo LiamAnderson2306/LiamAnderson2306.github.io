@@ -1,0 +1,75 @@
+{
+ "covered": [
+  "2026-10-25",
+  "2026-10-26",
+  "2026-10-27",
+  "2026-10-28",
+  "2026-10-29",
+  "2026-10-30"
+ ],
+ "events": {
+  "Advance GDP Price Index q/q|1793277000": {
+   "forecast": "3.5%",
+   "impact": "Medium",
+   "previous": "6.2%",
+   "title": "Advance GDP Price Index q/q",
+   "ts": 1793277000
+  },
+  "Advance GDP q/q|1793277000": {
+   "forecast": "3.2%",
+   "impact": "High",
+   "previous": "1.5%",
+   "title": "Advance GDP q/q",
+   "ts": 1793277000
+  },
+  "CB Consumer Confidence|1793109600": {
+   "forecast": "80.5",
+   "impact": "Medium",
+   "previous": "81.9",
+   "title": "CB Consumer Confidence",
+   "ts": 1793109600
+  },
+  "Core PCE Price Index m/m|1793277000": {
+   "forecast": "0.3%",
+   "impact": "High",
+   "previous": "0.2%",
+   "title": "Core PCE Price Index m/m",
+   "ts": 1793277000
+  },
+  "Employment Cost Index q/q|1793363400": {
+   "forecast": "0.8%",
+   "impact": "Medium",
+   "previous": "0.9%",
+   "title": "Employment Cost Index q/q",
+   "ts": 1793363400
+  },
+  "FOMC Press Conference|1793212200": {
+   "forecast": "",
+   "impact": "High",
+   "previous": "",
+   "title": "FOMC Press Conference",
+   "ts": 1793212200
+  },
+  "FOMC Statement|1793210400": {
+   "forecast": "",
+   "impact": "High",
+   "previous": "",
+   "title": "FOMC Statement",
+   "ts": 1793210400
+  },
+  "Federal Funds Rate|1793210400": {
+   "forecast": "4.00%",
+   "impact": "High",
+   "previous": "4.00%",
+   "title": "Federal Funds Rate",
+   "ts": 1793210400
+  },
+  "Unemployment Claims|1793277000": {
+   "forecast": "198K",
+   "impact": "Medium",
+   "previous": "194K",
+   "title": "Unemployment Claims",
+   "ts": 1793277000
+  }
+ }
+}

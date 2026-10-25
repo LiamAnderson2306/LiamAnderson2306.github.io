@@ -1,0 +1,183 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Practice Pit//SPX News//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:SPX News (TJR)
+X-WR-CALDESC:US news that moves the S&P 500\, with forecasts\, TJR's verdic
+ t and where to watch.
+X-WR-TIMEZONE:Australia/Perth
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:day-2026-10-26@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:✅ TJR: OK (no big US news)
+DESCRIPTION:TJR verdict for Monday 26 October: OK\n- No US red or orange ne
+ ws in your window.\n\nYour window: 9:30-11:00am New York = 9:30pm-11:00pm 
+ Perth.\nMore: https://liamanderson2306.github.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-10-27@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:⏳ TJR: WAIT (wait till 10:30am NY)
+DESCRIPTION:TJR verdict for Tuesday 27 October: WAIT\n- ORANGE CB Consumer 
+ Confidence at 10:00am NY (inside your window): hands off for 30 minutes. I
+ f it spikes the market\, you're done for the day.\n\nYour window: 9:30-11:
+ 00am New York = 9:30pm-11:00pm Perth.\nMore: https://liamanderson2306.gith
+ ub.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-10-28@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:🚫 TJR: NO TRADE (Big-4 news)
+DESCRIPTION:TJR verdict for Wednesday 28 October: NO TRADE\n- Big-4 news: F
+ ederal Funds Rate\, FOMC Statement\, FOMC Press Conference at 2:00pm NY. T
+ JR: 'call it quits\, live to trade another day'.\n\nYour window: 9:30-11:0
+ 0am New York = 9:30pm-11:00pm Perth.\nMore: https://liamanderson2306.githu
+ b.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-10-29@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:⚠️ TJR: CAUTION (news before the open)
+DESCRIPTION:TJR verdict for Thursday 29 October: CAUTION\n- RED Advance GDP
+  q/q at 8:30am NY (before the open): look at the reaction first. A big spi
+ ke or big wicks = no trade today.\n- RED Core PCE Price Index m/m at 8:30a
+ m NY (before the open): look at the reaction first. A big spike or big wic
+ ks = no trade today.\n- ORANGE Advance GDP Price Index q/q at 8:30am NY (b
+ efore the open): look at the reaction first. A big spike or big wicks = no
+  trade today.\n- ORANGE Unemployment Claims at 8:30am NY (before the open)
+ : look at the reaction first. A big spike or big wicks = no trade today.\n
+ - 2 red folders today: lower-probability day\, A+ setups only.\n\nYour win
+ dow: 9:30-11:00am New York = 9:30pm-11:00pm Perth.\nMore: https://liamande
+ rson2306.github.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-10-30@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:⚠️ TJR: CAUTION (news before the open)
+DESCRIPTION:TJR verdict for Friday 30 October: CAUTION\n- ORANGE Employment
+  Cost Index q/q at 8:30am NY (before the open): look at the reaction first
+ . A big spike or big wicks = no trade today.\n\nYour window: 9:30-11:00am 
+ New York = 9:30pm-11:00pm Perth.\nMore: https://liamanderson2306.github.io
+ /news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:79ae61bf1397254a@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART:20261027T140000Z
+DTEND:20261027T141500Z
+SUMMARY:🟠 CB Consumer Confidence (10:00am NY)
+DESCRIPTION:ORANGE news at 10:00am New York.\n\n- CB Consumer Confidence: f
+ orecast 80.5\, previous 81.9\n\nHistory (S&P 2018-2026): the first 5 minut
+ es usually swing 0.147%\, about 1.3x a normal 5 minutes.\n- If weaker than
+  forecast: S&P lower 15 min later in 64% of 47 (LEANING)\n(PROVEN means mo
+ re likely\, not certain.)\n\nTJR today: WAIT (wait till 10:30am NY).\n\nWh
+ ere to watch:\n- The numbers as they come out: Forex Factory calendar: htt
+ ps://www.forexfactory.com/calendar\n- The market reaction: CNBC Television
+  on YouTube: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:4899173416a8c92f@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART:20261028T180000Z
+DTEND:20261028T183000Z
+SUMMARY:🔴 Federal Funds Rate + 1 more (2:00pm NY)
+DESCRIPTION:RED news at 2:00pm New York.\n\n- Federal Funds Rate: forecast 
+ 4.00%\, previous 4.00%\n- FOMC Statement\n\nHistory (S&P 2018-2026): the f
+ irst 5 minutes usually swing 0.343%\, about 3.8x a normal 5 minutes.\n- No
+  reliable direction: expect a big move\, not a known direction.\n(PROVEN m
+ eans more likely\, not certain.)\n\nTJR today: NO TRADE (Big-4 news).\n\nW
+ here to watch:\n- Federal Reserve live on YouTube: https://www.youtube.com
+ /@federalreserve\n- Federal Reserve live broadcast: https://www.federalres
+ erve.gov/live-broadcast.htm
+URL:https://www.youtube.com/@federalreserve
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Federal Funds Rate + 1 more in 15 minutes
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ca241209ce15479b@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART:20261028T183000Z
+DTEND:20261028T191500Z
+SUMMARY:🔴 FOMC Press Conference (2:30pm NY)
+DESCRIPTION:RED news at 2:30pm New York.\n\n- FOMC Press Conference\n\nHist
+ ory (S&P 2018-2026): the first 5 minutes usually swing 0.217%\, about 2.7x
+  a normal 5 minutes.\n- No reliable direction: expect a big move\, not a k
+ nown direction.\n(PROVEN means more likely\, not certain.)\n\nTJR today: N
+ O TRADE (Big-4 news).\n\nWhere to watch:\n- Federal Reserve live on YouTub
+ e: https://www.youtube.com/@federalreserve\n- Federal Reserve live broadca
+ st: https://www.federalreserve.gov/live-broadcast.htm
+URL:https://www.youtube.com/@federalreserve
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:FOMC Press Conference in 15 minutes
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:9707763571b4b5f9@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART:20261029T123000Z
+DTEND:20261029T124500Z
+SUMMARY:🔴 Advance GDP q/q + 3 more (8:30am NY)
+DESCRIPTION:RED news at 8:30am New York.\n\n- Advance GDP q/q: forecast 3.2
+ %\, previous 1.5%\n- Core PCE Price Index m/m: forecast 0.3%\, previous 0.
+ 2%\n- Advance GDP Price Index q/q: forecast 3.5%\, previous 6.2%\n- Unempl
+ oyment Claims: forecast 198K\, previous 194K\n\nHistory (S&P 2018-2026): t
+ he first 5 minutes usually swing 0.171%\, about 2.9x a normal 5 minutes.\n
+ - If stronger than forecast: S&P higher 1 hour later in 87% of 15 (LEANING
+ )\n- If weaker than forecast: S&P lower 5 min later in 75% of 16 (LEANING)
+ \n(PROVEN means more likely\, not certain.)\n\nTJR today: CAUTION (news be
+ fore the open).\n\nWhere to watch:\n- The numbers as they come out: Forex 
+ Factory calendar: https://www.forexfactory.com/calendar\n- The market reac
+ tion: CNBC Television on YouTube: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Advance GDP q/q + 3 more in 15 minutes
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dd822d0dbfbb7a3e@liamanderson2306.github.io
+DTSTAMP:20261025T061137Z
+DTSTART:20261030T123000Z
+DTEND:20261030T124500Z
+SUMMARY:🟠 Employment Cost Index q/q (8:30am NY)
+DESCRIPTION:ORANGE news at 8:30am New York.\n\n- Employment Cost Index q/q:
+  forecast 0.8%\, previous 0.9%\n\nHistory (S&P 2018-2026): the first 5 min
+ utes usually swing 0.112%\, about 1.9x a normal 5 minutes.\n- No reliable 
+ direction: expect a big move\, not a known direction.\n(PROVEN means more 
+ likely\, not certain.)\n\nTJR today: CAUTION (news before the open).\n\nWh
+ ere to watch:\n- The numbers as they come out: Forex Factory calendar: htt
+ ps://www.forexfactory.com/calendar\n- The market reaction: CNBC Television
+  on YouTube: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR
