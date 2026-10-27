@@ -9,7 +9,7 @@
  ],
  "events": {
   "Advance GDP Price Index q/q|1793277000": {
-   "forecast": "3.5%",
+   "forecast": "3.3%",
    "impact": "Medium",
    "previous": "6.2%",
    "title": "Advance GDP Price Index q/q",
@@ -23,7 +23,7 @@
    "ts": 1793277000
   },
   "CB Consumer Confidence|1793109600": {
-   "forecast": "80.5",
+   "forecast": "81.2",
    "impact": "Medium",
    "previous": "81.9",
    "title": "CB Consumer Confidence",
