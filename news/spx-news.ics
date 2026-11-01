@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:day-2026-10-26@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART;VALUE=DATE:20261026
 DTEND;VALUE=DATE:20261027
 SUMMARY:✅ TJR: OK (no big US news)
@@ -22,7 +22,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-10-27@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART;VALUE=DATE:20261027
 DTEND;VALUE=DATE:20261028
 SUMMARY:⏳ TJR: WAIT (wait till 10:30am NY)
@@ -35,12 +35,12 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-10-28@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART;VALUE=DATE:20261028
 DTEND;VALUE=DATE:20261029
 SUMMARY:🚫 TJR: NO TRADE (Big-4 news)
 DESCRIPTION:TJR verdict for Wednesday 28 October: NO TRADE\n- Big-4 news: F
- ederal Funds Rate\, FOMC Statement\, FOMC Press Conference at 2:00pm NY. T
+ OMC Statement\, Federal Funds Rate\, FOMC Press Conference at 2:00pm NY. T
  JR: 'call it quits\, live to trade another day'.\n\nYour window: 9:30-11:0
  0am New York = 9:30pm-11:00pm Perth.\nMore: https://liamanderson2306.githu
  b.io/news/
@@ -48,15 +48,15 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-10-29@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART;VALUE=DATE:20261029
 DTEND;VALUE=DATE:20261030
 SUMMARY:⚠️ TJR: CAUTION (news before the open)
-DESCRIPTION:TJR verdict for Thursday 29 October: CAUTION\n- RED Advance GDP
-  q/q at 8:30am NY (before the open): look at the reaction first. A big spi
- ke or big wicks = no trade today.\n- RED Core PCE Price Index m/m at 8:30a
- m NY (before the open): look at the reaction first. A big spike or big wic
- ks = no trade today.\n- ORANGE Advance GDP Price Index q/q at 8:30am NY (b
+DESCRIPTION:TJR verdict for Thursday 29 October: CAUTION\n- ORANGE Advance 
+ GDP Price Index q/q at 8:30am NY (before the open): look at the reaction f
+ irst. A big spike or big wicks = no trade today.\n- RED Advance GDP q/q at
+  8:30am NY (before the open): look at the reaction first. A big spike or b
+ ig wicks = no trade today.\n- RED Core PCE Price Index m/m at 8:30am NY (b
  efore the open): look at the reaction first. A big spike or big wicks = no
   trade today.\n- ORANGE Unemployment Claims at 8:30am NY (before the open)
  : look at the reaction first. A big spike or big wicks = no trade today.\n
@@ -67,7 +67,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-10-30@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART;VALUE=DATE:20261030
 DTEND;VALUE=DATE:20261031
 SUMMARY:⚠️ TJR: CAUTION (news before the open)
@@ -79,8 +79,74 @@ DESCRIPTION:TJR verdict for Friday 30 October: CAUTION\n- ORANGE Employment
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:day-2026-11-02@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:⏳ TJR: WAIT (wait till 10:30am NY)
+DESCRIPTION:TJR verdict for Monday 02 November: WAIT\n- ORANGE ISM Manufact
+ uring PMI at 10:00am NY (inside your window): hands off for 30 minutes. If
+  it spikes the market\, you're done for the day.\n\nYour window: 9:30-11:0
+ 0am New York = 10:30pm-12:00am Perth.\nMore: https://liamanderson2306.gith
+ ub.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-11-03@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:⏳ TJR: WAIT (wait till 10:46am NY)
+DESCRIPTION:TJR verdict for Tuesday 03 November: WAIT\n- ORANGE JOLTS Job O
+ penings at 10:00am NY (inside your window): hands off for 30 minutes. If i
+ t spikes the market\, you're done for the day.\n- RED Congressional Electi
+ ons at 10:16am NY (inside your window): hands off for 30 minutes. If it sp
+ ikes the market\, you're done for the day.\n- 1 red folder today: lower-pr
+ obability day\, A+ setups only.\n\nYour window: 9:30-11:00am New York = 10
+ :30pm-12:00am Perth.\nMore: https://liamanderson2306.github.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-11-04@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:⏳ TJR: WAIT (wait till 10:30am NY)
+DESCRIPTION:TJR verdict for Wednesday 04 November: WAIT\n- ORANGE ISM Servi
+ ces PMI at 10:00am NY (inside your window): hands off for 30 minutes. If i
+ t spikes the market\, you're done for the day.\n\nYour window: 9:30-11:00a
+ m New York = 10:30pm-12:00am Perth.\nMore: https://liamanderson2306.github
+ .io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-11-05@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20261106
+SUMMARY:⚠️ TJR: CAUTION (news before the open)
+DESCRIPTION:TJR verdict for Thursday 05 November: CAUTION\n- ORANGE Unemplo
+ yment Claims at 8:30am NY (before the open): look at the reaction first. A
+  big spike or big wicks = no trade today.\n\nYour window: 9:30-11:00am New
+  York = 10:30pm-12:00am Perth.\nMore: https://liamanderson2306.github.io/n
+ ews/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-11-06@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:🚫 TJR: NO TRADE (Big-4 news)
+DESCRIPTION:TJR verdict for Friday 06 November: NO TRADE\n- Big-4 news: Non
+ -Farm Employment Change at 8:30am NY. TJR: 'call it quits\, live to trade 
+ another day'.\n\nYour window: 9:30-11:00am New York = 10:30pm-12:00am Pert
+ h.\nMore: https://liamanderson2306.github.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:79ae61bf1397254a@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART:20261027T140000Z
 DTEND:20261027T141500Z
 SUMMARY:🟠 CB Consumer Confidence (10:00am NY)
@@ -97,12 +163,12 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:4899173416a8c92f@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART:20261028T180000Z
 DTEND:20261028T183000Z
-SUMMARY:🔴 Federal Funds Rate + 1 more (2:00pm NY)
-DESCRIPTION:RED news at 2:00pm New York.\n\n- Federal Funds Rate: forecast 
- 4.00%\, previous 4.00%\n- FOMC Statement\n\nHistory (S&P 2018-2026): the f
+SUMMARY:🔴 FOMC Statement + 1 more (2:00pm NY)
+DESCRIPTION:RED news at 2:00pm New York.\n\n- FOMC Statement\n- Federal Fun
+ ds Rate: forecast 4.00%\, previous 4.00%\n\nHistory (S&P 2018-2026): the f
  irst 5 minutes usually swing 0.343%\, about 3.8x a normal 5 minutes.\n- No
   reliable direction: expect a big move\, not a known direction.\n(PROVEN m
  eans more likely\, not certain.)\n\nTJR today: NO TRADE (Big-4 news).\n\nW
@@ -113,13 +179,13 @@ URL:https://www.youtube.com/@federalreserve
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Federal Funds Rate + 1 more in 15 minutes
+DESCRIPTION:FOMC Statement + 1 more in 15 minutes
 TRIGGER:-PT15M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ca241209ce15479b@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART:20261028T183000Z
 DTEND:20261028T191500Z
 SUMMARY:🔴 FOMC Press Conference (2:30pm NY)
@@ -140,7 +206,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:9707763571b4b5f9@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART:20261029T123000Z
 DTEND:20261029T124500Z
 SUMMARY:🔴 Advance GDP q/q + 3 more (8:30am NY)
@@ -165,7 +231,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:dd822d0dbfbb7a3e@liamanderson2306.github.io
-DTSTAMP:20261101T011011Z
+DTSTAMP:20261101T112627Z
 DTSTART:20261030T123000Z
 DTEND:20261030T124500Z
 SUMMARY:🟠 Employment Cost Index q/q (8:30am NY)
@@ -177,6 +243,136 @@ DESCRIPTION:ORANGE news at 8:30am New York.\n\n- Employment Cost Index q/q:
  ere to watch:\n- The numbers as they come out: Forex Factory calendar: htt
  ps://www.forexfactory.com/calendar\n- The market reaction: CNBC Television
   on YouTube: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:14dbb36e105076a5@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART:20261102T150000Z
+DTEND:20261102T151500Z
+SUMMARY:🟠 ISM Manufacturing PMI (10:00am NY)
+DESCRIPTION:ORANGE news at 10:00am New York.\n\n- ISM Manufacturing PMI: fo
+ recast 54.7\, previous 54.5\n\nHistory (S&P 2018-2026): the first 5 minute
+ s usually swing 0.208%\, about 1.8x a normal 5 minutes.\n- If stronger tha
+ n forecast: S&P higher 5 min later in 76% of 41 (PROVEN)\n- If weaker than
+  forecast: S&P lower 5 min later in 65% of 49 (LEANING)\n(PROVEN means mor
+ e likely\, not certain.)\n\nTJR today: WAIT (wait till 10:30am NY).\n\nWhe
+ re to watch:\n- The numbers as they come out: Forex Factory calendar: http
+ s://www.forexfactory.com/calendar\n- The market reaction: CNBC Television 
+ on YouTube: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:4273edf6245d9feb@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART:20261103T150000Z
+DTEND:20261103T151500Z
+SUMMARY:🟠 JOLTS Job Openings (10:00am NY)
+DESCRIPTION:ORANGE news at 10:00am New York.\n\n- JOLTS Job Openings: forec
+ ast 7.11M\, previous 7.08M\n\nHistory (S&P 2018-2026): the first 5 minutes
+  usually swing 0.178%\, about 1.5x a normal 5 minutes.\n- If stronger than
+  forecast: S&P lower 15 min later in 69% of 29 (LEANING)\n(PROVEN means mo
+ re likely\, not certain.)\n\nTJR today: WAIT (wait till 10:46am NY).\n\nWh
+ ere to watch:\n- The numbers as they come out: Forex Factory calendar: htt
+ ps://www.forexfactory.com/calendar\n- The market reaction: CNBC Television
+  on YouTube: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a693374fc0bda1e6@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART:20261103T151600Z
+DTEND:20261103T153100Z
+SUMMARY:🔴 Congressional Elections (10:16am NY)
+DESCRIPTION:RED news at 10:16am New York.\n\n- Congressional Elections\n\nT
+ JR today: WAIT (wait till 10:46am NY).\n\nWhere to watch:\n- The numbers a
+ s they come out: Forex Factory calendar: https://www.forexfactory.com/cale
+ ndar\n- The market reaction: CNBC Television on YouTube: https://www.youtu
+ be.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Congressional Elections in 15 minutes
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:e8910a58a7823d9d@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART:20261104T150000Z
+DTEND:20261104T151500Z
+SUMMARY:🟠 ISM Services PMI (10:00am NY)
+DESCRIPTION:ORANGE news at 10:00am New York.\n\n- ISM Services PMI: forecas
+ t 54.9\, previous 54.9\n\nHistory (S&P 2018-2026): the first 5 minutes usu
+ ally swing 0.2%\, about 1.7x a normal 5 minutes.\n- If weaker than forecas
+ t: S&P lower 15 min later in 80% of 35 (PROVEN)\n(PROVEN means more likely
+ \, not certain.)\n\nTJR today: WAIT (wait till 10:30am NY).\n\nWhere to wa
+ tch:\n- The numbers as they come out: Forex Factory calendar: https://www.
+ forexfactory.com/calendar\n- The market reaction: CNBC Television on YouTu
+ be: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:39e36e456ed26666@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART:20261105T133000Z
+DTEND:20261105T134500Z
+SUMMARY:🟠 Unemployment Claims (8:30am NY)
+DESCRIPTION:ORANGE news at 8:30am New York.\n\n- Unemployment Claims: forec
+ ast 197K\, previous 194K\n\nHistory (S&P 2018-2026): the first 5 minutes u
+ sually swing 0.148%\, about 2.5x a normal 5 minutes.\n- If as expected: S&
+ P higher 1 hour later in 63% of 89 (LEANING)\n(PROVEN means more likely\, 
+ not certain.)\n\nTJR today: CAUTION (news before the open).\n\nWhere to wa
+ tch:\n- The numbers as they come out: Forex Factory calendar: https://www.
+ forexfactory.com/calendar\n- The market reaction: CNBC Television on YouTu
+ be: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:bc30ff81d0d1eed2@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART:20261106T133000Z
+DTEND:20261106T134500Z
+SUMMARY:🔴 Average Hourly Earnings m/m + 2 more (8:30am NY)
+DESCRIPTION:RED news at 8:30am New York.\n\n- Average Hourly Earnings m/m: 
+ forecast 0.3%\, previous 0.1%\n- Non-Farm Employment Change: forecast 63K\
+ , previous 29K\n- Unemployment Rate: forecast 4.2%\, previous 4.2%\n\nHist
+ ory (S&P 2018-2026): the first 5 minutes usually swing 0.379%\, about 6.5x
+  a normal 5 minutes.\n- If stronger than forecast: S&P higher 15 min later
+  in 66% of 44 (LEANING)\n(PROVEN means more likely\, not certain.)\n\nTJR 
+ today: NO TRADE (Big-4 news).\n\nWhere to watch:\n- The numbers as they co
+ me out: Forex Factory calendar: https://www.forexfactory.com/calendar\n- T
+ he market reaction: CNBC Television on YouTube: https://www.youtube.com/@C
+ NBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Average Hourly Earnings m/m + 2 more in 15 minutes
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:68abcb8f57f50291@liamanderson2306.github.io
+DTSTAMP:20261101T112627Z
+DTSTART:20261106T150000Z
+DTEND:20261106T151500Z
+SUMMARY:🟠 Prelim UoM Consumer Sentiment + 1 more (10:00am NY)
+DESCRIPTION:ORANGE news at 10:00am New York.\n\n- Prelim UoM Consumer Senti
+ ment: forecast 47.8\, previous 46.3\n- Prelim UoM Inflation Expectations: 
+ forecast -\, previous 4.7%\n\nHistory (S&P 2018-2026): the first 5 minutes
+  usually swing 0.182%\, about 1.6x a normal 5 minutes.\n- No reliable dire
+ ction: expect a big move\, not a known direction.\n(PROVEN means more like
+ ly\, not certain.)\n\nTJR today: NO TRADE (Big-4 news).\n\nWhere to watch:
+ \n- The numbers as they come out: Forex Factory calendar: https://www.fore
+ xfactory.com/calendar\n- The market reaction: CNBC Television on YouTube: 
+ https://www.youtube.com/@CNBCtelevision
 URL:https://www.forexfactory.com/calendar
 TRANSP:TRANSPARENT
 END:VEVENT
