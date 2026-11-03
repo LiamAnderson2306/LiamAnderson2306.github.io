@@ -99,28 +99,28 @@
    "ts": 1793631600
   },
   "ISM Services PMI|1793804400": {
-   "forecast": "54.9",
+   "forecast": "54.8",
    "impact": "Medium",
    "previous": "54.9",
    "title": "ISM Services PMI",
    "ts": 1793804400
   },
   "JOLTS Job Openings|1793718000": {
-   "forecast": "7.11M",
+   "forecast": "7.15M",
    "impact": "Medium",
    "previous": "7.08M",
    "title": "JOLTS Job Openings",
    "ts": 1793718000
   },
   "Non-Farm Employment Change|1793971800": {
-   "forecast": "63K",
+   "forecast": "65K",
    "impact": "High",
    "previous": "29K",
    "title": "Non-Farm Employment Change",
    "ts": 1793971800
   },
   "Prelim UoM Consumer Sentiment|1793977200": {
-   "forecast": "47.8",
+   "forecast": "48.1",
    "impact": "Medium",
    "previous": "46.3",
    "title": "Prelim UoM Consumer Sentiment",
