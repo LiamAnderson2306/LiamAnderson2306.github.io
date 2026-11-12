@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-10-27",
   "2026-10-28",
   "2026-10-29",
   "2026-10-30",
@@ -46,13 +45,6 @@
    "previous": "",
    "title": "Bank Holiday",
    "ts": 1794402000
-  },
-  "CB Consumer Confidence|1793109600": {
-   "forecast": "81.2",
-   "impact": "Medium",
-   "previous": "81.9",
-   "title": "CB Consumer Confidence",
-   "ts": 1793109600
   },
   "CPI m/m|1794317400": {
    "forecast": "0.3%",
