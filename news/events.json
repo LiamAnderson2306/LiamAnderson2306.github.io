@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-10-28",
   "2026-10-29",
   "2026-10-30",
   "2026-11-01",
@@ -101,27 +100,6 @@
    "previous": "",
    "title": "FOMC Member Waller Speaks",
    "ts": 1794301200
-  },
-  "FOMC Press Conference|1793212200": {
-   "forecast": "",
-   "impact": "High",
-   "previous": "",
-   "title": "FOMC Press Conference",
-   "ts": 1793212200
-  },
-  "FOMC Statement|1793210400": {
-   "forecast": "",
-   "impact": "High",
-   "previous": "",
-   "title": "FOMC Statement",
-   "ts": 1793210400
-  },
-  "Federal Funds Rate|1793210400": {
-   "forecast": "4.00%",
-   "impact": "High",
-   "previous": "4.00%",
-   "title": "Federal Funds Rate",
-   "ts": 1793210400
   },
   "ISM Manufacturing PMI|1793631600": {
    "forecast": "54.5",
