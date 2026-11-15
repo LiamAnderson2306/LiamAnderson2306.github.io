@@ -12,7 +12,13 @@
   "2026-11-11",
   "2026-11-12",
   "2026-11-13",
-  "2026-11-14"
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17",
+  "2026-11-18",
+  "2026-11-19",
+  "2026-11-20"
  ],
  "events": {
   "Average Hourly Earnings m/m|1793971800": {
@@ -57,6 +63,13 @@
    "title": "Core PPI m/m",
    "ts": 1794576600
   },
+  "Core Retail Sales m/m|1794922200": {
+   "forecast": "0.4%",
+   "impact": "High",
+   "previous": "0.9%",
+   "title": "Core Retail Sales m/m",
+   "ts": 1794922200
+  },
   "Daylight Saving Time Shift|1793516400": {
    "forecast": "",
    "impact": "Holiday",
@@ -64,12 +77,33 @@
    "title": "Daylight Saving Time Shift",
    "ts": 1793516400
   },
+  "FOMC Meeting Minutes|1795028400": {
+   "forecast": "",
+   "impact": "High",
+   "previous": "",
+   "title": "FOMC Meeting Minutes",
+   "ts": 1795028400
+  },
   "FOMC Member Waller Speaks|1794301200": {
    "forecast": "",
    "impact": "Medium",
    "previous": "",
    "title": "FOMC Member Waller Speaks",
    "ts": 1794301200
+  },
+  "FOMC Member Waller Speaks|1795181100": {
+   "forecast": "",
+   "impact": "Medium",
+   "previous": "",
+   "title": "FOMC Member Waller Speaks",
+   "ts": 1795181100
+  },
+  "Fed Chairman Warsh Speaks|1794848400": {
+   "forecast": "",
+   "impact": "High",
+   "previous": "",
+   "title": "Fed Chairman Warsh Speaks",
+   "ts": 1794848400
   },
   "ISM Manufacturing PMI|1793631600": {
    "forecast": "54.5",
@@ -106,6 +140,13 @@
    "title": "PPI m/m",
    "ts": 1794576600
   },
+  "Philly Fed Manufacturing Index|1795095000": {
+   "forecast": "19.2",
+   "impact": "Medium",
+   "previous": "20.9",
+   "title": "Philly Fed Manufacturing Index",
+   "ts": 1795095000
+  },
   "Prelim UoM Consumer Sentiment|1793977200": {
    "forecast": "48.1",
    "impact": "Medium",
@@ -120,6 +161,27 @@
    "title": "Prelim UoM Inflation Expectations",
    "ts": 1793977200
   },
+  "Retail Sales m/m|1794922200": {
+   "forecast": "0.2%",
+   "impact": "High",
+   "previous": "0.8%",
+   "title": "Retail Sales m/m",
+   "ts": 1794922200
+  },
+  "Revised UoM Consumer Sentiment|1795186800": {
+   "forecast": "52.1",
+   "impact": "Medium",
+   "previous": "51.0",
+   "title": "Revised UoM Consumer Sentiment",
+   "ts": 1795186800
+  },
+  "Revised UoM Inflation Expectations|1795186800": {
+   "forecast": "",
+   "impact": "Medium",
+   "previous": "4.3%",
+   "title": "Revised UoM Inflation Expectations",
+   "ts": 1795186800
+  },
   "Unemployment Claims|1793885400": {
    "forecast": "197K",
    "impact": "Medium",
@@ -133,6 +195,13 @@
    "previous": "189K",
    "title": "Unemployment Claims",
    "ts": 1794490200
+  },
+  "Unemployment Claims|1795095000": {
+   "forecast": "199K",
+   "impact": "Medium",
+   "previous": "200K",
+   "title": "Unemployment Claims",
+   "ts": 1795095000
   },
   "Unemployment Rate|1793971800": {
    "forecast": "4.2%",
