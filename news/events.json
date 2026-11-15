@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-10-30",
   "2026-11-01",
   "2026-11-02",
   "2026-11-03",
@@ -64,13 +63,6 @@
    "previous": "",
    "title": "Daylight Saving Time Shift",
    "ts": 1793516400
-  },
-  "Employment Cost Index q/q|1793363400": {
-   "forecast": "0.8%",
-   "impact": "Medium",
-   "previous": "0.9%",
-   "title": "Employment Cost Index q/q",
-   "ts": 1793363400
   },
   "FOMC Member Waller Speaks|1794301200": {
    "forecast": "",
