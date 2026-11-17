@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-11-01",
   "2026-11-02",
   "2026-11-03",
   "2026-11-04",
@@ -69,13 +68,6 @@
    "previous": "0.9%",
    "title": "Core Retail Sales m/m",
    "ts": 1794922200
-  },
-  "Daylight Saving Time Shift|1793516400": {
-   "forecast": "",
-   "impact": "Holiday",
-   "previous": "",
-   "title": "Daylight Saving Time Shift",
-   "ts": 1793516400
   },
   "FOMC Meeting Minutes|1795028400": {
    "forecast": "",
@@ -155,7 +147,7 @@
    "ts": 1793977200
   },
   "Retail Sales m/m|1794922200": {
-   "forecast": "0.2%",
+   "forecast": "0.1%",
    "impact": "High",
    "previous": "0.8%",
    "title": "Retail Sales m/m",
