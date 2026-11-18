@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-11-02",
   "2026-11-03",
   "2026-11-04",
   "2026-11-05",
@@ -90,13 +89,6 @@
    "title": "Fed Chairman Warsh Speaks",
    "ts": 1794848400
   },
-  "ISM Manufacturing PMI|1793631600": {
-   "forecast": "54.5",
-   "impact": "Medium",
-   "previous": "54.5",
-   "title": "ISM Manufacturing PMI",
-   "ts": 1793631600
-  },
   "ISM Services PMI|1793804400": {
    "forecast": "54.8",
    "impact": "Medium",
@@ -126,7 +118,7 @@
    "ts": 1794576600
   },
   "Philly Fed Manufacturing Index|1795095000": {
-   "forecast": "19.2",
+   "forecast": "20.6",
    "impact": "Medium",
    "previous": "20.9",
    "title": "Philly Fed Manufacturing Index",
@@ -154,7 +146,7 @@
    "ts": 1794922200
   },
   "Revised UoM Consumer Sentiment|1795186800": {
-   "forecast": "52.1",
+   "forecast": "51.7",
    "impact": "Medium",
    "previous": "51.0",
    "title": "Revised UoM Consumer Sentiment",
@@ -182,7 +174,7 @@
    "ts": 1794490200
   },
   "Unemployment Claims|1795095000": {
-   "forecast": "199K",
+   "forecast": "198K",
    "impact": "Medium",
    "previous": "200K",
    "title": "Unemployment Claims",
