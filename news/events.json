@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-11-04",
   "2026-11-05",
   "2026-11-06",
   "2026-11-08",
@@ -80,13 +79,6 @@
    "previous": "",
    "title": "Fed Chairman Warsh Speaks",
    "ts": 1794848400
-  },
-  "ISM Services PMI|1793804400": {
-   "forecast": "54.8",
-   "impact": "Medium",
-   "previous": "54.9",
-   "title": "ISM Services PMI",
-   "ts": 1793804400
   },
   "Non-Farm Employment Change|1793971800": {
    "forecast": "65K",
