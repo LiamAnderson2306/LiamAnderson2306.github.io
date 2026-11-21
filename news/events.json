@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-11-05",
   "2026-11-06",
   "2026-11-08",
   "2026-11-09",
@@ -115,6 +114,13 @@
    "title": "Prelim UoM Inflation Expectations",
    "ts": 1793977200
   },
+  "President Trump Speaks|1795194000": {
+   "forecast": "",
+   "impact": "Medium",
+   "previous": "",
+   "title": "President Trump Speaks",
+   "ts": 1795194000
+  },
   "Retail Sales m/m|1794922200": {
    "forecast": "0.1%",
    "impact": "High",
@@ -135,13 +141,6 @@
    "previous": "4.3%",
    "title": "Revised UoM Inflation Expectations",
    "ts": 1795186800
-  },
-  "Unemployment Claims|1793885400": {
-   "forecast": "197K",
-   "impact": "Medium",
-   "previous": "194K",
-   "title": "Unemployment Claims",
-   "ts": 1793885400
   },
   "Unemployment Claims|1794490200": {
    "forecast": "194K",
