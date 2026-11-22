@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-11-06",
   "2026-11-08",
   "2026-11-09",
   "2026-11-10",
@@ -16,13 +15,6 @@
   "2026-11-20"
  ],
  "events": {
-  "Average Hourly Earnings m/m|1793971800": {
-   "forecast": "0.3%",
-   "impact": "High",
-   "previous": "0.1%",
-   "title": "Average Hourly Earnings m/m",
-   "ts": 1793971800
-  },
   "Bank Holiday|1794402000": {
    "forecast": "",
    "impact": "Holiday",
@@ -79,13 +71,6 @@
    "title": "Fed Chairman Warsh Speaks",
    "ts": 1794848400
   },
-  "Non-Farm Employment Change|1793971800": {
-   "forecast": "65K",
-   "impact": "High",
-   "previous": "29K",
-   "title": "Non-Farm Employment Change",
-   "ts": 1793971800
-  },
   "PPI m/m|1794576600": {
    "forecast": "0.4%",
    "impact": "High",
@@ -99,20 +84,6 @@
    "previous": "20.9",
    "title": "Philly Fed Manufacturing Index",
    "ts": 1795095000
-  },
-  "Prelim UoM Consumer Sentiment|1793977200": {
-   "forecast": "48.1",
-   "impact": "Medium",
-   "previous": "46.3",
-   "title": "Prelim UoM Consumer Sentiment",
-   "ts": 1793977200
-  },
-  "Prelim UoM Inflation Expectations|1793977200": {
-   "forecast": "",
-   "impact": "Medium",
-   "previous": "4.7%",
-   "title": "Prelim UoM Inflation Expectations",
-   "ts": 1793977200
   },
   "President Trump Speaks|1795194000": {
    "forecast": "",
@@ -155,13 +126,6 @@
    "previous": "200K",
    "title": "Unemployment Claims",
    "ts": 1795095000
-  },
-  "Unemployment Rate|1793971800": {
-   "forecast": "4.2%",
-   "impact": "High",
-   "previous": "4.2%",
-   "title": "Unemployment Rate",
-   "ts": 1793971800
   }
  }
 }
