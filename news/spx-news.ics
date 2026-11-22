@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:day-2026-11-09@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261109
 DTEND;VALUE=DATE:20261110
 SUMMARY:✅ TJR: OK (no big US news)
@@ -22,7 +22,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-10@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261110
 DTEND;VALUE=DATE:20261111
 SUMMARY:🚫 TJR: NO TRADE (Big-4 news)
@@ -34,7 +34,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-11@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261111
 DTEND;VALUE=DATE:20261112
 SUMMARY:🚫 TJR: NO TRADE (US bank holiday)
@@ -46,7 +46,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-12@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261112
 DTEND;VALUE=DATE:20261113
 SUMMARY:⚠️ TJR: CAUTION (news before the open)
@@ -59,7 +59,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-13@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261113
 DTEND;VALUE=DATE:20261114
 SUMMARY:🚫 TJR: NO TRADE (Big-4 news)
@@ -71,7 +71,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-16@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261116
 DTEND;VALUE=DATE:20261117
 SUMMARY:🚫 TJR: NO TRADE (Fed Chair speaks)
@@ -82,7 +82,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-17@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261117
 DTEND;VALUE=DATE:20261118
 SUMMARY:⚠️ TJR: CAUTION (news before the open)
@@ -97,7 +97,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-18@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261118
 DTEND;VALUE=DATE:20261119
 SUMMARY:🚫 TJR: NO TRADE (Big-4 news)
@@ -109,7 +109,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-19@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261119
 DTEND;VALUE=DATE:20261120
 SUMMARY:⚠️ TJR: CAUTION (news before the open)
@@ -123,7 +123,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:day-2026-11-20@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
 SUMMARY:⏳ TJR: WAIT (wait till 10:30am NY)
@@ -137,8 +137,79 @@ DESCRIPTION:TJR verdict for Friday 20 November: WAIT\n- ORANGE Revised UoM
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:day-2026-11-23@liamanderson2306.github.io
+DTSTAMP:20261122T124701Z
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261124
+SUMMARY:⏳ TJR: WAIT (wait till 10:15am NY)
+DESCRIPTION:TJR verdict for Monday 23 November: WAIT\n- ORANGE Flash Manufa
+ cturing PMI at 9:45am NY (inside your window): hands off for 30 minutes. I
+ f it spikes the market\, you're done for the day.\n- ORANGE Flash Services
+  PMI at 9:45am NY (inside your window): hands off for 30 minutes. If it sp
+ ikes the market\, you're done for the day.\n\nYour window: 9:30-11:00am Ne
+ w York = 10:30pm-12:00am Perth.\nMore: https://liamanderson2306.github.io/
+ news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-11-24@liamanderson2306.github.io
+DTSTAMP:20261122T124701Z
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261125
+SUMMARY:⏳ TJR: WAIT (wait till 10:30am NY)
+DESCRIPTION:TJR verdict for Tuesday 24 November: WAIT\n- ORANGE CB Consumer
+  Confidence at 10:00am NY (inside your window): hands off for 30 minutes. 
+ If it spikes the market\, you're done for the day.\n\nYour window: 9:30-11
+ :00am New York = 10:30pm-12:00am Perth.\nMore: https://liamanderson2306.gi
+ thub.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-11-25@liamanderson2306.github.io
+DTSTAMP:20261122T124701Z
+DTSTART;VALUE=DATE:20261125
+DTEND;VALUE=DATE:20261126
+SUMMARY:⚠️ TJR: CAUTION (holiday next)
+DESCRIPTION:TJR verdict for Wednesday 25 November: CAUTION\n- US holiday ne
+ xt trading day: low volume\, choppy. TJR uses half size\, so half risk or 
+ skip.\n- RED Core PCE Price Index m/m at 8:30am NY (before the open): look
+  at the reaction first. A big spike or big wicks = no trade today.\n- RED 
+ Prelim GDP q/q at 8:30am NY (before the open): look at the reaction first.
+  A big spike or big wicks = no trade today.\n- ORANGE Prelim GDP Price Ind
+ ex q/q at 8:30am NY (before the open): look at the reaction first. A big s
+ pike or big wicks = no trade today.\n- ORANGE Unemployment Claims at 8:30a
+ m NY (before the open): look at the reaction first. A big spike or big wic
+ ks = no trade today.\n- 2 red folders today: lower-probability day\, A+ se
+ tups only.\n\nYour window: 9:30-11:00am New York = 10:30pm-12:00am Perth.\
+ nMore: https://liamanderson2306.github.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-11-26@liamanderson2306.github.io
+DTSTAMP:20261122T124701Z
+DTSTART;VALUE=DATE:20261126
+DTEND;VALUE=DATE:20261127
+SUMMARY:🚫 TJR: NO TRADE (US stock market holiday)
+DESCRIPTION:TJR verdict for Thursday 26 November: NO TRADE\n- US stock mark
+ et holiday: the NYSE is closed.\n\nYour window: 9:30-11:00am New York = 10
+ :30pm-12:00am Perth.\nMore: https://liamanderson2306.github.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:day-2026-11-27@liamanderson2306.github.io
+DTSTAMP:20261122T124701Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:⚠️ TJR: CAUTION (half day)
+DESCRIPTION:TJR verdict for Friday 27 November: CAUTION\n- Half day: the ma
+ rket closes at 1pm NY. Thin and odd\, so reduce risk or skip.\n\nYour wind
+ ow: 9:30-11:00am New York = 10:30pm-12:00am Perth.\nMore: https://liamande
+ rson2306.github.io/news/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:cff9680d9bd85bf6@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261110T090000Z
 DTEND:20261110T094500Z
 SUMMARY:🟠 FOMC Member Waller Speaks (4:00am NY)
@@ -155,7 +226,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:154e3b6f622e859c@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261110T133000Z
 DTEND:20261110T134500Z
 SUMMARY:🔴 CPI m/m + 1 more (8:30am NY)
@@ -178,7 +249,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:30426bc383b93261@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261112T133000Z
 DTEND:20261112T134500Z
 SUMMARY:🟠 Unemployment Claims (8:30am NY)
@@ -195,7 +266,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:3a2d6885cfadd445@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261113T133000Z
 DTEND:20261113T134500Z
 SUMMARY:🔴 Core PPI m/m + 1 more (8:30am NY)
@@ -217,7 +288,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:37b59bab2305d8fc@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261116T170000Z
 DTEND:20261116T174500Z
 SUMMARY:🔴 Fed Chairman Warsh Speaks (12:00pm NY)
@@ -238,7 +309,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:761b73f9b7afdbce@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261117T133000Z
 DTEND:20261117T134500Z
 SUMMARY:🔴 Core Retail Sales m/m + 1 more (8:30am NY)
@@ -261,7 +332,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:1497c35e9cb5799c@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261118T190000Z
 DTEND:20261118T193000Z
 SUMMARY:🔴 FOMC Meeting Minutes (2:00pm NY)
@@ -282,7 +353,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:272f68eb9db26a66@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261119T133000Z
 DTEND:20261119T134500Z
 SUMMARY:🟠 Philly Fed Manufacturing Index + 1 more (8:30am NY)
@@ -300,7 +371,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:cb3cff846eee9303@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261120T150000Z
 DTEND:20261120T151500Z
 SUMMARY:🟠 Revised UoM Consumer Sentiment + 1 more (10:00am NY)
@@ -318,7 +389,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:bf5aab80f466f0ed@liamanderson2306.github.io
-DTSTAMP:20261122T021417Z
+DTSTAMP:20261122T124701Z
 DTSTART:20261120T170000Z
 DTEND:20261120T174500Z
 SUMMARY:🟠 President Trump Speaks (12:00pm NY)
@@ -330,5 +401,65 @@ DESCRIPTION:ORANGE news at 12:00pm New York.\n\n- President Trump Speaks\n\
  ttps://www.whitehouse.gov/live/
 URL:https://www.whitehouse.gov/live/
 TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:f34259d4ab8b51c7@liamanderson2306.github.io
+DTSTAMP:20261122T124701Z
+DTSTART:20261123T144500Z
+DTEND:20261123T150000Z
+SUMMARY:🟠 Flash Manufacturing PMI + 1 more (9:45am NY)
+DESCRIPTION:ORANGE news at 9:45am New York.\n\n- Flash Manufacturing PMI: f
+ orecast 54.5\, previous 56.0\n- Flash Services PMI: forecast 55.6\, previo
+ us 57.9\n\nHistory (S&P 2018-2026): the first 5 minutes usually swing 0.16
+ 2%\, about 1.3x a normal 5 minutes.\n- If as expected: S&P higher 15 min l
+ ater in 76% of 17 (LEANING)\n(PROVEN means more likely\, not certain.)\n\n
+ TJR today: WAIT (wait till 10:15am NY).\n\nWhere to watch:\n- The numbers 
+ as they come out: Forex Factory calendar: https://www.forexfactory.com/cal
+ endar\n- The market reaction: CNBC Television on YouTube: https://www.yout
+ ube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:69e35ee330f6568d@liamanderson2306.github.io
+DTSTAMP:20261122T124701Z
+DTSTART:20261124T150000Z
+DTEND:20261124T151500Z
+SUMMARY:🟠 CB Consumer Confidence (10:00am NY)
+DESCRIPTION:ORANGE news at 10:00am New York.\n\n- CB Consumer Confidence: f
+ orecast 92.1\, previous 91.7\n\nHistory (S&P 2018-2026): the first 5 minut
+ es usually swing 0.147%\, about 1.3x a normal 5 minutes.\n- If weaker than
+  forecast: S&P lower 15 min later in 64% of 47 (LEANING)\n(PROVEN means mo
+ re likely\, not certain.)\n\nTJR today: WAIT (wait till 10:30am NY).\n\nWh
+ ere to watch:\n- The numbers as they come out: Forex Factory calendar: htt
+ ps://www.forexfactory.com/calendar\n- The market reaction: CNBC Television
+  on YouTube: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ecb51d52bf30c0b8@liamanderson2306.github.io
+DTSTAMP:20261122T124701Z
+DTSTART:20261125T133000Z
+DTEND:20261125T134500Z
+SUMMARY:🔴 Core PCE Price Index m/m + 3 more (8:30am NY)
+DESCRIPTION:RED news at 8:30am New York.\n\n- Core PCE Price Index m/m: for
+ ecast 0.3%\, previous 0.3%\n- Prelim GDP q/q: forecast 3.5%\, previous 3.4
+ %\n- Prelim GDP Price Index q/q: forecast 2.3%\, previous 2.3%\n- Unemploy
+ ment Claims: forecast 201K\, previous 203K\n\nHistory (S&P 2018-2026): the
+  first 5 minutes usually swing 0.154%\, about 2.6x a normal 5 minutes.\n- 
+ If cooler than forecast: S&P higher 1 hour later in 78% of 27 (PROVEN)\n- 
+ If as expected: S&P higher 5 min later in 60% of 50 (LEANING)\n(PROVEN mea
+ ns more likely\, not certain.)\n\nTJR today: CAUTION (holiday next).\n\nWh
+ ere to watch:\n- The numbers as they come out: Forex Factory calendar: htt
+ ps://www.forexfactory.com/calendar\n- The market reaction: CNBC Television
+  on YouTube: https://www.youtube.com/@CNBCtelevision
+URL:https://www.forexfactory.com/calendar
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Core PCE Price Index m/m + 3 more in 15 minutes
+TRIGGER:-PT15M
+END:VALARM
 END:VEVENT
 END:VCALENDAR

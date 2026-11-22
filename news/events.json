@@ -12,7 +12,13 @@
   "2026-11-17",
   "2026-11-18",
   "2026-11-19",
-  "2026-11-20"
+  "2026-11-20",
+  "2026-11-22",
+  "2026-11-23",
+  "2026-11-24",
+  "2026-11-25",
+  "2026-11-26",
+  "2026-11-27"
  ],
  "events": {
   "Bank Holiday|1794402000": {
@@ -21,6 +27,20 @@
    "previous": "",
    "title": "Bank Holiday",
    "ts": 1794402000
+  },
+  "Bank Holiday|1795698000": {
+   "forecast": "",
+   "impact": "Holiday",
+   "previous": "",
+   "title": "Bank Holiday",
+   "ts": 1795698000
+  },
+  "CB Consumer Confidence|1795532400": {
+   "forecast": "92.1",
+   "impact": "Medium",
+   "previous": "91.7",
+   "title": "CB Consumer Confidence",
+   "ts": 1795532400
   },
   "CPI m/m|1794317400": {
    "forecast": "0.3%",
@@ -35,6 +55,13 @@
    "previous": "0.3%",
    "title": "Core CPI m/m",
    "ts": 1794317400
+  },
+  "Core PCE Price Index m/m|1795613400": {
+   "forecast": "0.3%",
+   "impact": "High",
+   "previous": "0.3%",
+   "title": "Core PCE Price Index m/m",
+   "ts": 1795613400
   },
   "Core PPI m/m|1794576600": {
    "forecast": "0.3%",
@@ -71,6 +98,20 @@
    "title": "Fed Chairman Warsh Speaks",
    "ts": 1794848400
   },
+  "Flash Manufacturing PMI|1795445100": {
+   "forecast": "54.5",
+   "impact": "Medium",
+   "previous": "56.0",
+   "title": "Flash Manufacturing PMI",
+   "ts": 1795445100
+  },
+  "Flash Services PMI|1795445100": {
+   "forecast": "55.6",
+   "impact": "Medium",
+   "previous": "57.9",
+   "title": "Flash Services PMI",
+   "ts": 1795445100
+  },
   "PPI m/m|1794576600": {
    "forecast": "0.4%",
    "impact": "High",
@@ -84,6 +125,20 @@
    "previous": "20.9",
    "title": "Philly Fed Manufacturing Index",
    "ts": 1795095000
+  },
+  "Prelim GDP Price Index q/q|1795613400": {
+   "forecast": "2.3%",
+   "impact": "Medium",
+   "previous": "2.3%",
+   "title": "Prelim GDP Price Index q/q",
+   "ts": 1795613400
+  },
+  "Prelim GDP q/q|1795613400": {
+   "forecast": "3.5%",
+   "impact": "High",
+   "previous": "3.4%",
+   "title": "Prelim GDP q/q",
+   "ts": 1795613400
   },
   "President Trump Speaks|1795194000": {
    "forecast": "",
@@ -126,6 +181,13 @@
    "previous": "200K",
    "title": "Unemployment Claims",
    "ts": 1795095000
+  },
+  "Unemployment Claims|1795613400": {
+   "forecast": "201K",
+   "impact": "Medium",
+   "previous": "203K",
+   "title": "Unemployment Claims",
+   "ts": 1795613400
   }
  }
 }
