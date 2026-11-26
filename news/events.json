@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-11-10",
   "2026-11-11",
   "2026-11-12",
   "2026-11-13",
@@ -40,20 +39,6 @@
    "title": "CB Consumer Confidence",
    "ts": 1795532400
   },
-  "CPI m/m|1794317400": {
-   "forecast": "0.3%",
-   "impact": "High",
-   "previous": "0.6%",
-   "title": "CPI m/m",
-   "ts": 1794317400
-  },
-  "Core CPI m/m|1794317400": {
-   "forecast": "0.2%",
-   "impact": "High",
-   "previous": "0.3%",
-   "title": "Core CPI m/m",
-   "ts": 1794317400
-  },
   "Core PCE Price Index m/m|1795613400": {
    "forecast": "0.3%",
    "impact": "High",
@@ -81,13 +66,6 @@
    "previous": "",
    "title": "FOMC Meeting Minutes",
    "ts": 1795028400
-  },
-  "FOMC Member Waller Speaks|1794301200": {
-   "forecast": "",
-   "impact": "Medium",
-   "previous": "",
-   "title": "FOMC Member Waller Speaks",
-   "ts": 1794301200
   },
   "Fed Chairman Warsh Speaks|1794848400": {
    "forecast": "",
