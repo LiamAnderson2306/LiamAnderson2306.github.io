@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-11-11",
   "2026-11-12",
   "2026-11-13",
   "2026-11-14",
@@ -18,13 +17,6 @@
   "2026-11-27"
  ],
  "events": {
-  "Bank Holiday|1794402000": {
-   "forecast": "",
-   "impact": "Holiday",
-   "previous": "",
-   "title": "Bank Holiday",
-   "ts": 1794402000
-  },
   "Bank Holiday|1795698000": {
    "forecast": "",
    "impact": "Holiday",
