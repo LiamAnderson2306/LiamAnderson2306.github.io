@@ -1,6 +1,5 @@
 {
  "covered": [
-  "2026-11-12",
   "2026-11-13",
   "2026-11-14",
   "2026-11-15",
@@ -135,13 +134,6 @@
    "previous": "4.3%",
    "title": "Revised UoM Inflation Expectations",
    "ts": 1795186800
-  },
-  "Unemployment Claims|1794490200": {
-   "forecast": "194K",
-   "impact": "Medium",
-   "previous": "189K",
-   "title": "Unemployment Claims",
-   "ts": 1794490200
   },
   "Unemployment Claims|1795095000": {
    "forecast": "198K",
